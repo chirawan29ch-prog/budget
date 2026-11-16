@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ระบบบริหารงบประมาณ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@500;600&family=Prompt:wght@500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<div class="demo" hidden><div class="wrap"><span id="demoTxt"></span><label for="who" style="margin:0;font-weight:400" id="whoLbl"></label><select id="who"></select></div></div>
+<header class="site" id="site"><div class="wrap siteRow" id="siteRow"></div></header>
+<input type="file" id="imgFile" accept="image/*" hidden>
+<input type="file" id="formFile" accept=".pdf,.docx,.xlsx" hidden>
+<div id="editbar" hidden><div class="wrap"><span>โหมดแก้ไขข้อความ: แตะข้อความที่มีเส้นประเพื่อแก้ไข แตะส่วนอื่นเพื่อใช้งานตามปกติ ตรา รูปหน้าปก และประกาศ จัดการที่เมนูจัดการหน้าเว็บ · แก้แล้ว <b id="chgCount">0</b> จุด</span><span class="row"><button type="button" id="editLogin">ดูหน้าเข้าสู่ระบบ</button><button type="button" id="editDone">เสร็จสิ้น ออกจากโหมดแก้ไข</button></span></div></div>
+<div id="lg" hidden></div>
+<nav class="tabs" id="nav"><div class="wrap" id="tabs"></div></nav>
+<main id="mainBox"><div class="wrap" id="view"></div></main>
+<div id="sheet" hidden><div class="wrap">
+  <div class="row between"><b>แก้ไขข้อความ</b><span class="kk" id="sheetKey"></span></div>
+  <textarea id="sheetText" rows="2" style="margin-top:8px" aria-label="ข้อความ"></textarea>
+  <div class="kk" id="sheetHint" style="margin-top:4px"></div>
+  <div class="err" id="sheetErr"></div>
+  <div class="row"><button type="button" class="primary" id="sheetSave">บันทึกข้อความ</button><button type="button" id="sheetDel" class="danger">ลบข้อความนี้</button><button type="button" id="sheetReset">คืนค่าเดิม</button><button type="button" id="sheetCancel" style="border:0;background:none">ยกเลิก</button></div>
+</div></div>
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
+
+
+
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script src="sync.js"></script>
+</body></html>
