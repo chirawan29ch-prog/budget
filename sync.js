@@ -81,14 +81,16 @@
   };
 
   /* เงินร่วง: ธนบัตร 5 ใบ ตกต่อเนื่องจากนอกปุ่มลงนอกปุ่ม โยกซ้ายขวาและพลิกอย่างนุ่ม ตำแหน่งสุ่มใหม่ทุกรอบ */
+  var NOTE = '<svg viewBox="0 0 32 20" width="1.7em" height="1.06em" style="display:block;filter:drop-shadow(0 1.5px 2px rgba(0,70,40,.35))"><defs><linearGradient id="nt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9BF0B8"/><stop offset="1" stop-color="#3DBB78"/></linearGradient></defs><rect x="1" y="1" width="30" height="18" rx="3.5" fill="url(#nt)" stroke="rgba(255,255,255,.75)" stroke-width="1.2"/><rect x="4" y="4" width="24" height="12" rx="2" fill="none" stroke="rgba(255,255,255,.45)" stroke-width=".8" stroke-dasharray="1.6 1.4"/><circle cx="16" cy="10" r="5" fill="rgba(255,255,255,.4)"/><text x="16" y="12.8" text-anchor="middle" font-size="7.5" font-weight="700" fill="#1F8F57" font-family="Prompt,Sarabun,sans-serif">฿</text></svg>';
+  var COIN = '<svg viewBox="0 0 20 20" width="1.1em" height="1.1em" style="display:block;filter:drop-shadow(0 1.5px 2px rgba(120,70,0,.35))"><defs><linearGradient id="cn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE9A0"/><stop offset="1" stop-color="#F2AE2B"/></linearGradient></defs><circle cx="10" cy="10" r="9" fill="url(#cn)" stroke="rgba(255,255,255,.8)" stroke-width="1.2"/><circle cx="10" cy="10" r="6.2" fill="none" stroke="rgba(190,120,10,.45)" stroke-width=".9"/><text x="10" y="13.2" text-anchor="middle" font-size="8.5" font-weight="700" fill="#B87408" font-family="Prompt,Sarabun,sans-serif">฿</text></svg>';
   function startRain(el) {
     if (!el) return;
     var n = 5, dur = 3.6, rnd = function (a, b) { return a + Math.random() * (b - a); };
     for (var k = 0; k < n; k++) (function (k) {
-      var i = document.createElement('i'), b = document.createElement('b'); b.textContent = '💵'; i.appendChild(b);
+      var i = document.createElement('i'), b = document.createElement('b'); b.innerHTML = (k % 3 === 2) ? COIN : NOTE; i.appendChild(b);
       function roll() {
         i.style.left = (4 + (k + Math.random() * .6) * (88 / n)).toFixed(1) + '%';
-        i.style.fontSize = rnd(18, 22).toFixed(0) + 'px';
+        i.style.fontSize = rnd(24, 28).toFixed(0) + 'px';
         i.style.setProperty('--s', rnd(6, 12).toFixed(1) + 'px'); i.style.setProperty('--r', rnd(12, 22).toFixed(0) + 'deg');
         b.style.animationDuration = rnd(1.3, 1.9).toFixed(2) + 's';
       }
@@ -161,9 +163,9 @@
   }
   function ingestReq(r) { VER[r.id] = r._v || 0; delete r._v; SNAP[r.id] = ser(r); return r; }
   function ingest(d) {
-    FY = d.fy; COUNTERS = d.counters || {}; if (d.vendors) VENDORS = d.vendors;
+    FY = d.fy; COUNTERS = d.counters || {}; if (d.vendors) VENDORS = d.vendors; if (d.planItems && window.buildPlanItems) buildPlanItems(d.planItems);
     setUsers(d.users || []);
-    REQS.length = 0; (d.requests || []).forEach(function (r) { REQS.push(ingestReq(r)); });
+    REQS.length = 0; var seenId = {}; (d.requests || []).forEach(function (r) { var o = ingestReq(r), k = String(o.id); if (seenId[k] != null) REQS[seenId[k]] = o; else { seenId[k] = REQS.length; REQS.push(o); } });   // แถวซ้ำในชีท: เอาแถวล่างสุด
     TAX_OPEN = d.tax ? d.tax.open : 0; setTax(d.tax);
     var st = d.settings || {};
     (st.supplyList || []).forEach(function (p) { if (p[1]) PG_SUPPLY[p[0]] = p[1]; });
@@ -296,6 +298,11 @@
     return v;
   };
 
+  window.legDone = function (r) {   /* เลขสัญญายืมเดิม: ให้ตัวนับฝั่งเซิร์ฟเวอร์เดินต่อจากเลขในกระดาษ */
+    var m = /^(\d+)\/(\d+)$/.exec((r.loan && r.loan.no) || ''); if (!m) return;
+    try { callSync('bumpCounter', { kind: 'loan', n: +m[1] }); COUNTERS['สัญญายืมเงิน|' + FY] = Math.max(COUNTERS['สัญญายืมเงิน|' + FY] || 0, +m[1]); } catch (e) { say('ตั้งตัวนับเลขสัญญายืมไม่สำเร็จ: ' + failMsg(e), 8000); }
+  };
+
   /* ---------------------------------------------------------- DATABASE ของแผน + ไฟล์ลง Drive */
   var TH_M = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
   function dbRowOf(r, at) {
@@ -306,6 +313,7 @@
   }
   var _complete = complete;
   complete = function (r, by, at, lk, lv) {
+    if (r.legacy) { _complete(r, by, at, lk, lv); return; }   /* ข้อมูลเดิม: ไม่สร้างแถว DATABASE / ไฟล์ใหม่ */
     var s = cur(r), isPlan = s && s.k === 'plan_check' && r.type === 'use' && !r.recur, isCut = s && s.k === 'cut' && r.dbNo;
     if (isPlan && r.dbNo) { try { callSync('dbUpdateRow', { dbNo: r.dbNo, row: dbRowOf(r, at) }); } catch (e) { say('อัปเดตแถว DATABASE ไม่สำเร็จ: ' + failMsg(e), 8000); } }
     if (isPlan && !r.dbNo) {
