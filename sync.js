@@ -79,17 +79,50 @@
     var f = document.getElementById('lf'); if (f) f.onsubmit = doLogin;
     var forgot = document.querySelector('.lgrow'); if (forgot) forgot.style.display = '';
   };
+
+  /* เงินร่วง: ธนบัตร 5 ใบ ตกต่อเนื่องจากนอกปุ่มลงนอกปุ่ม โยกซ้ายขวาและพลิกอย่างนุ่ม ตำแหน่งสุ่มใหม่ทุกรอบ */
+  function startRain(el) {
+    if (!el) return;
+    var n = 5, dur = 3.6, rnd = function (a, b) { return a + Math.random() * (b - a); };
+    for (var k = 0; k < n; k++) (function (k) {
+      var i = document.createElement('i'), b = document.createElement('b'); b.textContent = '💵'; i.appendChild(b);
+      function roll() {
+        i.style.left = (4 + (k + Math.random() * .6) * (88 / n)).toFixed(1) + '%';
+        i.style.fontSize = rnd(18, 22).toFixed(0) + 'px';
+        i.style.setProperty('--s', rnd(6, 12).toFixed(1) + 'px'); i.style.setProperty('--r', rnd(12, 22).toFixed(0) + 'deg');
+        b.style.animationDuration = rnd(1.3, 1.9).toFixed(2) + 's';
+      }
+      roll(); i.style.animationDelay = (-(k * dur / n)).toFixed(2) + 's'; b.style.animationDelay = (-rnd(0, 1.5)).toFixed(2) + 's';
+      i.addEventListener('animationiteration', function (e) { if (e.target === i) roll(); });
+      el.appendChild(i);
+    })(k);
+  }
   function doLogin(e) {
     e.preventDefault();
     var id = $('lu').value, pw = $('lp').value, err = function (text) { $('lErr').textContent = text; badPin('lp'); };
     if (!id) { $('lErr').innerHTML = T('e_pick'); $('lu').focus(); return; }
     if (pw.length < 4) return err('กรอก PIN 4 หลัก');
-    var btn = document.querySelector('#lf .lgbtn'); if (btn) btn.disabled = true;
+    var btn = document.querySelector('#lf .lgbtn'), btn0 = btn ? btn.textContent : ''; if (btn) { btn.disabled = true; btn.innerHTML = '<span class="lgrain" aria-hidden="true"></span><span class="lgtxt">กำลังเข้าสู่ระบบ<span class="lgdots"><i>.</i><i>.</i><i>.</i></span></span>'; startRain(btn.querySelector('.lgrain')); }
     call('login', { id: id, pin: pw }).then(function (d) {
       TOKEN = d.token; ME = d.user; LASTPIN = pw; try { sessionStorage.setItem(SESS, TOKEN); } catch (e2) {}
-      afterLogin();
-    }, function (e2) { if (btn) btn.disabled = false; err(failMsg(e2)); });
+      afterLogin(false, d.data);
+    }, function (e2) { if (btn) { btn.disabled = false; btn.textContent = btn0; } err(failMsg(e2)); });
   }
+
+  (function () {
+    var st = document.createElement('style');
+    st.textContent = '#lf .lgbtn{position:relative;overflow:hidden}' +
+      '.lgrain{position:absolute;inset:0;pointer-events:none}' +
+      '.lgrain i{position:absolute;top:-30px;font-style:normal;line-height:1;will-change:transform;animation:lgFallY 3.6s linear infinite}' +
+      '.lgrain i b{display:block;font-weight:400;line-height:1;animation:lgSway 1.5s ease-in-out infinite}' +
+      '@keyframes lgFallY{from{transform:translateY(0)}to{transform:translateY(116px)}}' +
+      '@keyframes lgSway{0%,100%{transform:translateX(calc(var(--s)*-1)) rotate(calc(var(--r)*-1)) scaleX(1)}50%{transform:translateX(var(--s)) rotate(var(--r)) scaleX(.7)}}' +
+      '.lgtxt{position:relative;text-shadow:0 1px 3px rgba(10,30,90,.55)}' +
+      '.lgdots i{font-style:normal;display:inline-block;animation:lgDot 1.2s infinite}.lgdots i:nth-child(2){animation-delay:.2s}.lgdots i:nth-child(3){animation-delay:.4s}' +
+      '@keyframes lgDot{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}' +
+      '@media (prefers-reduced-motion:reduce){.lgrain i,.lgrain i b,.lgdots i{animation:none}.lgrain{display:none}}';
+    document.head.appendChild(st);
+  })();
   var _vSetPin = vSetPin;
   vSetPin = function (id) {
     _vSetPin(id);
@@ -102,9 +135,10 @@
     };
     var c = $('spCancel'); if (c) c.onclick = function () { doLogout(true); };
   };
-  function afterLogin(quiet) {
-    call('loadAll').then(function (d) { ME = d.me; ingest(d); startPoll(); signIn(USERS[ME.id], quiet); },
-      function (e) { say('โหลดข้อมูลไม่ได้: ' + failMsg(e), 20000); });
+  function afterLogin(quiet, pre) {
+    var go = function (d) { ME = d.me; ingest(d); startPoll(); signIn(USERS[ME.id], quiet); };
+    if (pre) return go(pre);
+    call('loadAll').then(go, function (e) { say('โหลดข้อมูลไม่ได้: ' + failMsg(e), 20000); });
   }
   function onSession() { if (!TOKEN) return; TOKEN = null; stopPoll(); try { sessionStorage.removeItem(SESS); } catch (e) {} wipe(); S.u = null; S.view = 'login'; call('loginList').then(function (l) { setUsers(l); render(); say('หมดเวลาใช้งาน กรุณาเข้าสู่ระบบใหม่'); }, function () { render(); }); }
   function wipe() { REQS.length = 0; VER = {}; SNAP = {}; TAXB.rows = []; TAXB.open = 0; SRV_TAX = {}; window.LEGACY = {}; }
@@ -127,7 +161,7 @@
   }
   function ingestReq(r) { VER[r.id] = r._v || 0; delete r._v; SNAP[r.id] = ser(r); return r; }
   function ingest(d) {
-    FY = d.fy; COUNTERS = d.counters || {};
+    FY = d.fy; COUNTERS = d.counters || {}; if (d.vendors) VENDORS = d.vendors;
     setUsers(d.users || []);
     REQS.length = 0; (d.requests || []).forEach(function (r) { REQS.push(ingestReq(r)); });
     TAX_OPEN = d.tax ? d.tax.open : 0; setTax(d.tax);
@@ -295,6 +329,14 @@
   }
   function retryFiles() { if (!ME || !(USERS[ME.id].roles || [USERS[ME.id].role]).concat(USERS[ME.id].admin ? ['plan'] : []).some(function (x) { return x === 'plan'; })) return; REQS.forEach(function (r) { if (r.dbNo && !(r.pgFiles && r.pgFiles.pdf && r.pgFiles.word)) makeFiles(r); }); }
   setInterval(function () { if (TOKEN) retryFiles(); }, 120000);
+  /* จำที่อยู่/เบอร์โทร/เลขภาษีของผู้รับเงินลงชีท ระบบ_ผู้รับเงิน (ครั้งหน้าไม่ต้องกรอกซ้ำ) */
+  document.addEventListener('change', function (e) {
+    var f = { aAddr: 'payAddr', aTel: 'payTel', aTax: 'payTax' }[e.target.id]; if (!f || !TOKEN) return;
+    var r = S.open && req(S.open); if (!r) return; var pe = payeeOf(r); if (!pe) return;
+    var key = Object.keys(VENDORS).filter(function (k) { return k.replace(/\s+/g, '') === pe.replace(/\s+/g, ''); })[0] || pe, v = VENDORS[key] = VENDORS[key] || {};
+    v[f] = e.target.value.trim();
+    call('vendorSave', { name: key, payAddr: v.payAddr, payTel: v.payTel, payTax: v.payTax }).catch(function () {});
+  });
   window.SYNC = { onDoc: function () {}, flush: flush, poll: function () { return poll(); }, dirty: function () { return dirtyList().length; } };
 
   /* ---------------------------------------------------------- เล่มคุมภาษี */

@@ -8,6 +8,7 @@ var DEF = {
   lg_form: 'เข้าสู่ระบบ', lg_hello: 'ยินดีต้อนรับ', lg_form_sub: 'เลือกประเภทผู้ใช้ เลือกชื่อ แล้วใส่ PIN 4 หลัก', lg_type: 'ประเภทผู้ใช้',
   lg_tab_teacher: 'ครู', lg_tab_office: 'เจ้าหน้าที่', lg_tab_exec: 'ผู้บริหาร', lg_tab_admin: 'ผู้ดูแลระบบ',
   lg_hint_teacher: 'ครูผู้รับผิดชอบโครงการ ขอใช้งบและติดตามเรื่องของตนเอง', lg_hint_office: 'งานแผนงาน งานพัสดุ และงานการเงิน', lg_hint_exec: 'ผู้อำนวยการและรองผู้อำนวยการ ดูภาพรวมงบประมาณ', lg_hint_admin: 'ผู้ได้รับสิทธิ์จัดการรายชื่อผู้ใช้ ตราโรงเรียน และข้อความในระบบ', lg_internal: 'สำหรับใช้งานภายในโรงเรียน',
+  lg_s1: 'เลือกประเภท', lg_s2: 'เลือกชื่อ', lg_s3: 'ใส่ PIN',
   lg_secure: 'ทุกการเข้าสู่ระบบและการอนุมัติ ระบบบันทึกชื่อและเวลาไว้', lg_demo_sum: 'บัญชีทดลองสำหรับพรีวิว', lg_google: 'เข้าสู่ระบบด้วยบัญชี Google ของโรงเรียน', lg_google_demo: 'ระบบจริงจะเปิดหน้าเลือกบัญชี Google ของโรงเรียน ในพรีวิวนี้ให้เลือกบัญชีทดลองด้านล่างแทน', lg_or: 'หรือ',
   lg_user: 'เลือกชื่อของท่าน', lg_pick: '— เลือกชื่อ —', lg_pass: 'PIN 4 หลัก', lg_btn: 'เข้าสู่ระบบ', lg_forgot: 'ลืม PIN หรือไม่พบชื่อ? ติดต่อผู้ดูแลระบบ (งานแผนงาน)',
   grp_teacher: 'ครูผู้รับผิดชอบโครงการ', grp_office: 'เจ้าหน้าที่งานแผนงาน พัสดุ การเงิน', grp_exec: 'ผู้บริหาร',
@@ -122,7 +123,7 @@ var DEF = {
   f_tr_rule: 'แสดงเฉพาะกิจกรรมที่ใช้แหล่งเงินเดียวกัน ({fund}) หากเป็นกิจกรรมของผู้อื่น เจ้าของกิจกรรมต้องกดยินยอมในระบบก่อน',
   f_tr_src: 'กิจกรรมต้นทาง', f_tr_amt: 'จำนวนเงิน', btn_add_tr: 'เพิ่มกิจกรรมต้นทาง', f_tr_sum: 'งบกิจกรรมนี้ {own} + ขอใช้จากกิจกรรมอื่น {tr} = {total} บาท', f_tr_sum2: 'รวมขอปรับเพิ่ม {tr} บาท',
   f_dest: 'กิจกรรมที่ต้องการเพิ่มงบ', f_change_note: 'ใช้เมื่อต้องการย้ายงบระหว่างกิจกรรม โดยยังไม่จัดซื้อในตอนนี้',
-  f_carry_act: 'กิจกรรมที่ต้องการกันเงิน', f_carry_amt: 'จำนวนเงินที่ขอกัน (บาท)', btn_back_s: 'กลับ', ds_from_all: 'จากงบทั้งหมด', ds_left_s: 'คงเหลือ', ds_baht_pct: 'บาท · {p}% ของงบ', ds_less: 'หัก', bd_list_h: 'รายการคำขอทั้งหมดของโรงเรียน', bd_list_s: 'รวมคำขอของตัวเอง และของครูท่านอื่นทุกคน', f_commit: 'การก่อหนี้ผูกพัน', f_commit_yes: 'ก่อหนี้ผูกพันแล้ว', f_commit_yes_s: 'ลงนามในสัญญา หรือออกใบสั่งซื้อ/ใบสั่งจ้างแล้ว', f_commit_no: 'ยังไม่ก่อหนี้ผูกพัน', f_commit_no_s: 'ยังไม่ได้ลงนามในสัญญา หรือออกใบสั่งซื้อ/ใบสั่งจ้าง',
+  f_carry_act: 'กิจกรรมที่ต้องการกันเงิน', f_carry_amt: 'จำนวนเงินที่ขอกัน (บาท)', btn_back_s: 'กลับ', ds_from_all: 'จากงบทั้งหมด', ds_left_s: 'คงเหลือ', ds_baht_pct: '{p}% ของงบ', ds_less: 'หัก', bd_list_h: 'รายการคำขอทั้งหมดของโรงเรียน', bd_list_s: 'รวมคำขอของตัวเอง และของครูท่านอื่นทุกคน', f_commit: 'การก่อหนี้ผูกพัน', f_commit_yes: 'ก่อหนี้ผูกพันแล้ว', f_commit_yes_s: 'ลงนามในสัญญา หรือออกใบสั่งซื้อ/ใบสั่งจ้างแล้ว', f_commit_no: 'ยังไม่ก่อหนี้ผูกพัน', f_commit_no_s: 'ยังไม่ได้ลงนามในสัญญา หรือออกใบสั่งซื้อ/ใบสั่งจ้าง',
   f_use_by: 'คาดว่าจะเบิกจ่ายภายในวันที่', f_carry_note: 'เปิดรับคำขอกันเงินเหลื่อมปีช่วงปลายปีงบประมาณ ตามวันที่งานแผนงานกำหนด ยอดที่กันไว้จะไม่นำไปใช้ในปีงบประมาณปัจจุบัน',
   e_tr_none: 'เพิ่มกิจกรรมต้นทางอย่างน้อย 1 รายการ', e_tr_src: 'เลือกกิจกรรมต้นทางและระบุจำนวนเงินให้ครบ', e_tr_dup: 'เลือกกิจกรรมต้นทางซ้ำกัน',
   e_tr_over: 'ยอดที่ขอจาก{act} เกินงบคงเหลือ ({left} บาท)', e_tr_short: 'ยอดรวมยังไม่พอ ขาดอีก {short} บาท', e_carry_amt: 'จำนวนเงินต้องมากกว่า 0 และไม่เกินงบคงเหลือ ({left} บาท)', e_use_by: 'กรุณาระบุวันที่คาดว่าจะเบิกจ่าย',
@@ -521,17 +522,31 @@ $('formFile').onchange = function () {
 var FAILS = {};
 function weakPin(v) { var d = v.split('').map(Number); if (/^(\d)\1{3}$/.test(v) || /^(\d\d)\1$/.test(v)) return true; var up = d.every(function (x, i) { return !i || x === d[i - 1] + 1; }), dn = d.every(function (x, i) { return !i || x === d[i - 1] - 1; }); return up || dn; }
 var LGI = {cap: '<svg viewBox="0 0 24 24"><path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.6v4.4c1.4 1.4 3.3 2 5.5 2s4.1-.6 5.5-2v-4.4"/><path d="M21.5 9.5v5"/></svg>', brief: '<svg viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12.5" rx="2.5"/><path d="M8.5 7.5V5.8c0-.9.7-1.6 1.6-1.6h3.8c.9 0 1.6.7 1.6 1.6v1.7"/><path d="M3 12.5h18"/></svg>', award: '<svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5.5"/><path d="M8.6 13.4L7 21l5-2.6 5 2.6-1.6-7.6"/><path d="M12 6.5l.8 1.6 1.7.2-1.2 1.2.3 1.7-1.6-.8-1.6.8.3-1.7-1.2-1.2 1.7-.2z"/></svg>', gear: '<svg viewBox="0 0 24 24"><path d="M4 6.5h10M18 6.5h2M4 12h3M11 12h9M4 17.5h8M16 17.5h4"/><circle cx="16" cy="6.5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="14" cy="17.5" r="2"/></svg>', user: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.9-4.2 4-6.5 8-6.5s7.1 2.3 8 6.5"/></svg>', shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>', doc: '<svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h4"/></svg>', pin: '<svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>', lock: '<svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>'};
-function pinBox(id, lbl) { return '<label for="' + id + '">' + T(lbl) + '</label><div class="pinbox" id="' + id + 'B"><i class="c"></i><i></i><i></i><i></i><input id="' + id + '" class="pinin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="' + esc(t(lbl)) + '"></div>'; }
+function isTouchPin() { return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches); }
+function pinBox(id, lbl) { return '<label for="' + id + '">' + T(lbl) + '</label><div class="pinbox" id="' + id + 'B"><i class="c"></i><i></i><i></i><i></i><input id="' + id + '" class="pinin" type="password" ' + (isTouchPin() ? 'inputmode="none" readonly ' : 'inputmode="numeric" ') + 'pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="' + esc(t(lbl)) + '"></div>'; }
 function paintPin(id) { var v = $(id).value, bs = $(id + 'B').querySelectorAll('i'); [].forEach.call(bs, function (b, i) { b.className = (i < v.length ? 'f' : '') + (i === Math.min(v.length, 3) ? ' c' : ''); }); }
 function bindPin(id, after) { $(id).oninput = function () { this.value = this.value.replace(/\D/g, '').slice(0, 4); $(id + 'B').classList.remove('bad'); paintPin(id); if (after) after(); }; }
-function badPin(id) { var b = $(id + 'B'); $(id).value = ''; paintPin(id); b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad'); $(id).focus(); }
+function badPin(id) { var b = $(id + 'B'); $(id).value = ''; paintPin(id); b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad'); $(id).focus(); pinKpOpen(id); }
+/* number pad: rises when a PIN box is tapped (or a name is chosen), folds away after 4 digits */
+var PINKP = { t: '' };
+function pinKpEl() { var e = $('pinKp'); if (e) return e; e = document.createElement('div'); e.id = 'pinKp'; e.className = 'pinkp'; e.setAttribute('aria-hidden', 'true');
+  e.innerHTML = '<div class="bar"><span>' + esc(t('lg_pass')) + '</span><button type="button" data-kpdone>เสร็จ</button></div><div class="kp">' + ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'ล้าง', '0', '⌫'].map(function (k) { return '<button type="button" data-kp="' + k + '"' + (k.length > 1 ? ' class="g"' : '') + '>' + k + '</button>'; }).join('') + '</div>';
+  e.addEventListener('click', function (ev) { var b = ev.target.closest('button'); if (!b) return; if (b.hasAttribute('data-kpdone')) return pinKpClose(); pinKpPress(b.getAttribute('data-kp')); });
+  document.body.appendChild(e); return e; }
+function pinKpOpen(id) { if (!isTouchPin() || !id || !$(id)) return; PINKP.t = id; var e = pinKpEl(); e.classList.add('up'); e.setAttribute('aria-hidden', 'false'); var h = e.offsetHeight; document.body.style.paddingBottom = h + 'px'; setTimeout(function () { var b = $(id + 'B'); if (b && b.scrollIntoView) b.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 120); }
+function pinKpClose() { var e = $('pinKp'); if (e) { e.classList.remove('up'); e.setAttribute('aria-hidden', 'true'); } document.body.style.paddingBottom = ''; PINKP.t = ''; }
+function pinKpPress(k) { var id = PINKP.t, el = id && $(id); if (!el) return pinKpClose(); var v = el.value; if (k === 'ล้าง') v = ''; else if (k === '⌫') v = v.slice(0, -1); else if (v.length < 4) v += k; el.value = v; el.dispatchEvent(new Event('input', { bubbles: true }));
+  if (v.length === 4) setTimeout(function () { if (PINKP.t === id && $(id) && $(id).value.length === 4) pinKpClose(); }, 350); }
+document.addEventListener('focusin', function (ev) { var t0 = ev.target; if (t0 && t0.classList && t0.classList.contains('pinin')) pinKpOpen(t0.id); });
+document.addEventListener('click', function (ev) { var b = ev.target.closest && ev.target.closest('.pinbox'); if (b) { var i = b.querySelector('.pinin'); if (i) pinKpOpen(i.id); } });
 function lgShell(card) {
   $('lg').innerHTML = '<div class="lgpage"><section class="lghero"><div class="lgart">' + slideHtml(SITE.loginBg || SITE.slides[0]) + '</div><div class="lgveil"></div>' +
     '<div class="lgbrand"><div class="logo">' + logoHtml() + '</div><div><span class="bn">' + T('school_name') + '</span><span class="bs">' + T('school_sub') + '</span></div></div>' +
     '<div class="lgmain"><span class="lgyear">' + T('app_year') + '</span><h2>' + T('app_title') + '</h2><p>' + T('lg_sub') + '</p><ul class="lgfeat">' +
     '<li><span class="ic">' + LGI.shield + '</span><span>' + T('lg_f1') + '</span></li><li><span class="ic">' + LGI.doc + '</span><span>' + T('lg_f2') + '</span></li><li><span class="ic">' + LGI.pin + '</span><span>' + T('lg_f3') + '</span></li></ul></div>' +
     '<div class="lgfoot">' + T('school_name') + ' · ' + T('lg_internal') + '</div></section>' +
-    '<section class="lgside"><div class="lgcard">' + (S.u ? '<button type="button" class="link lgback" data-home>' + HI.back + T('lg_back') + '</button>' : '') + card + '</div></section></div>';
+    '<section class="lgside"><div class="lgglow"></div><div class="lgcard">' + (S.u ? '<button type="button" class="link lgback" data-home>' + HI.back + T('lg_back') + '</button>' : '') + card + '</div>' +
+    (card.indexOf('id="lf"') >= 0 ? '<div class="lgsteps"><span><b>1</b>' + T('lg_s1') + '</span><span><b>2</b>' + T('lg_s2') + '</span><span><b>3</b>' + T('lg_s3') + '</span></div>' : '') + '</section></div>';
 }
 /* ===================== front page (before sign-in) ===================== */
 var heroTimer = null;
@@ -801,11 +816,11 @@ function chartGroup(a) {
 function heroHtml(a, used) {
   return '<section class="dhero"><span class="dtag">' + T('ds_title') + ' · ' + T('app_year') + '</span><div class="dh2">' +
     '<div class="dring">' + donutHtml(a, 300, 44, '<b style="color:#FFFFFF">' + pctOf(a.left, a.budget) + '%</b><small style="color:#D5E2FA">' + T('ds_left_s') + '</small>') + '</div>' +
-    '<div class="dright"><div><div class="dlabel">' + T('ds_left_s') + '</div><div class="dleft num"><span data-count="' + a.left + '">' + baht(Math.round(a.left)) + '</span></div><div class="dsub">' + T('ds_baht_pct', { p: pctOf(a.left, a.budget) }) + '</div></div>' +
-    '<div><div class="dlabel">' + T('ds_used') + '</div><div class="dleft dw num"><span data-count="' + used + '">' + baht(Math.round(used)) + '</span></div><div class="dsub">' + T('ds_baht_pct', { p: pctOf(used, a.budget) }) + '</div></div>' +
-    '<div class="deq"><div class="deqr"><span>' + T('ds_total') + '</span><b class="num">' + baht(a.budget) + '</b></div>' +
-    [['cut', '#8FB5FF'], ['hold', '#FFC56B'], ['carry', '#CBB9FF']].map(function (q) { return '<div class="deqr"><span class="deql"><i style="background:' + DC[q[0]] + '"></i>' + T('ds_less') + ' ' + T('m_' + q[0]) + '</span><b class="num" style="color:' + q[1] + '">− ' + baht(a[q[0]]) + '</b></div>'; }).join('') +
-    '<div class="deqr deqt"><span>' + T('m_left') + '</span><b class="num dgood2">' + baht(a.left) + '</b></div></div>' +
+    '<div class="dright"><div><div class="dlabel">' + T('ds_left_s') + '</div><div class="dleft num"><span data-count="' + a.left + '">' + baht(Math.round(a.left)) + '</span><small class="dunit">' + T('baht') + '</small></div><div class="dsub">' + T('ds_baht_pct', { p: pctOf(a.left, a.budget) }) + '</div></div>' +
+    '<div><div class="dlabel">' + T('ds_used') + '</div><div class="dleft dw num"><span data-count="' + used + '">' + baht(Math.round(used)) + '</span><small class="dunit">' + T('baht') + '</small></div><div class="dsub">' + T('ds_baht_pct', { p: pctOf(used, a.budget) }) + '</div></div>' +
+    '<div class="deq"><div class="deqr"><span>' + T('ds_total') + '</span><b class="num">' + baht(a.budget) + ' ' + T('baht') + '</b></div>' +
+    [['cut', '#8FB5FF'], ['hold', '#FFC56B'], ['carry', '#CBB9FF']].map(function (q) { return '<div class="deqr"><span class="deql"><i style="background:' + DC[q[0]] + '"></i>' + T('ds_less') + ' ' + T('m_' + q[0]) + '</span><b class="num" style="color:' + q[1] + '">− ' + baht(a[q[0]]) + ' ' + T('baht') + '</b></div>'; }).join('') +
+    '<div class="deqr deqt"><span>' + T('m_left') + '</span><b class="num dgood2">' + baht(a.left) + ' ' + T('baht') + '</b></div></div>' +
     '<div class="dasof2">' + T('ds_asof', { date: dlong(NOW) }) + '</div></div></div></section>';
 }
 function vDash() {
@@ -1043,6 +1058,7 @@ var ROLE_SW = { teacher: 'ครู', plan: 'งานแผน', finance: 'ง�
 document.addEventListener('click', function (e) { var th0 = e.target.closest && e.target.closest('[data-tohome]'); if (th0 && S.u) { S.view = 'home'; S.tab = null; S.open = null; S.doc = null; render(); window.scrollTo(0, 0); return; } var th = e.target.closest && e.target.closest('[data-thome]'); if (th && S.u) { S.u.role = 'teacher'; S.newFrom = null; S.prevRole = null; S.view = 'home'; S.tab = null; S.open = null; S.doc = null; render(); window.scrollTo(0, 0); return; } var nb = e.target.closest && e.target.closest('[data-newback]'); if (nb && S.u) { var nf = S.newFrom; S.newFrom = null; if (nf === 'home') { if (S.prevRole && S.u.roles && S.u.roles.indexOf(S.prevRole) >= 0) S.u.role = S.prevRole; S.prevRole = null; S.view = 'home'; S.tab = null; render(); window.scrollTo(0, 0); } else go(nf && nf !== 'new' ? nf : tabsFor(S.u)[0]); return; } var bh = e.target.closest && e.target.closest('[data-backhat]'); if (bh && S.u) { S.u.role = bh.dataset.backhat; S.draft = null; S.tab = null; S.open = null; S.doc = null; S.view = null; render(); window.scrollTo(0, 0); return; } });
 document.addEventListener('click', function (e) { var x = e.target.closest && e.target.closest('[data-role]'); if (!x || !S.u) return; S.u.role = x.dataset.role; S.tab = null; S.open = null; S.doc = null; S.view = 'home'; render(); window.scrollTo(0, 0); });
 function render() {
+  pinKpClose();
   $('demoTxt').innerHTML = T('demo_txt'); $('whoLbl').innerHTML = T('view_as');
   siteHead(); document.title = t('app_title') + ' · ' + t('school_name');
   clearInterval(heroTimer);
@@ -2068,7 +2084,7 @@ function supPanel(r) {
   var dt = function (id, lab, k) { return '<div style="min-width:0"><label for="' + id + '">' + lab + '</label><input id="' + id + '" type="date" data-sp="d_' + k + '" value="' + esc(s.d[k]) + '"></div>'; };
   return '<div class="note" style="margin:0 0 10px">ครูส่งชุดมาเป็นกระดาษ งานพัสดุถ่ายรูปใบเสนอราคาหรือใบส่งของเข้าระบบ ระบบอ่านรายการให้ ตรวจแก้ช่องสีเหลืองแล้วกดบันทึก เอกสารพัสดุ 5 ใบจะเติมให้ครบ</div>' +
     '<label for="spPh">ถ่ายรูปใบเสนอราคา / ใบส่งของ (ถ่ายหลายใบได้ ระบบต่อรายการให้)</label><input id="spPh" type="file" accept="image/*" multiple><div class="small muted" id="spState" style="margin:4px 0 8px">' + (s.photos ? 'อ่านจากภาพแล้ว ' + s.photos + ' ภาพ · ตรวจแก้ช่องสีเหลืองก่อนบันทึก' : 'ไม่สะดวกถ่ายรูป พิมพ์รายการเองก็ได้') + '</div>' +
-    '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spVendor', 'ชื่อผู้ขาย', s.vendor, 'vendor', '2 1 260px', s.q.vendor ? ' class="aifill"' : '') + inp('spDn', 'เลขที่ใบส่งของ (หนังสือส่งมอบ)', s.dn, 'dn', '1 1 160px', s.q.dn ? ' class="aifill"' : '') +
+    '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spVendor', 'ชื่อผู้ขาย', s.vendor, 'vendor', '2 1 260px', (s.q.vendor ? ' class="aifill"' : '') + ' list="vdList" autocomplete="off"') + '<datalist id="vdList">' + Object.keys(VENDORS).sort().map(function (k) { return '<option value="' + esc(k) + '">'; }).join('') + '</datalist>' + inp('spDn', 'เลขที่ใบส่งของ (หนังสือส่งมอบ)', s.dn, 'dn', '1 1 160px', s.q.dn ? ' class="aifill"' : '') +
     '<div style="min-width:0;flex:1 1 150px"><label for="spDnDate">วันที่ใบส่งของ</label><input id="spDnDate" type="date" data-sp="dnDate" value="' + esc(s.dnDate) + '"' + (s.q.dnDate ? ' class="aifill"' : '') + '></div></div>' +
     '<div style="font-weight:600;margin:12px 0 2px">รายการพัสดุ <span class="small muted" style="font-weight:400">· หน่วยนับระบบแก้ให้ถูกตามหลักภาษาไทย</span></div>' + dl + '<div id="spRows">' + rows + '</div>' +
     '<div style="margin:6px 0"><button type="button" class="sm" data-spa="add">+ เพิ่มรายการ</button></div><div class="note" id="spSum" style="margin:8px 0">' + supSumHtml(r) + '</div>' +
@@ -2128,7 +2144,7 @@ function sigCell(role, name, ts) { return 'ลงชื่อ ..................
 function sigPair(a, b, sp) { return { k: 'tbl', nb: 1, sp: sp == null ? 8 : sp, w: [8.25, 8.25], al: ['c', 'c'], rows: [[a, b]] }; }
 function dirBlock(ts, head) { return [NP(head || 'เห็นชอบ', { al: 'c', sp: 4 }), NP('..................................................', { al: 'c', sp: 8 }), NP('( ' + SIGN.dir() + ' )', { al: 'c' }), NP('ผู้อำนวยการ' + t('school_name'), { al: 'c' }), NP(sdl(ts), { al: 'c' })]; }
 function hC(x, o) { return Object.assign({ x: x, b: 1, al: 'c' }, o || {}); }
-function moneyCells(v) { var a = bs(v); return [{ x: a[0], al: 'r' }, { x: a[1], al: 'c' }]; }
+function moneyCellsDoc(v) { var a = bs(v); return [{ x: a[0], al: 'r' }, { x: a[1], al: 'c' }]; }
 function ofBuyRpt(r) {
   var a = act(r.act), pj = proj(a.project), L = supLines(r), tot = supTotal(r), V = supVat(r), no = supNo(r), ts = supTs(r, 'buy'), ins = supIns(r), s = sup(r), pc = String(pj.code).replace(/[.\s]/g, '');
   var p1 = supTop(r, no, ts, 'รายงานขอซื้อพัสดุ');
@@ -2154,9 +2170,9 @@ function ofBuyRpt(r) {
   var rows = [[hC('ลำดับที่'), hC('รายละเอียดของพัสดุที่จะขอซื้อ'), hC('จำนวน/หน่วย'), hC('จำนวนและวงเงินที่ขอซื้อครั้งนี้', { cs: 4 })],
     [hC(''), hC(''), hC(''), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })],
     [hC(''), hC(''), hC(''), hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
-  L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: x.qty + ' ' + x.unit, al: 'c' }].concat(moneyCells(x.price), moneyCells(x.amt))); });
-  if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 5, al: 'r' }].concat(moneyCells(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 5, al: 'r' }].concat(moneyCells(V.vat)));
-  rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 5, al: 'l', b: 1 }].concat(moneyCells(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
+  L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: x.qty + ' ' + x.unit, al: 'c' }].concat(moneyCellsDoc(x.price), moneyCellsDoc(x.amt))); });
+  if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 5, al: 'r' }].concat(moneyCellsDoc(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 5, al: 'r' }].concat(moneyCellsDoc(V.vat)));
+  rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 5, al: 'l', b: 1 }].concat(moneyCellsDoc(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
   p2.push({ k: 'tbl', sp: 6, w: [1.6, 5.6, 2.4, 1.7, 1.0, 2.2, 1.0], rows: rows.reduce(function (o, rw) { if (Array.isArray(rw[0])) rw.forEach(function (z) { o.push(z); }); else o.push(rw); return o; }, []) },
     sigPair(sigCell('เจ้าหน้าที่พัสดุ', supOfficer(r).name), sigCell('หัวหน้าเจ้าหน้าที่พัสดุ', USERS.su.name), 14));
   return { v: 'sup', ln: 18.5, name: '1_รายงานขอซื้อ_' + r.id + '_' + r.title, st: 'ngp', pages: [p1, p2] };
@@ -2190,9 +2206,9 @@ function ofInspRpt(r) {
     NP('* กรณีการจัดซื้อคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.20 ของราคาสิ่งของที่ยังไม่ได้รับมอบ', { sp: 6 }), NP('กรณีการจัดจ้างคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.10 ของวงเงินทั้งหมด'), NP([{ x: 'หมายเหตุ', b: 1 }, { x: '   ใช้กับการจัดซื้อหรือจัดจ้างพัสดุ (ที่มิใช่งานก่อสร้าง)' }]));
   var p2 = [NP([{ x: 'รายการพัสดุที่ตรวจรับ', b: 1, sz: 20 }], { al: 'c' }), NP(t('school_name'), { al: 'c' }), NP('เลขที่ชุด ' + no), NP('วันที่ ' + D, { al: 'r' })];
   var rows = [[hC('ลำดับที่'), hC('รายการ'), hC('จำนวน'), hC('หน่วย'), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })], [hC(''), hC(''), hC(''), hC(''), hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
-  L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: String(x.qty), al: 'c' }, { x: x.unit, al: 'c' }].concat(moneyCells(x.price), moneyCells(x.amt))); });
-  if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 6, al: 'r' }].concat(moneyCells(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 6, al: 'r' }].concat(moneyCells(V.vat)));
-  rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 6, al: 'l', b: 1 }].concat(moneyCells(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
+  L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: String(x.qty), al: 'c' }, { x: x.unit, al: 'c' }].concat(moneyCellsDoc(x.price), moneyCellsDoc(x.amt))); });
+  if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 6, al: 'r' }].concat(moneyCellsDoc(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 6, al: 'r' }].concat(moneyCellsDoc(V.vat)));
+  rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 6, al: 'l', b: 1 }].concat(moneyCellsDoc(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
   p2.push({ k: 'tbl', sp: 6, w: [1.6, 5.4, 1.6, 1.8, 1.6, 1.0, 2.4, 1.1], rows: rows.reduce(function (o, rw) { if (Array.isArray(rw[0])) rw.forEach(function (z) { o.push(z); }); else o.push(rw); return o; }, []) });
   return { v: 'sup', ln: 18.5, name: '3_ใบตรวจรับพัสดุ_' + r.id + '_' + r.title, st: 'ngp', pages: [p1, p2] };
 }
@@ -2228,6 +2244,7 @@ var PAYTYPES = [['vendor', 'จ่ายให้ร้านค้า/ผู้
 var BANK = 'ธนาคารกรุงไทย สาขาบางขุนนนท์';
 var SD_REAL = { buyrpt: 1, ordrpt: 1, insprpt: 1, issue: 1, ackpay: 1, pg01: 1, paymemo: 1, loanpaymemo: 1, recurmemo: 1, voucher: 1, rcptform: 1 };
 var VENDORS = {};
+function vendorOf(n) { n = String(n || '').replace(/\s+/g, ''); if (!n) return null; var ks = Object.keys(VENDORS); for (var i = 0; i < ks.length; i++) if (ks[i].replace(/\s+/g, '') === n) return VENDORS[ks[i]]; return null; }
 /* the fund as the finance memos name it, e.g. "เงินอุดหนุนทั่วไป (อุดหนุนรายหัว)", "เงินรายได้สถานศึกษา (ค่าเช่าตึก)" */
 function finFund(a) {
   var f = a.fund;
@@ -2406,7 +2423,7 @@ function ofVoucher(r) {
   return { name: 'ใบสำคัญจ่าย_' + r.id + '_' + r.title, normal: 1, pages: [pg] };
 }
 function ofRcptForm(r) {
-  var v = vInfo(r, ''), sp = bahtSplit(v.amt), blank = function () { return { h: 0.75, c: ['', '', '', ''] }; };
+  var v = vInfo(r, r.track === 'loan' ? 'loan_pay' : ''), sp = bahtSplit(v.amt), blank = function () { return { h: 0.75, c: ['', '', '', ''] }; };
   var rows = [[{ x: 'ลำดับที่', b: 1, al: 'c', rs: 2, va: 'c' }, { x: 'รายการ', b: 1, al: 'c', rs: 2, va: 'c' }, { x: 'จำนวนเงิน', b: 1, al: 'c', cs: 2 }], [{ x: 'บาท', b: 1, al: 'c' }, { x: 'สต.', b: 1, al: 'c' }], { h: 0.75, c: ['1', v.item, sp[0], sp[1]] }];
   for (var i = 0; i < 12; i++) rows.push(blank());
   rows.push([{ x: 'รวมจำนวนเงิน (บาท)', b: 1, al: 'r', cs: 2 }, { x: sp[0], b: 1 }, { x: sp[1], b: 1 }]);
@@ -2423,12 +2440,14 @@ function ofRcptForm(r) {
   return { name: 'ใบสำคัญรับเงิน_' + r.id + '_' + r.title, normal: 1, pages: [pg] };
 }
 /* the documents of one step for this request */
+function needRcpt(r) { return r.noRcpt === undefined ? r.kind === 'svc' : !!r.noRcpt; }
 function sdTypes(r, k) {
   var ds = (STAFFDOCS[k] || []).slice();
   if (k === 'plan_check' && (r.type !== 'use' || r.recur)) ds = [];
   if (k === 'pay' && r.track === 'loan') ds = ['paymemo'];
   if (k === 'rpay' && recurType(r) === 'wage') ds = ['recurmemo'];
-  if (k === 'pay' && r.track !== 'loan' && r.noRcpt) ds.push('rcptform');
+  if (k === 'pay' && r.track !== 'loan' && needRcpt(r)) ds.push('rcptform');
+  if (k === 'loan_pay') ds.push('rcptform');
   return ds;
 }
 /* ===== งานแผน: บันทึก ผง. 01 + รายละเอียดแนบท้าย — laid out like the plan office's printed sheet (one page, values in blue on dotted lines) ===== */
@@ -2594,7 +2613,7 @@ function sdList(r, k) {
 }
 function payOpts(r) {
   if (r.track === 'loan') return '';
-  var used = r.cutAmount || r.actual || r.amount, pe = payeeOf(r), vd = VENDORS[pe] || {};
+  var used = r.cutAmount || r.actual || r.amount, pe = payeeOf(r), vd = vendorOf(pe) || {};
   ['payAddr', 'payTel', 'payTax'].forEach(function (f) { if (!r[f] && vd[f]) r[f] = vd[f]; });
   var inp = function (id, lab, v, w) { return '<div style="min-width:0;flex:' + (w || '1 1 160px') + '"><label for="' + id + '">' + lab + '</label><input id="' + id + '" value="' + esc(v || '') + '"></div>'; };
   return '<label for="aPayType">วิธีจ่าย</label><select id="aPayType" style="max-width:100%;width:320px">' + PAYTYPES.map(function (p) { return '<option value="' + p[0] + '"' + ((r.payType || 'vendor') === p[0] ? ' selected' : '') + '>' + (p[0] === 'vendor' && r.kind === 'svc' ? 'จ่ายให้ผู้มีสิทธิรับเงินโดยตรง (เช่น วิทยากร)' : p[1]) + '</option>'; }).join('') + '</select>' +
@@ -2602,7 +2621,7 @@ function payOpts(r) {
     '<div class="row" style="gap:12px;flex-wrap:wrap;align-items:flex-end">' + inp('aChq', 'เลขที่เช็ค', r.chq) + inp('aTel', 'เบอร์โทรผู้รับเงิน', r.payTel) + inp('aTax', 'เลขประจำตัวผู้เสียภาษี', r.payTax) + '</div>' +
     '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('aAddr', 'ที่อยู่ผู้รับเงิน (สำหรับใบสำคัญจ่าย)', r.payAddr, '1 1 100%') + '</div>' +
     '<div class="small muted" style="margin:4px 0 6px">ระบบจำที่อยู่ เบอร์โทร และเลขผู้เสียภาษีของ ' + esc(pe || 'ผู้รับเงิน') + ' ไว้ ครั้งหน้าไม่ต้องกรอกซ้ำ</div>' +
-    '<label style="font-weight:400;display:flex;gap:8px;align-items:flex-start;margin:4px 0 10px"><input type="checkbox" id="aNoRcpt" style="width:auto;flex:none;margin-top:4px"' + (r.noRcpt ? ' checked' : '') + '><span style="flex:1 1 auto;min-width:0">ผู้รับเงินไม่มีใบเสร็จ (เช่น จ้างบุคคลทั่วไป) ให้เซ็นใบสำคัญรับเงิน</span></label>';
+    '<label style="font-weight:400;display:flex;gap:8px;align-items:flex-start;margin:4px 0 10px"><input type="checkbox" id="aNoRcpt" style="width:auto;flex:none;margin-top:4px"' + (needRcpt(r) ? ' checked' : '') + '><span style="flex:1 1 auto;min-width:0">ผู้รับเงินไม่มีใบเสร็จ (เช่น จ้างบุคคลทั่วไป) ให้เซ็นใบสำคัญรับเงิน</span></label>';
 }
 document.addEventListener('change', function (e) {
   var r = S.open && req(S.open); if (!r) return;
@@ -2979,12 +2998,27 @@ function ofModel(type, id) {
    the line ends with a hyphen (-); every full line is stretched to both margins and the last line is left as is. ===== */
 var JX_SEG = window.Intl && Intl.Segmenter ? new Intl.Segmenter('th', { granularity: 'word' }) : null;
 var JX_CV = null;
+var JX_WORDS = ['ผู้เรียน', 'ผู้อำนวยการ', 'ผู้รับผิดชอบ', 'ผู้ยืม', 'ผู้รับเงิน', 'ผู้จ่ายเงิน', 'ผู้ขาย', 'ผู้ตรวจรับ', 'ผู้ประกอบการ', 'ผู้ปกครอง', 'ขออนุมัติ', 'อนุมัติ', 'ดำเนินการ', 'รายละเอียด', 'ค่าใช้จ่าย', 'เจ้าหน้าที่', 'ครูผู้สอน', 'ปีการศึกษา', 'ปีงบประมาณ', 'คณะกรรมการ', 'ประธานกรรมการ', 'หัวหน้างาน', 'หัวหน้ากลุ่ม', 'ตรวจรับพัสดุ', 'ใบสำคัญจ่าย', 'ใบสำคัญรับเงิน', 'สัญญายืมเงิน', 'เงินอุดหนุน', 'รายได้สถานศึกษา', 'แผนปฏิบัติการ', 'ผู้ใช้เงินยืม', 'ในนาม', 'จึงเห็นควร', 'ลงวันที่', 'ใบตรวจรับ', 'ใบสั่งซื้อ', 'ใบสั่งจ้าง', 'ส่งมอบ', 'ดังแนบ', 'ตามที่', 'ขอเสนอ'];
 function jxKeeps() {
-  var ks = [t('school_name'), BANK].concat(SUPPLY_LIST);
+  var ks = [t('school_name'), BANK].concat(SUPPLY_LIST, JX_WORDS);
+  try { REQS.forEach(function (q) { if (q.vendor) ks.push(String(q.vendor).trim()); }); Object.keys(VENDORS).forEach(function (k) { ks.push(k); }); } catch (e) { /* vendor lists not ready */ }
   Object.keys(USERS).forEach(function (k) { if (USERS[k].name) ks.push(USERS[k].name); });
   Object.keys(PG_SUPPLY).forEach(function (k) { ks.push(PG_SUPPLY[k]); });
   try { ks.push(SIGN.dir(), SIGN.head(), SIGN.plan(), SIGN.fin()); } catch (e) { /* signer list not ready */ }
-  return ks.filter(function (x, i, a) { return x && a.indexOf(x) === i; }).sort(function (a, b) { return b.length - a.length; });
+  return ks.filter(function (x, i, a) { return x && x.length >= 4 && x.length <= 60 && a.indexOf(x) === i; }).sort(function (a, b) { return b.length - a.length; });
+}
+function nbRuns(us) {
+  return us.map(function (u, i) { if (i < us.length - 1 && u && /[ \t]$/.test(String(u.x)) && /^[.…]{3,}/.test(String(us[i + 1].x))) return Object.assign({}, u, { x: String(u.x).replace(/[ \t]+$/, '\u00A0') }); return u; });
+}
+function nbWord(x) {
+  if (!JX_SEG || !x || x.length < 4) return x;
+  var out = String(x).replace(/([^\s.…])[ ]+([.…]{3,})/g, '$1\u00A0$2').replace(/(เลขที่(?:เช็ค|สัญญา)?)[ ]+([\d๐-๙])/g, '$1\u00A0$2').replace(/(กิจกรรม|โครงการ|ข้อ|ฉบับ|หน้า|ที่)[ ]+([\d๐-๙])/g, '$1\u00A0$2');
+  jxKeeps().forEach(function (kw) {
+    if (out.indexOf(kw) < 0) return;
+    var rep2 = kw.replace(/ /g, '\u00A0');
+    out = out.split(kw).join(rep2);
+  });
+  return out;
 }
 function jxFont(el) { var cs = getComputedStyle(el); return cs.fontStyle + ' ' + cs.fontWeight + ' ' + cs.fontSize + ' ' + cs.fontFamily; }
 function jxWidth(text, font) { JX_CV = JX_CV || document.createElement('canvas').getContext('2d'); JX_CV.font = font; return JX_CV.measureText(text).width; }
@@ -3012,6 +3046,9 @@ function jxPara(el, keeps) {
   S.replace(/[.\-…]{8,}/g, function (m) { var p0 = arguments[arguments.length - 2]; for (var q = 6; q < m.length - 1; q += 6) brk[p0 + q] = 1; return m; });
   var lock = function (s, e, v) { for (var k = s + 1; k < e; k++) brk[k] = v === 2 && brk[k] ? 2 : 0; };
   keeps.forEach(function (kw) { var p = S.indexOf(kw); while (p >= 0) { lock(p, p + kw.length, 0); p = S.indexOf(kw, p + kw.length); } });
+  S.replace(/(กิจกรรม|โครงการ|ข้อ|ฉบับ|หน้า|ที่)\s*(ที่\s*)?[\d๐-๙]+/g, function (m) { var p = arguments[arguments.length - 2]; lock(p, p + m.length, 0); return m; });
+  S.replace(/(เช็ค)?เลขที่(เช็ค|สัญญา)?\s*[\d๐-๙.\-\/…]+/g, function (m) { var p = arguments[arguments.length - 2]; lock(p, p + m.length, 0); return m; });
+  S.replace(/[.…]{3,}/g, function (m) { var p = arguments[arguments.length - 2]; if (m.length > 30 || p < 2) return m; var q = p; while (q > 0 && /\s/.test(S[q - 1])) q--; var s1 = -1, s2 = -1; for (var z = 0; z < segs.length && segs[z] < q; z++) { s2 = s1; s1 = segs[z]; } var from = s2 >= 0 ? s2 : s1; if (from >= 0) lock(from, p + m.length, 0); return m; });
   S.replace(/[\d,.]+\s*บาท/g, function (m) { var p = arguments[arguments.length - 2]; lock(p, p + m.length, 0); return m; });
   S.replace(/พ\.ศ\.\s*\d+/g, function (m) { var p = arguments[arguments.length - 2]; lock(p, p + m.length, 0); return m; });
   S.replace(/\d+\s+(มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม)\s+\d{4}/g, function (m) { var p = arguments[arguments.length - 2]; lock(p, p + m.length, 0); return m; });
@@ -3038,15 +3075,20 @@ function jxPara(el, keeps) {
       var cut = -1, acc = 0, best = -1, best2 = -1, accB = 0;
       for (var k = 0; k < cur.length; k++) { acc += cur[k].w; var hh = cur[k].brk === 2 ? hy : 0;
         if (k < cur.length - 1 && cur[k].brk && acc + hh <= limit()) { best = k; accB = acc + hh; }
-        if (cur[k].brk && acc + hh > limit() && acc + hh <= limit() * 1.04) best2 = k; }
+        if (cur[k].brk && acc + hh > limit() && acc + hh <= limit() * 1.05) best2 = k; }
       /* a line that would be left loose (gap > 6%) takes one more word and is squeezed (letters closer, at most 4%) instead of being stretched */
-      if (best2 >= 0 && (best < 0 || (limit() - accB) / limit() > 0.06)) { flush(best2 + 1, cur[best2].brk === 2); continue; }
+      if (best2 >= 0 && (best < 0 || (limit() - accB) / limit() > 0.05)) { flush(best2 + 1, cur[best2].brk === 2); continue; }
       cut = best; if (cut < 0) break;
       flush(cut + 1, cur[cut].brk === 2);
     }
   });
   if (cur.length) lines.push({ b: cur, hy: false, last: true });
-  if (lines.length < 2) return false;
+  if (lines.length < 2) {
+    /* a one-line paragraph that fills the line almost to the edge: the browser may still wrap its last word, so squeeze it slightly and keep it on one line */
+    var tot = boxes.reduce(function (s0, x) { return s0 + x.w; }, 0), av = full - ind;
+    if (tot > av * 0.985 && tot < av * 1.04) { el.style.letterSpacing = ((av * 0.992 - tot) / Math.max(1, S.length)) + 'px'; el.style.whiteSpace = 'nowrap'; }
+    return false;
+  }
   /* 5. draw: a full line is spread evenly between its letters (as Word's Thai distributed alignment does), the last line is left as typed */
   var GR = new Intl.Segmenter('th', { granularity: 'grapheme' });
   var mk = function (pc, x) { if (pc.atom) return pc.atom.cloneNode(true); var n = pc.tpl ? pc.tpl.cloneNode(false) : document.createElement('span'); n.textContent = x; return n; };
@@ -3179,7 +3221,7 @@ function ofPdf(m) {
 function ofDocx(m) {
   return loadLib('lib/docx.iife.js').then(function () {
     var LN = m.lh ? Math.round(320 * m.lh) : 400, D = window.docx, EX = window.docx.LineRuleType.EXACT, F = 'TH SarabunPSK', tw = function (cm) { return Math.round(cm * 567); };
-    var run = function (u, extra) { var o = Object.assign({ text: u.x, font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }, extra || {}); if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return new D.TextRun(o); };
+    var run = function (u, extra) { var o = Object.assign({ text: nbWord(u.x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }, extra || {}); if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return new D.TextRun(o); };
     var TICK = (function () { var b = atob('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'), u = new Uint8Array(b.length); for (var q = 0; q < b.length; q++) u[q] = b.charCodeAt(q); return u; })();
     var bxRuns = function (ch, szh) { var px = Math.round(szh / 2 * 0.6 * 4 / 3); if (ch === '☑') return [new D.ImageRun({ type: 'png', data: TICK, transformation: { width: px, height: px } }), new D.TextRun({ text: '\u00A0', font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: Math.round(szh * 0.3), sizeComplexScript: Math.round(szh * 0.3) })]; var cm = { ascii: 'Cambria Math', hAnsi: 'Cambria Math', cs: 'Cambria Math', eastAsia: 'Cambria Math' }; return [new D.TextRun({ text: '\u00A0', font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: szh, sizeComplexScript: szh }), new D.TextRun({ text: '\u20DE', font: cm, size: szh, sizeComplexScript: szh })]; };
     var rrb = function (u) { return [].concat.apply([], String(u.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { return /^[☐☑]$/.test(x) ? bxRuns(x, (u.sz || 16) * 2) : [run({ x: x, b: u.b, sz: u.sz })]; })); };
@@ -3196,8 +3238,8 @@ function ofDocx(m) {
       var sp = b.sp ? b.sp * 20 : 0, first = brk ? { pageBreakBefore: true } : {};
       if (m.st === 'ngp') {
         var LNN = Math.round((m.ln || (m.v === 'fin' ? 20.75 : 21)) * 20), pt = function (v) { return Math.round(v * 20); }, thin = { style: D.BorderStyle.SINGLE, size: 4, color: '000000' };
-        var rr = function (u) { return [].concat.apply([], String(u.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, (u.sz || 16) * 2); var o = { text: x, font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }; if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return [new D.TextRun(o)]; })); };
-        var rx = function (us) { return [].concat.apply([], us.map(rr)); };
+        var rr = function (u) { return [].concat.apply([], String(u.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, (u.sz || 16) * 2); var o = { text: nbWord(x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }; if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return [new D.TextRun(o)]; })); };
+        var rx = function (us) { return [].concat.apply([], nbRuns(us).map(rr)); };
         var np = function (us, o) { return new D.Paragraph(Object.assign({ children: rx(us), spacing: { before: 0, after: 0, line: LNN, lineRule: EX } }, o || {})); };
         var fixed = function (us, o) { return new D.Paragraph(Object.assign({ children: rx(us), spacing: { before: 0, after: 0, line: 420, lineRule: EX } }, o || {})); };
         var cm = function (w) { return { size: w, type: D.WidthType.DXA }; };
@@ -3258,7 +3300,7 @@ function ofDocx(m) {
       }
       if (b.k === 'title') return [para([run({ x: b.x, b: 1, sz: b.sz || 20 })], Object.assign({ alignment: AL.c, spacing: { after: 80, line: 500, lineRule: EX } }, first))];
       if (b.k === 'gap') return [para([run({ x: '' })], first)];
-      if (b.k === 'p') return [para([].concat.apply([], b.runs.map(rrb)), Object.assign({ alignment: b.al ? AL[b.al] : D.AlignmentType.THAI_DISTRIBUTE, spacing: { before: sp, line: LN, lineRule: EX }, indent: { firstLine: b.ind ? tw(2.5) : 0, left: b.left ? tw(b.left) : 0 } }, first))];
+      if (b.k === 'p') return [para([].concat.apply([], nbRuns(b.runs).map(rrb)), Object.assign({ alignment: b.al ? AL[b.al] : D.AlignmentType.THAI_DISTRIBUTE, spacing: { before: sp, line: LN, lineRule: EX }, indent: { firstLine: b.ind ? tw(2.5) : 0, left: b.left ? tw(b.left) : 0 } }, first))];
       if (b.k === 'sign') return b.lines.map(function (l, i) { return para(rrb({ x: l }), Object.assign({ alignment: AL.c, indent: { left: tw(6) }, spacing: { before: i ? 0 : sp, line: LN, lineRule: EX } }, i ? {} : first)); });
       var pre = brk || sp ? [para([run({ x: '', sz: 2 })], Object.assign({ spacing: { before: 0, after: 0, line: Math.max(40, sp), lineRule: D.LineRuleType.EXACT } }, first))] : [];
       if (b.k === 'sigs') {
@@ -3268,14 +3310,14 @@ function ofDocx(m) {
       }
       if (b.k === 'grid') {
         var gx = gridCols(b), gw = gx.slice(1).map(function (x, i) { return x - gx[i]; }), dot = { style: D.BorderStyle.DOTTED, size: 6, color: '000000' };
-        var gRuns = function (c) { var szh = Math.round((c.sz || b.sz) * 2); return [].concat.apply([], String(c.x || '').split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, szh); var o = { text: x, font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: szh, sizeComplexScript: szh }; if (c.b) { o.bold = true; o.boldComplexScript = true; } if (c.blue) o.color = '0070C0'; return [new D.TextRun(o)]; })); };
+        var gRuns = function (c) { var szh = Math.round((c.sz || b.sz) * 2); return [].concat.apply([], String(c.x || '').split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, szh); var o = { text: nbWord(x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: szh, sizeComplexScript: szh }; if (c.b) { o.bold = true; o.boldComplexScript = true; } if (c.blue) o.color = '0070C0'; return [new D.TextRun(o)]; })); };
         var gi = 0;
         return pre.concat([new D.Table({ width: { size: tw(b.W), type: D.WidthType.DXA }, columnWidths: gw.map(tw), layout: D.TableLayoutType.FIXED, borders: { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none },
-          rows: b.rows.map(function (rw) { var col = 0; return new D.TableRow({ height: { value: tw(rw.h), rule: D.HeightRule.ATLEAST }, children: gridRow(rw, gx).map(function (c) {
+          rows: b.rows.map(function (rw) { var col = 0; return new D.TableRow({ height: { value: tw(rw.h * (m.hs || 1)), rule: D.HeightRule.ATLEAST }, children: gridRow(rw, gx).map(function (c) {
             var w = gw.slice(col, col + c.span).reduce(function (s2, v) { return s2 + v; }, 0); col += c.span;
             return new D.TableCell({ width: { size: tw(w), type: D.WidthType.DXA }, columnSpan: c.span > 1 ? c.span : undefined, verticalAlign: D.VerticalAlign.CENTER, margins: { left: c.pl ? 80 : 0, right: c.pr ? 80 : 0, top: 0, bottom: 0 },
               borders: { top: c.bx ? line : none, left: c.bx ? line : none, right: c.bx ? line : none, bottom: c.bx || c.line ? line : c.ul ? dot : none },
-              children: [new D.Paragraph({ alignment: AL[c.al || 'l'], spacing: { before: 0, after: 0, line: Math.max(tw(rw.h), Math.round((c.sz || b.sz) * 1.1 * 20)), lineRule: EX }, children: gRuns(c) })] });
+              children: [new D.Paragraph({ alignment: AL[c.al || 'l'], spacing: { before: 0, after: 0, line: Math.max(tw(rw.h * (m.hs || 1)), Math.round((c.sz || b.sz) * 1.1 * 20)), lineRule: EX }, children: gRuns(c) })] });
           }) }); }) })]);
       }
       if (b.k === 'tbl') {
@@ -3309,6 +3351,7 @@ function measureLh(m) {
 function ofSave(kind, type, id) {
   var m = ofModel(type, id), name = fileSafe(m.name) + (kind === 'pdf' ? '.pdf' : '.docx');
   toast('t_making', { kind: kind === 'pdf' ? 'PDF' : 'Word' });
+  if (kind !== 'pdf' && m.pages.some(function (pg) { return pg.some(function (b) { return b.k === 'grid'; }); })) m.hs = 0.94;
   if (kind !== 'pdf') { var lh = measureLh(m); if (lh && m.st === 'ngp') m.ln = lh; else if (lh) m.lh = lh - 0.02; }
   (kind === 'pdf' ? ofPdf(m) : ofDocx(m)).then(function (blob) { saveBlob(blob, name); if (window.SYNC && SYNC.onDoc) SYNC.onDoc(kind, type, id, blob, name); }, function () { toast('t_make_fail'); });
 }
