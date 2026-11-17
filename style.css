@@ -33,6 +33,8 @@ h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance}
 h2{font-size:21px}h3{font-size:17px}
 a{color:var(--info)}
 .wrap{max-width:1480px;margin:0 auto;padding-inline:clamp(16px,2vw,28px)}
+.nwrap{max-width:1120px;margin:0 auto}
+#view:has(>.nwrap)>.backrow{max-width:1120px;margin:0 auto 12px}
 .num{font-variant-numeric:tabular-nums}
 .muted{color:var(--muted)}.small{font-size:14px}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}

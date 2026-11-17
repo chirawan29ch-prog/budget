@@ -1530,8 +1530,8 @@ function vNew0() {
     '<label>' + T('f_commit') + '</label>' + cards('data-commit', d.commit === 'yes' ? 'yes' : 'no', [{ k: 'yes', t: 'f_commit_yes', s: 'f_commit_yes_s' }, { k: 'no', t: 'f_commit_no', s: 'f_commit_no_s' }], 'wide') +
     '<label for="nUseBy">' + T('f_use_by') + '</label><input id="nUseBy" type="date" value="' + esc(d.useBy) + '" style="max-width:220px">' +
     '<label for="nRea">' + T('f_reason_carry') + '</label><textarea id="nRea" rows="2">' + esc(d.reason) + '</textarea>';
-  $('view').innerHTML = head + '<form id="nf" class="card" style="margin-top:14px;max-width:880px" novalidate>' + typeSeg + actSel + body + scanBox + legBox(d) +
-    '<div class="err" id="nErr"></div><div class="row" style="margin-top:8px"><button class="primary">' + T(d.editId ? 'btn_save_edit' : 'btn_submit') + '</button></div></form>';
+  $('view').innerHTML = '<div class="nwrap">' + head + '<form id="nf" class="card" style="margin-top:14px" novalidate>' + typeSeg + actSel + body + scanBox + legBox(d) +
+    '<div class="err" id="nErr"></div><div class="row" style="margin-top:8px"><button class="primary">' + T(d.editId ? 'btn_save_edit' : 'btn_submit') + '</button></div></form></div>';
   bindNew();
 }
 function bindNew() {
