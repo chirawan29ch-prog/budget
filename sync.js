@@ -23,7 +23,18 @@
     if (!j.ok) { var e = new Error(j.error || 'ผิดพลาด'); e.code = j.error; if (j.error === 'SESSION') { onSession(); } throw e; }
     netBar(false); return j.data;
   }
+  var PENDING = 0;
+  function pill() {
+    var el = document.getElementById('savepill');
+    if (!el) { el = document.createElement('div'); el.id = 'savepill'; el.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9998;background:#1b2b4b;color:#fff;border-radius:999px;padding:6px 14px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.25);opacity:.92'; el.textContent = 'กำลังบันทึก…'; document.body.appendChild(el); }
+    el.hidden = PENDING <= 0;
+  }
   function call(method, args) {
+    if (method !== 'loginList' && method !== 'ping' && method !== 'login') { PENDING++; pill(); }
+    var done = function () { if (method !== 'loginList' && method !== 'ping' && method !== 'login') { PENDING--; pill(); } };
+    return call0(method, args).then(function (x) { done(); return x; }, function (e) { done(); throw e; });
+  }
+  function call0(method, args) {
     return fetch(CFG.API_URL, { method: 'POST', body: body(method, args), redirect: 'follow' })
       .then(function (r) { return r.json(); }, function (e) { netBar(true, 'เชื่อมต่อระบบไม่ได้ กำลังลองใหม่…'); throw e; })
       .then(handle);
@@ -58,6 +69,7 @@
   }
 
   /* ---------------------------------------------------------- เริ่มระบบ */
+  document.addEventListener('focusin', function (e) { if (e.target && e.target.id === 'lp' && !TOKEN) call('ping').catch(function () {}); });
   function boot() {
     if (!ready()) { say('ยังไม่ได้ตั้งค่าที่อยู่เว็บแอปในไฟล์ config.js', 60000); return; }
     var saved = null; try { saved = sessionStorage.getItem(SESS); } catch (e) {}
@@ -105,9 +117,9 @@
     if (!id) { $('lErr').innerHTML = T('e_pick'); $('lu').focus(); return; }
     if (pw.length < 4) return err('กรอก PIN 4 หลัก');
     var btn = document.querySelector('#lf .lgbtn'), btn0 = btn ? btn.textContent : ''; if (btn) { btn.disabled = true; btn.innerHTML = '<span class="lgrain" aria-hidden="true"></span><span class="lgtxt">กำลังเข้าสู่ระบบ<span class="lgdots"><i>.</i><i>.</i><i>.</i></span></span>'; startRain(btn.querySelector('.lgrain')); }
-    call('login', { id: id, pin: pw }).then(function (d) {
+    call('login', { id: id, pin: pw, light: 1 }).then(function (d) {
       TOKEN = d.token; ME = d.user; LASTPIN = pw; try { sessionStorage.setItem(SESS, TOKEN); } catch (e2) {}
-      afterLogin(false, d.data);
+      afterLogin(false, d.data, true);
     }, function (e2) { if (btn) { btn.disabled = false; btn.textContent = btn0; } err(failMsg(e2)); });
   }
 
@@ -137,9 +149,27 @@
     };
     var c = $('spCancel'); if (c) c.onclick = function () { doLogout(true); };
   };
-  function afterLogin(quiet, pre) {
-    var go = function (d) { ME = d.me; ingest(d); startPoll(); signIn(USERS[ME.id], quiet); };
+  var LOADING = false;
+  function paintLoading(err) {
+    var v = document.getElementById('view'); if (!v) return;
+    v.innerHTML = '<div style="max-width:520px;margin:12vh auto;text-align:center;padding:0 16px"><div class="ldspin" style="width:34px;height:34px;margin:0 auto 14px;border:4px solid #cfd8ea;border-top-color:#2a5bd7;border-radius:50%;animation:ldspin .8s linear infinite"></div>' +
+      (err ? '<p style="color:#B3261E;margin:0 0 10px">' + err + '</p><button class="btn" id="ldRetry">ลองใหม่</button>' : '<p style="font-size:1.1em;margin:0">กำลังเตรียมข้อมูลของคุณ…</p>') + '</div>';
+    var b = document.getElementById('ldRetry'); if (b) b.onclick = function () { loadFull(); };
+  }
+  function loadFull() {
+    LOADING = true; window.SYNC_LOADING = true; paintLoading();
+    call('loadAll').then(function (d) {
+      ME = d.me; ingest(d); if (!USERS[ME.id]) setUsers(d.users || []);
+      LOADING = false; window.SYNC_LOADING = false; startPoll(); signIn(USERS[ME.id], true); prefetchId();
+    }, function (e) { if (e && e.code === 'SESSION') return; paintLoading('โหลดข้อมูลไม่ได้: ' + failMsg(e)); });
+  }
+  function afterLogin(quiet, pre, light) {
+    var go = function (d) { ME = d.me; ingest(d); startPoll(); signIn(USERS[ME.id], quiet); prefetchId(); };
     if (pre) return go(pre);
+    if (light && ME && !ME.must) {                 /* เข้าหน้าแรกทันที แล้วโหลดข้อมูลตามหลัง */
+      if (!USERS[ME.id]) USERS[ME.id] = mkUser(ME, 0);
+      LOADING = true; window.SYNC_LOADING = true; signIn(USERS[ME.id], quiet); return loadFull();
+    }
     call('loadAll').then(go, function (e) { say('โหลดข้อมูลไม่ได้: ' + failMsg(e), 20000); });
   }
   function onSession() { if (!TOKEN) return; TOKEN = null; stopPoll(); try { sessionStorage.removeItem(SESS); } catch (e) {} wipe(); S.u = null; S.view = 'login'; call('loginList').then(function (l) { setUsers(l); render(); say('หมดเวลาใช้งาน กรุณาเข้าสู่ระบบใหม่'); }, function () { render(); }); }
@@ -219,7 +249,7 @@
 
   /* ---------------------------------------------------------- บันทึกคำขอ (ส่งเฉพาะที่เปลี่ยน) */
   var _render = render;
-  render = function () { _render.apply(this, arguments); schedSave(); schedWords(); };
+  render = function () { _render.apply(this, arguments); if (LOADING && S.u) paintLoading(); schedSave(); schedWords(); };
   function schedSave() { if (!TOKEN) return; clearTimeout(SAVE_T); SAVE_T = setTimeout(saveAll, 350); }
   function dirtyList() { return REQS.filter(function (r) { return SNAP[r.id] !== ser(r); }); }
   function saveAll() {
@@ -287,20 +317,34 @@
   };
 
   /* ---------------------------------------------------------- เลขที่ (ออกที่เซิร์ฟเวอร์ ไม่ซ้ำ) */
-  window.newReqId = function () { var d = callSync('newReqId', {}); return String(d); };
+  var IDPOOL = [], IDBUSY = false;
+  function prefetchId() {
+    if (!TOKEN || IDBUSY || IDPOOL.length >= 1) return; IDBUSY = true;
+    call('newReqId', {}).then(function (d) { IDPOOL.push(String(d)); IDBUSY = false; }, function () { IDBUSY = false; });
+  }
+  window.newReqId = function () {
+    if (IDPOOL.length) { var v = IDPOOL.shift(); setTimeout(prefetchId, 0); return v; }
+    var d = callSync('newReqId', {}); setTimeout(prefetchId, 0); return String(d);
+  };
   seedNos = function () {};
   nextNoN = function (kind, yy) { return (COUNTERS[(kind === 'loan' ? 'สัญญายืมเงิน' : 'ใบสำคัญจ่าย') + '|' + FY] || 0) + 1; };
+  var _claim0 = claimNo;
   claimNo = function (r, kind) {
     var v = noOf(r, kind); if (v) return v;
-    var d = callSync('claimNumber', { kind: kind === 'loan' ? 'loan' : 'vch', ref: r.id });
-    v = d.no; if (kind === 'loan') r.loanNo = v; else r.vchNo = v;
-    var key = (kind === 'loan' ? 'สัญญายืมเงิน' : 'ใบสำคัญจ่าย') + '|' + FY; COUNTERS[key] = Math.max(COUNTERS[key] || 0, parseInt(v, 10) || 0);
+    var key = (kind === 'loan' ? 'สัญญายืมเงิน' : 'ใบสำคัญจ่าย') + '|' + FY;
+    v = _claim0(r, kind);                                   /* เลขชั่วคราวทันที ไม่รอเซิร์ฟเวอร์ */
+    COUNTERS[key] = Math.max(COUNTERS[key] || 0, parseInt(v, 10) || 0);
+    var put = function (x) { if (kind === 'loan') r.loanNo = x; else r.vchNo = x; };
+    call('claimNumber', { kind: kind === 'loan' ? 'loan' : 'vch', ref: r.id }).then(function (d) {
+      if (d.no !== v) { put(d.no); say('เลขที่ที่ได้รับจริงคือ ' + d.no, 6000); _render(); }
+      COUNTERS[key] = Math.max(COUNTERS[key] || 0, parseInt(d.no, 10) || 0); schedSave();
+    }, function (e) { put(''); say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' กรุณากดขอใหม่', 10000); _render(); });
     return v;
   };
 
   window.legDone = function (r) {   /* เลขสัญญายืมเดิม: ให้ตัวนับฝั่งเซิร์ฟเวอร์เดินต่อจากเลขในกระดาษ */
     var m = /^(\d+)\/(\d+)$/.exec((r.loan && r.loan.no) || ''); if (!m) return;
-    try { callSync('bumpCounter', { kind: 'loan', n: +m[1] }); COUNTERS['สัญญายืมเงิน|' + FY] = Math.max(COUNTERS['สัญญายืมเงิน|' + FY] || 0, +m[1]); } catch (e) { say('ตั้งตัวนับเลขสัญญายืมไม่สำเร็จ: ' + failMsg(e), 8000); }
+    try { call('bumpCounter', { kind: 'loan', n: +m[1] }).catch(function () { say('ตั้งตัวนับเลขสัญญาไม่สำเร็จ', 8000); }); COUNTERS['สัญญายืมเงิน|' + FY] = Math.max(COUNTERS['สัญญายืมเงิน|' + FY] || 0, +m[1]); } catch (e) { say('ตั้งตัวนับเลขสัญญายืมไม่สำเร็จ: ' + failMsg(e), 8000); }
   };
 
   /* ---------------------------------------------------------- DATABASE ของแผน + ไฟล์ลง Drive */
@@ -315,14 +359,21 @@
   complete = function (r, by, at, lk, lv) {
     if (r.legacy) { _complete(r, by, at, lk, lv); return; }   /* ข้อมูลเดิม: ไม่สร้างแถว DATABASE / ไฟล์ใหม่ */
     var s = cur(r), isPlan = s && s.k === 'plan_check' && r.type === 'use' && !r.recur, isCut = s && s.k === 'cut' && r.dbNo;
-    if (isPlan && r.dbNo) { try { callSync('dbUpdateRow', { dbNo: r.dbNo, row: dbRowOf(r, at) }); } catch (e) { say('อัปเดตแถว DATABASE ไม่สำเร็จ: ' + failMsg(e), 8000); } }
-    if (isPlan && !r.dbNo) {
-      var d = callSync('dbAddRow', { reqId: r.id, row: dbRowOf(r, at) }); r.dbNo = d.dbNo; r.pgNo = String(d.dbNo).split('/')[0];
-    }
-    if (isCut) { var used = r.cutAmount || r.actual || r.amount; callSync('dbSetUsed', { dbNo: r.dbNo, used: used }); }
+    var dbRow = isPlan ? dbRowOf(r, at) : null, used = isCut ? (r.cutAmount || r.actual || r.amount) : 0;
+    if (isPlan && r.dbNo) call('dbUpdateRow', { dbNo: r.dbNo, row: dbRow }).catch(function (e) { say('อัปเดตแถว DATABASE ไม่สำเร็จ: ' + failMsg(e), 8000); });
+    if (isPlan && !r.dbNo) { r.dbPend = at; }
+    if (isCut) call('dbSetUsed', { dbNo: r.dbNo, used: used }).catch(function (e) { say('บันทึกยอดใช้จริงลง DATABASE ไม่สำเร็จ: ' + failMsg(e), 8000); });
     _complete(r, by, at, lk, lv);
-    if (isPlan) setTimeout(function () { makeFiles(r); }, 50);
+    if (isPlan && !r.dbNo) addDb(r);
+    if (isPlan && r.dbNo) setTimeout(function () { makeFiles(r); }, 50);
   };
+  var DBBUSY = {};
+  function addDb(r) {                         /* เพิ่มแถว DATABASE เบื้องหลัง (เซิร์ฟเวอร์กันซ้ำด้วยรหัสคำขอ จึงลองซ้ำได้) */
+    if (!r.dbPend || r.dbNo || DBBUSY[r.id] || !TOKEN) return; DBBUSY[r.id] = 1;
+    call('dbAddRow', { reqId: r.id, row: dbRowOf(r, r.dbPend) }).then(function (d) {
+      delete DBBUSY[r.id]; r.dbNo = d.dbNo; r.pgNo = String(d.dbNo).split('/')[0]; delete r.dbPend; schedSave(); _render(); makeFiles(r);
+    }, function (e) { delete DBBUSY[r.id]; say('เพิ่มแถว DATABASE ไม่สำเร็จ ระบบจะลองใหม่: ' + failMsg(e), 8000); });
+  }
   function toB64(blob) { return new Promise(function (ok, bad) { var f = new FileReader(); f.onload = function () { ok(String(f.result).split(',')[1]); }; f.onerror = bad; f.readAsDataURL(blob); }); }
   function makeFiles(r) {                     // ทำ PDF + Word ของ ผง.01 แล้วเก็บลง Drive ใส่คอลัมน์ P, Q
     if (!r.dbNo || (r.pgFiles && r.pgFiles.pdf && r.pgFiles.word) || BUSY_FILES[r.id]) return; BUSY_FILES[r.id] = 1;
@@ -336,7 +387,7 @@
       .then(function () { delete BUSY_FILES[r.id]; schedSave(); }, function (e) { delete BUSY_FILES[r.id]; say('บันทึกไฟล์ลง Drive ไม่สำเร็จ ระบบจะลองใหม่: ' + failMsg(e), 8000); });
   }
   function retryFiles() { if (!ME || !(USERS[ME.id].roles || [USERS[ME.id].role]).concat(USERS[ME.id].admin ? ['plan'] : []).some(function (x) { return x === 'plan'; })) return; REQS.forEach(function (r) { if (r.dbNo && !(r.pgFiles && r.pgFiles.pdf && r.pgFiles.word)) makeFiles(r); }); }
-  setInterval(function () { if (TOKEN) retryFiles(); }, 120000);
+  setInterval(function () { if (TOKEN) { retryFiles(); REQS.forEach(addDb); } }, 120000);
   /* จำที่อยู่/เบอร์โทร/เลขภาษีของผู้รับเงินลงชีท ระบบ_ผู้รับเงิน (ครั้งหน้าไม่ต้องกรอกซ้ำ) */
   document.addEventListener('change', function (e) {
     var f = { aAddr: 'payAddr', aTel: 'payTel', aTax: 'payTax' }[e.target.id]; if (!f || !TOKEN) return;

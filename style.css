@@ -670,7 +670,7 @@ body{zoom:var(--z)}
 .a4 p{margin:0;text-indent:0}
 .a4 .ocode{position:absolute;top:.45cm;right:2cm;display:flex;gap:10px;align-items:flex-start}
 .a4 .oqr{display:flex;gap:6px;align-items:center;font-family:var(--body);font-size:8.5pt;line-height:1.3;text-align:left}
-.a4 .oqr .qrc{width:1.25cm;height:1.25cm;display:flex;align-items:center;justify-content:center;border:.5pt solid #999999}
+.a4 .oqr .qrc{width:1.25cm;height:1.25cm;display:flex;align-items:center;justify-content:center;border:1px solid #999999}
 .a4 .oqr svg{width:1.2cm;height:1.2cm}
 .a4 .omh{position:relative;display:flex;justify-content:center;align-items:flex-end;height:1.5cm;margin-bottom:2pt}
 .a4 .okrut{position:absolute;left:0;top:0;height:1.5cm;width:auto}
@@ -680,10 +680,10 @@ body{zoom:var(--z)}
 .a4 .ohalf{display:inline-block;min-width:8cm}
 .a4 .otitle{text-align:center;font-size:20pt;font-weight:700;margin-bottom:4pt}
 .a4 table{border-collapse:collapse;table-layout:fixed;width:16cm;margin:2pt 0;font-size:16pt;line-height:1.25}
-.a4 .otbl th,.a4 .otbl td{border:.75pt solid #000000;padding:0 4pt;vertical-align:top;background:none}
+.a4 .otbl th,.a4 .otbl td{border:1px solid #000000;padding:0 4pt;vertical-align:top;background:none}
 .a4 .otbl th{font-weight:700}
 .a4 th,.a4 td{font-size:inherit;text-transform:none;letter-spacing:0;background:none;color:#000000;white-space:normal;line-height:inherit}
-.a4 .obox{border:.75pt solid #000000}
+.a4 .obox{border:1px solid #000000}
 .a4 .onb,.a4 .onb td,.a4 .onb th{border:0!important}
 .a4.ngp.fin{padding:56.7pt 56.7pt 42.5pt 56.7pt;line-height:var(--ln,20.75pt)}
 .a4.fin .ftt{position:relative;height:45.4pt;line-height:45.4pt;text-align:center;font-size:35pt;font-weight:700}
@@ -691,9 +691,9 @@ body{zoom:var(--z)}
 .a4.fin .fl{position:relative;min-height:25.9pt;line-height:25.9pt;white-space:pre-wrap}
 .a4.fin .fl b{font-size:20pt;font-weight:700}
 .a4.fin .fdt{position:absolute;left:219.75pt;top:0;white-space:pre}
-.a4.fin .fto{margin-top:20.8pt}
+.a4.fin .fto{margin-top:8.5pt}
 .a4.fin .fsg{margin-top:41.5pt}
-.a4.fin .fsn{padding-left:180pt;white-space:pre}
+.a4.fin .fsn{text-align:center;white-space:pre}
 .a4.fin .fsp{text-align:center}
 .a4 .jl{display:flex;justify-content:space-between;white-space:pre}
 .a4 .jl.jlast{display:block}
@@ -701,7 +701,7 @@ body{zoom:var(--z)}
 .a4 .ogrid{border-collapse:collapse;table-layout:fixed;margin:0;line-height:1.1}
 .a4 .ogrid td{padding:0;white-space:pre;overflow:visible;vertical-align:middle;border:0}
 .a4 .cb{position:relative;display:inline-block;width:.8em;height:.8em;vertical-align:-.1em;margin:0 .1em;overflow:hidden;white-space:nowrap;text-indent:-99em;color:transparent!important}
-.a4 .cb::before{content:'';position:absolute;left:0;top:0;width:100%;height:100%;box-sizing:border-box;border:.75pt solid #000000}
+.a4 .cb::before{content:'';position:absolute;left:0;top:0;width:100%;height:100%;box-sizing:border-box;border:1px solid #000000}
 .a4 .cb.on::before{background:#000 url(data:image/png;base64,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) center/100% 100% no-repeat;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .a4 .obox td{padding:0 6pt;border:0;background:none}
 .a4 .osign{margin-left:6cm;text-align:center}
@@ -727,7 +727,7 @@ body{zoom:var(--z)}
 .a4 .nto b{display:inline-block;width:36pt}
 .a4 p.np{margin:0}
 .a4 .ntb{width:467.5pt;border-collapse:collapse;table-layout:fixed;margin:0;line-height:var(--ln,21pt);font-size:16pt}
-.a4 .ntb th,.a4 .ntb td{border:.5pt solid #000000;padding:0 5.4pt;vertical-align:top;font-weight:400}
+.a4 .ntb th,.a4 .ntb td{border:1px solid #000000;padding:0 5.4pt;vertical-align:top;font-weight:400}
 .a4 .ntb th{font-weight:700;text-align:center}
 .a4 .ntb .nnote{font-size:13pt;line-height:17pt}
 .a4 .nmo{margin-top:-.5pt}

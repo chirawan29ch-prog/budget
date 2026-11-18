@@ -1253,6 +1253,21 @@ function planFor(aid, no) { return PLAN_ITEMS.filter(function (x) { return x.aid
 function planOfAct(aid) { return PLAN_ITEMS.filter(function (x) { return x.aid === aid; }); }
 function rr2(n) { return Math.round(n * 100) / 100; }
 /* ยอดที่ขอใช้ไปแล้วของแต่ละรายการ (รวมที่ขอ/กันไว้/ตัดแล้ว; ไม่นับคำขอที่ไม่อนุมัติ และไม่นับคำขอที่กำลังแก้อยู่) */
+/* ตัวเลขในกล่องบันทึกข้อความ: ถ้าคำขอเลือกรายการงบตามแผน ให้นับเฉพาะรายการเหล่านั้น (ไม่ใช่ทั้งกิจกรรม) */
+function statsBeforeDoc(a, r0) {
+  var b = statsBefore(a, r0);
+  if (r0.type !== 'use' || !r0.itemSel || trSum(r0) > 0 || !r0.itemSel.some(function (x) { return x.id; })) return b;
+  var ids = {}, budget = 0;
+  r0.itemSel.forEach(function (x) { if (x.id && !ids[x.id]) { ids[x.id] = 1; var it = PLAN_ITEMS.filter(function (q) { return q.id === x.id; })[0]; if (it) budget += it.amount; } });
+  var cut = 0, hold = 0;
+  REQS.forEach(function (r) {
+    if (r === r0 || r.id === r0.id || r.status === 'rejected' || r.created > r0.created || !r.itemSel) return;
+    var done = cutDone(r), fin = done ? r.cutAmount : (r.actual || r.amount), f = r.amount > 0 ? fin / r.amount : 1;
+    r.itemSel.forEach(function (x) { if (x.id && ids[x.id]) { if (done) cut += x.amt * f; else hold += x.amt * f; } });
+  });
+  cut = rr2(cut); hold = rr2(hold);
+  return { budget: rr2(budget), cut: cut, hold: hold, left: rr2(budget - cut - hold) };
+}
 function itemUseMap(except) {
   var m = {};
   REQS.forEach(function (r) {
@@ -1858,10 +1873,10 @@ function vDetail(r) {
   var locked = !canPrint(r) && r.owner === u.id;
   var docs = '<section class="card"><h3>' + T('docs_title') + '</h3><div class="stack small" style="gap:6px;margin-top:8px">' +
     (r.recur ? '' : locked ? '<span class="muted">' + T('doc_memo') + ' · ' + T('doc_locked') + '</span>' : '<span><button type="button" class="link" data-doc="memo" data-id="' + r.id + '">' + T('doc_memo') + '</button>' + docIcons('memo', r.id) + '</span>') +
-    (r.recur ? '' : '<span><button type="button" class="link" data-doc="project" data-id="' + p.id + '">' + T('btn_project_page') + ' (' + esc(p.code) + ')</button>' + docIcons('project', p.id) + '</span>') +
+    (r.recur ? '' : '<span><button type="button" class="link" data-doc="project" data-id="' + bookId(p.id, r.act) + '">' + T('btn_project_page') + ' (' + esc(p.code) + ')</button>' + docIcons('project', bookId(p.id, r.act)) + '</span>') +
     (r.track === 'loan' ? (locked ? '<span class="muted">' + T('doc_loan') + ' · ' + T('doc_locked') + '</span>' : '<span><button type="button" class="link" data-doc="loan" data-id="' + r.id + '">' + T('doc_loan') + '</button>' + docIcons('loan', r.id) + '</span><span><button type="button" class="link" data-doc="contract" data-id="' + r.id + '">' + T('doc_contract') + '</button>' + docIcons('contract', r.id) + '</span>') : '') +
     (idx(r, 'loan_ret') >= 0 && r.step >= idx(r, 'loan_ret') && (u.role !== 'teacher' || own) ? '<span><button type="button" class="link" data-doc="loanret" data-id="' + r.id + '">' + T('doc_loanret') + '</button>' + docIcons('loanret', r.id) + '</span>' : '') +
-    (u.role !== 'teacher' ? staffDocsOf(r).filter(function (d) { return d !== 'pg01' || u.role === 'plan'; }).map(function (d) { return sdLink(d, r); }).join('') : '') + '</div></section>';
+    (u.role !== 'teacher' ? staffDocsOf(r).map(function (d) { return sdLink(d, r); }).join('') : '') + '</div></section>';
   var trList = (r.transfers || []).length ? '<dt>' + T(r.type === 'change' ? 'f_tr_src' : 'i_transfers') + '</dt><dd>' + r.transfers.map(function (x) { var o = srcOwner(x), ok = o === r.owner ? 'tr_self' : (r.consents && r.consents[o]) || r.adjApplied ? 'tr_ok' : 'tr_wait';
       return '<div style="margin-bottom:4px">' + esc(act(x.from).name) + ' · <span class="num">' + baht(x.amount) + '</span> ' + T('baht') + '<div class="small" style="color:' + (ok === 'tr_wait' ? 'var(--wait)' : 'var(--ok)') + '">' + T(ok) + (ok === 'tr_self' ? '' : ' · ' + esc(USERS[o].name)) + '</div></div>'; }).join('') + '</dd>' : '';
   var info = '<section class="card"><dl class="kv"><dt>' + T('i_type') + '</dt><dd>' + (r.recur ? T('rt_recur') : T('rt_' + r.type) + (r.kind === 'svc' ? ' · ' + esc(r.svcKind) : '')) + '</dd><dt>' + T('i_channel') + '</dt><dd>' + (r.paper ? T('ch_paper', { name: USERS[r.enteredBy].name }) + (r.paperScan ? ' · <button type="button" class="link" id="ppView">' + T('pp_view_scan') + '</button>' : '') : T('ch_online')) + '</dd><dt>' + T('no_label') + '</dt><dd class="num">' + reqNo(r) + '</dd><dt>' + T('role_teacher') + '</dt><dd>' + esc(USERS[r.owner].name) + '</dd><dt>' + T('i_project') + '</dt><dd>' + esc(p.code + ' ' + p.name) + '</dd>' + (r.type !== 'change' ? '<dt>' + T('f_actno') + '</dt><dd>' + esc('กิจกรรมที่ ' + actOf(r).no + ' ' + actOf(r).name) + '</dd>' : '') + '<dt>' + T('col_fund') + '</dt><dd>' + esc(a.fund) + '</dd>' + (r.docNo ? '<dt>' + T('f_memo_no') + '</dt><dd>' + esc(docNoOf(r, r.type === 'carry' ? '03' : r.form === '02' ? '02' : '01')) + '</dd>' : '') + (r.quote ? '<dt>' + T('f_quote') + '</dt><dd><button type="button" class="link" id="qView">' + esc(r.quoteName || 'ใบเสนอราคา') + '</button></dd>' : '') +
@@ -1919,7 +1934,7 @@ function actionPanel0(r, u) {
   if (k === 'carry_rec') return box(title, txt('a_carry_text', { amount: baht(r.amount), fund: a.fund, act: a.name }) + btn('primary', 'ok', 'btn_carry_rec'));
   if (k === 'plan_check') return box(title, sw + txt('a_plan_check_text') + (r.type === 'use' ? '<label for="aSup">เจ้าหน้าที่พัสดุกลุ่มบริหาร (ลงนามใน ผง. 01)</label><select id="aSup" style="max-width:100%;width:320px;margin-bottom:10px"><option value="">เว้นว่างไว้ลงนามเอง</option>' + SUPPLY_LIST.map(function (nm) { return '<option value="' + esc(nm) + '"' + (pgSup(r) === nm ? ' selected' : '') + '>' + esc(supLabel(nm)) + '</option>'; }).join('') + '</select><label for="aSupTxt" style="font-weight:400">หรือพิมพ์ชื่อเจ้าหน้าที่พัสดุเอง (ถ้าไม่มีในรายการ)</label><input id="aSupTxt" value="' + esc(SUPPLY_LIST.indexOf(pgSup(r)) >= 0 ? '' : pgSup(r)) + '" placeholder="เช่น นางสาว… " style="max-width:100%;width:320px;margin-bottom:6px"><div style="margin-bottom:10px"><button type="button" class="sm" data-a="sup-add">' + T('btn_sup_add') + '</button></div>' + (SUPPLY_X.length ? '<div class="small muted" style="margin:0 0 10px">' + T('sup_added_lbl') + ' ' + SUPPLY_X.map(function (nm, i) { return '<span class="chip c-mute" style="margin:2px 4px 2px 0">' + esc(nm) + ' <button type="button" class="link" data-a="sup-del" data-n="' + i + '" aria-label="ลบ">×</button></span>'; }).join('') + '</div>' : '') : '') + (r.type === 'use' ? '<label for="aPgNo">เลขที่ ผง. 01 <span class="muted small" style="font-weight:400">· ใช้เลขเดียวกับบันทึกข้อความ แก้ไขได้</span></label><input id="aPgNo" value="' + esc(pgNo(r)) + '" style="max-width:100%;width:200px;margin-bottom:10px" inputmode="numeric">' : '') + (r.type === 'use' ? '<label for="aLane">' + T('lane_lbl') + '</label><select id="aLane" style="max-width:100%;width:320px;margin-bottom:10px"><option value="ok"' + (r.lane !== 'no' ? ' selected' : '') + '>' + t('lane_ok') + '</option><option value="no"' + (r.lane === 'no' ? ' selected' : '') + '>' + t('lane_no') + '</option></select>' : '') + (r.type === 'use' && r.kind !== 'svc' ? '<label style="font-weight:400;display:flex;gap:8px;align-items:flex-start;margin:0 0 10px"><input type="checkbox" id="aVat" style="width:auto;flex:none;margin-top:4px"' + (r.vat ? ' checked' : '') + '><span style="flex:1 1 auto;min-width:0">ร้านค้าคิดภาษีมูลค่าเพิ่ม 7% (แยกยอดก่อนภาษีและภาษีในรายละเอียดแนบท้าย)</span></label>' : '') + btn('primary', 'ok', 'btn_plan_ok') + '<label for="aNote">' + T('f_return_note') + '</label><textarea id="aNote" rows="2"></textarea><div style="margin-top:8px">' + btn('danger', 'back', 'btn_return') + '</div>');
   if (k === 'print') return box(title, txt('a_print_text') + '<div class="small" style="font-weight:600">' + T('a_print_list') + '</div><div class="stack small" style="gap:4px;margin:4px 0 12px">' +
-    '<span><button type="button" class="link" data-doc="memo" data-id="' + r.id + '">' + T('dset_memo') + '</button>' + docIcons('memo', r.id) + '</span><span><button type="button" class="link" data-doc="project" data-id="' + a.project + '">' + T('dset_project') + '</button>' + docIcons('project', a.project) + '</span>' +
+    '<span><button type="button" class="link" data-doc="memo" data-id="' + r.id + '">' + T('dset_memo') + '</button>' + docIcons('memo', r.id) + '</span><span><button type="button" class="link" data-doc="project" data-id="' + bookId(a.project, a.id) + '">' + T('dset_project') + '</button>' + docIcons('project', bookId(a.project, a.id)) + '</span>' +
     (r.type === 'use' && r.track === 'loan' ? '<span><button type="button" class="link" data-doc="loan" data-id="' + r.id + '">' + T('dset_loan') + '</button>' + docIcons('loan', r.id) + '</span><span><button type="button" class="link" data-doc="contract" data-id="' + r.id + '">' + T('dset_contract') + '</button>' + docIcons('contract', r.id) + '</span>' : '') + '</div>' + btn('primary', 'ok', 'btn_print_sent') + '<div class="small muted" style="margin-top:8px">' + T('a_print_note') + '</div>');
   if (k === 'dir1') return box(title, txt(r.type === 'use' ? 'a_dir1_text' : 'a_dir1_text_x') + btn('primary', 'ok', 'btn_dir_ok') + '<label for="aNote">' + T('f_reject_note') + '</label><textarea id="aNote" rows="2"></textarea><div style="margin-top:8px">' + btn('danger', 'reject', 'btn_reject') + '</div>');
   if (k === 'loan_pay') return box(title, '<label for="aAmt">' + T('f_loan_amount') + '</label><input id="aAmt" type="number" min="1" value="' + r.amount + '" style="max-width:200px">' +
@@ -2065,7 +2080,7 @@ function nSign(name) { return { k: 'nsign', lines: ['ลงชื่อ ........
 function NP(x, o) { return Object.assign({ k: 'np', runs: typeof x === 'string' ? [{ x: x }] : x }, o || {}); }
 
 function ofUse(r) {
-  var a = act(r.act), pj = proj(a.project), o = USERS[r.owner], f = r.form === '02' ? '02' : '01', ac = actOf(r), b = statsBefore(a, r);
+  var a = act(r.act), pj = proj(a.project), o = USERS[r.owner], f = r.form === '02' ? '02' : '01', ac = actOf(r), b = statsBeforeDoc(a, r);
   var when = r.actDate ? dlong(new Date(r.actDate + 'T00:00:00').getTime()) : '';
   var tr = trSum(r) ? ' เนื่องจากงบไม่พอใช้ จึงขอใช้งบประเภทเดียวกันจาก ' + r.transfers.map(function (x) { var p2 = proj(act(x.from).project); return pjCode(p2) + ' ' + p2.name + ' จำนวน ' + bahtD(x.amount) + ' บาท (ผู้รับผิดชอบ ' + USERS[p2.owner].name + (r.consents && r.consents[p2.owner] ? ' ยินยอมแล้ว' : '') + ')'; }).join(' และ ') : '';
   var lead = 'ข้าพเจ้า' + o.name + ' ได้เสนอโครงการ ' + pjCode(pj) + ' ' + pj.name + ' กิจกรรมที่ ' + ac.no + ' ' + ac.name + ' ได้รับอนุมัติดำเนินการตามแผนปฏิบัติการ ประจำปีงบประมาณ พ.ศ. 2570' + tr + ' มีความประสงค์ขออนุมัติใช้งบประมาณทั้งสิ้น จำนวนเงิน ' + bahtD(r.amount) + ' บาท (' + bahtText(r.amount) + ') ประเภทงบ ' + fundShort(a);
@@ -2151,7 +2166,7 @@ var NGPH = {
       '<div class="fl"><b>ที่</b>  ' + esc(b.no) + '<span class="fdt"><b>วันที่</b>    ' + esc(b.date) + '</span></div>' +
       '<div class="fl fsub"><b>เรื่อง</b> ' + esc(b.subj) + '</div><div class="fto">เรียน ผู้อำนวยการ' + school() + '</div>';
   },
-  fsign: function (b) { return '<div class="fsg"><div class="fsn">     ( ' + esc(b.name) + ' )</div><div class="fsp">' + esc(b.pos) + '</div></div>'; },
+  fsign: function (b) { return '<div class="fsg"><div class="fsn">( ' + esc(b.name) + ' )</div><div class="fsp">' + esc(b.pos) + '</div></div>'; },
   nto: function () { return '<div class="nl nto"><b>เรียน</b><span>ผู้อำนวยการ' + school() + '</span></div>'; },
   np: function (b) {
     var st = (b.sp ? 'margin-top:' + b.sp + 'pt;' : '') + (b.ind ? 'text-indent:' + b.ind + 'pt;' : '') + (b.left ? 'margin-left:' + b.left + 'pt;' : '') + (b.j ? 'text-align:justify;' : '') + (b.lh ? 'line-height:' + b.lh + 'pt;' : '') + (b.al ? 'text-align:' + ({ c: 'center', r: 'right' }[b.al]) + ';' : '');
@@ -2179,7 +2194,7 @@ var NGPH = {
 };
 
 /* ===== documents each office makes at its own step (ร่าง: wording and layout wait for the school's real forms) ===== */
-var STAFFDOCS = { plan_check: ['pg01'], rpay: ['recurmemo', 'voucher'], inspect_doc: ['buyrpt', 'ordrpt', 'insprpt', 'issue'], dir2: ['ackpay'], loan_pay: ['loanpaymemo', 'voucher'], pay: ['paymemo', 'voucher'] };
+var STAFFDOCS = { plan_check: ['pg01'], rpay: ['recurmemo', 'voucher'], inspect_doc: ['buyrpt', 'ordrpt', 'insprpt', 'issue', 'ackpay'], dir2: [], loan_pay: ['loanpaymemo', 'voucher'], pay: ['paymemo', 'voucher'] };
 var SD_NAME = { pg01: 'บันทึกข้อความ ผง. 01 พร้อมรายละเอียดแนบท้าย', recurmemo: 'บันทึกขออนุมัติจ่ายรายจ่ายประจำ', buyrpt: 'รายงานขอซื้อพัสดุ พร้อมรายละเอียดแนบท้าย', ordrpt: 'รายงานผลการพิจารณาและขออนุมัติสั่งซื้อ', insprpt: 'ใบตรวจรับพัสดุ พร้อมรายการพัสดุที่ตรวจรับ', issue: 'ใบเบิก', ackpay: 'บันทึกทราบผลการตรวจรับและอนุมัติจ่ายเงิน', loanpaymemo: 'บันทึกขออนุมัติเขียนเช็คจ่ายเงินยืม', paymemo: 'บันทึกขออนุมัติเขียนเช็คและจ่ายเช็ค', voucher: 'ใบสำคัญจ่าย', rcptform: 'ใบสำคัญรับเงิน (ผู้รับเงินไม่มีใบเสร็จ)' };
 var SD_OFFICE = { pg01: 'งานแผนงาน', recurmemo: 'งานการเงิน', buyrpt: 'งานพัสดุ', ordrpt: 'งานพัสดุ', insprpt: 'งานพัสดุ', issue: 'งานพัสดุ', ackpay: 'งานพัสดุ', loanpaymemo: 'งานการเงิน', paymemo: 'งานการเงิน', voucher: 'งานการเงิน', rcptform: 'งานการเงิน' };
 var DOCEDITS = {};
@@ -2346,7 +2361,7 @@ function supTop(r, no, ts, subj, org) { return [{ k: 'code', x: '', plain: 1 }, 
 function sigCell(role, name, ts) { return 'ลงชื่อ ................................. ' + role + '\n( ' + name + ' )' + (ts ? '\n' + sdh(ts) : ''); }
 function sigPair(a, b, sp) { return { k: 'tbl', nb: 1, sp: sp == null ? 8 : sp, w: [8.25, 8.25], al: ['c', 'c'], rows: [[a, b]] }; }
 function dirBlock(ts, head) { return [NP(head || 'เห็นชอบ', { al: 'c', sp: 4 }), NP('..................................................', { al: 'c', sp: 8 }), NP('( ' + SIGN.dir() + ' )', { al: 'c' }), NP('ผู้อำนวยการ' + t('school_name'), { al: 'c' }), NP(sdl(ts), { al: 'c' })]; }
-function hC(x, o) { return Object.assign({ x: x, b: 1, al: 'c' }, o || {}); }
+function hC(x, o) { return Object.assign({ x: x, b: 1, al: 'c', va: 'c' }, o || {}); }
 function moneyCellsDoc(v) { var a = bs(v); return [{ x: a[0], al: 'r' }, { x: a[1], al: 'c' }]; }
 function ofBuyRpt(r) {
   var a = act(r.act), pj = proj(a.project), L = supLines(r), tot = supTotal(r), V = supVat(r), no = supNo(r), ts = supTs(r, 'buy'), ins = supIns(r), s = sup(r), pc = String(pj.code).replace(/[.\s]/g, '');
@@ -2370,9 +2385,9 @@ function ofBuyRpt(r) {
   var p2 = [NP('รายละเอียดแนบท้ายบันทึกข้อความที่ ' + no + ' ลงวันที่ ' + sdl(ts), { al: 'c' }),
     NP('งานจัดซื้อพัสดุ จำนวน ' + L.length + ' รายการ ' + supGrp(r).replace('กลุ่มบริหาร', 'กลุ่ม/งาน '), { al: 'c' }), NP(t('school_name'), { al: 'c' })];
   p2.push(NP('☐ ราคามาตรฐาน    ☑ ราคาที่ได้มาจากการสืบจากท้องตลาด (หน่วยละ)', { sp: 4 }));
-  var rows = [[hC('ลำดับที่'), hC('รายละเอียดของพัสดุที่จะขอซื้อ'), hC('จำนวน/หน่วย'), hC('จำนวนและวงเงินที่ขอซื้อครั้งนี้', { cs: 4 })],
-    [hC(''), hC(''), hC(''), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })],
-    [hC(''), hC(''), hC(''), hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
+  var rows = [[hC('ลำดับที่', { rs: 3 }), hC('รายละเอียดของพัสดุที่จะขอซื้อ', { rs: 3 }), hC('จำนวน/หน่วย', { rs: 3 }), hC('จำนวนและวงเงินที่ขอซื้อครั้งนี้', { cs: 4 })],
+    [hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })],
+    [hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
   L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: x.qty + ' ' + x.unit, al: 'c' }].concat(moneyCellsDoc(x.price), moneyCellsDoc(x.amt))); });
   if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 5, al: 'r' }].concat(moneyCellsDoc(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 5, al: 'r' }].concat(moneyCellsDoc(V.vat)));
   rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 5, al: 'l', b: 1 }].concat(moneyCellsDoc(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
@@ -2408,7 +2423,7 @@ function ofInspRpt(r) {
     { k: 'tbl', nb: 1, sp: 2, w: [8.25, 8.25], al: ['c', 'c'], rows: [[sigCell('เจ้าหน้าที่พัสดุ', supOfficer(r).name, ts) + '\n\n' + sigCell('หัวหน้าเจ้าหน้าที่พัสดุ', USERS.su.name, ts), 'ทราบ\n\n..................................\n( ' + SIGN.dir() + ' )\nผู้อำนวยการ' + t('school_name') + '\n' + sdh(ts)]] },
     NP('* กรณีการจัดซื้อคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.20 ของราคาสิ่งของที่ยังไม่ได้รับมอบ', { sp: 6 }), NP('กรณีการจัดจ้างคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.10 ของวงเงินทั้งหมด'), NP([{ x: 'หมายเหตุ', b: 1 }, { x: '   ใช้กับการจัดซื้อหรือจัดจ้างพัสดุ (ที่มิใช่งานก่อสร้าง)' }]));
   var p2 = [NP([{ x: 'รายการพัสดุที่ตรวจรับ', b: 1, sz: 20 }], { al: 'c' }), NP(t('school_name'), { al: 'c' }), NP('เลขที่ชุด ' + no), NP('วันที่ ' + D, { al: 'r' })];
-  var rows = [[hC('ลำดับที่'), hC('รายการ'), hC('จำนวน'), hC('หน่วย'), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })], [hC(''), hC(''), hC(''), hC(''), hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
+  var rows = [[hC('ลำดับที่', { rs: 2 }), hC('รายการ', { rs: 2 }), hC('จำนวน', { rs: 2 }), hC('หน่วย', { rs: 2 }), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })], [hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
   L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: String(x.qty), al: 'c' }, { x: x.unit, al: 'c' }].concat(moneyCellsDoc(x.price), moneyCellsDoc(x.amt))); });
   if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 6, al: 'r' }].concat(moneyCellsDoc(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 6, al: 'r' }].concat(moneyCellsDoc(V.vat)));
   rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 6, al: 'l', b: 1 }].concat(moneyCellsDoc(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
@@ -2622,7 +2637,7 @@ function ofVoucher(r) {
       [{ x: '' }, { x: 'ตัวอักษร  (' + bahtText(v.amt) + ')', b: 1, cs: 3 }]] },
     { k: 'p', sp: 22, runs: [{ x: 'ข้าพเจ้าขอรับรองว่าได้ดำเนินการจ่ายจริงตามจำนวนเงินดังกล่าวข้างต้น' }] },
     { k: 'sigs', sp: 26, items: [['ลงชื่อ ......................................... (ผู้รับเงิน)', '(.........................................)'], ['ลงชื่อ......................................... (ผู้จ่ายเงิน)', '(.........................................)', 'เจ้าหน้าที่การเงิน']] },
-    { k: 'sign', sp: 26, lines: ['ลงชื่อ.................................................. (ผู้ตรวจสอบ)', '( ' + SIGN.head() + ' )', 'หัวหน้ากลุ่มบริหารงบประมาณ'] }];
+    { k: 'sign', c: 1, sp: 26, lines: ['ลงชื่อ.................................................. (ผู้ตรวจสอบ)', '( ' + SIGN.head() + ' )', 'หัวหน้ากลุ่มบริหารงบประมาณ'] }];
   return { name: 'ใบสำคัญจ่าย_' + r.id + '_' + r.title, normal: 1, pages: [pg] };
 }
 function ofRcptForm(r) {
@@ -2634,12 +2649,12 @@ function ofRcptForm(r) {
     { k: 'p', al: 'r', sp: 10, runs: [{ x: 'ที่ ' + t('school_name'), b: 1 }] },
     { k: 'p', al: 'r', sp: 10, runs: [{ x: 'วันที่', b: 1 }, { x: '..............' }, { x: 'เดือน', b: 1 }, { x: '..............................' }, { x: 'พ.ศ.', b: 1 }, { x: '....................' }] },
     { k: 'p', ind: 1, runs: [{ x: 'ข้าพเจ้า', b: 1 }, { x: '....' + dots(v.payee, 40) + '....' }, { x: 'อยู่บ้านเลขที่', b: 1 }, { x: dots(r.payAddr, 24) }] },
-    { k: 'p', runs: [{ x: 'แขวง', b: 1 }, { x: '..............................' }, { x: 'เขต', b: 1 }, { x: '..............................' }, { x: 'จังหวัด', b: 1 }, { x: '..............................' }] },
+    r.payAddr ? null : { k: 'p', runs: [{ x: 'แขวง', b: 1 }, { x: '..............................' }, { x: 'เขต', b: 1 }, { x: '..............................' }, { x: 'จังหวัด', b: 1 }, { x: '..............................' }] },
     { k: 'p', runs: [{ x: 'ได้รับเงินจาก' + t('school_name'), b: 1 }, { x: ' ตามรายการดังต่อไปนี้' }] },
     { k: 'tbl', sp: 10, w: [2, 9.5, 2.6, 1.4], al: ['c', 'l', 'r', 'c'], rows: rows },
     { k: 'p', sp: 12, runs: [{ x: 'จำนวนเงิน', b: 1 }, { x: ' (' + bahtText(v.amt) + ')' }] },
     { k: 'sign', sp: 30, lines: ['ลงชื่อ..................................................ผู้รับเงิน', '(..................................................)'] },
-    { k: 'sign', sp: 30, lines: ['ลงชื่อ..................................................ผู้จ่ายเงิน', '(..................................................)'] }];
+    { k: 'sign', sp: 30, lines: ['ลงชื่อ..................................................ผู้จ่ายเงิน', '(..................................................)'] }].filter(Boolean);
   return { name: 'ใบสำคัญรับเงิน_' + r.id + '_' + r.title, normal: 1, pages: [pg] };
 }
 /* the documents of one step for this request */
@@ -2690,7 +2705,7 @@ function supLabel(nm) { var g = Object.keys(PG_SUPPLY).filter(function (k) { ret
 function pgSup(r) { return r.pgSup != null ? r.pgSup : (PG_SUPPLY[pgGroup(proj(act(r.act).project))] || ''); }
 /* บันทึก ผง. 01 (page 1) and รายละเอียดแนบท้าย (page 2) in one file, TH SarabunPSK 14 pt */
 function ofPg01(r) {
-  var a = act(r.act), pj = proj(a.project), o = USERS[r.owner], ac = actOf(r), b = statsBefore(a, r), tr = trSum(r) > 0, n = pgNo(r), ts = pgTime(r), dt = new Date(ts), yr = String(beYear(ts));
+  var a = act(r.act), pj = proj(a.project), o = USERS[r.owner], ac = actOf(r), b = statsBeforeDoc(a, r), tr = trSum(r) > 0, n = pgNo(r), ts = pgTime(r), dt = new Date(ts), yr = String(beYear(ts));
   var bx = function (v) { return v ? '☑' : '☐'; }, m = function (v) { return bahtD(v); }, B = { blue: 1, ul: 1 }, R = { blue: 1, ul: 1, al: 'r' }, C = { blue: 1, ul: 1, al: 'c' }, U = { ul: 1 };
   var f = a.fund, on = [/^เงินอุดหนุนรายหัว/.test(f), /กิจกรรมพัฒนาผู้เรียน/.test(f), /ค่าเช่าตึก/.test(f), f === 'เงินบำรุงการศึกษา', /GEP/.test(f), /สมาคมผู้ปกครอง/.test(f), /สมาคมศิษย์เก่า/.test(f), /สวัสดิการครู/.test(f)], other = on.indexOf(true) < 0;
   var grp = pgGroup(pj), spent = b.budget - b.left, src = tr ? r.transfers.map(function (t2) { var p2 = proj(act(t2.from).project); return pgCode(p2) + ' ' + p2.name + ' ' + m(t2.amount) + ' บาท'; }).join(', ') : '';
@@ -3156,22 +3171,18 @@ function ofLoanRetBlank() {
     { k: 'sigs', sp: 10, items: [['(ลงชื่อ) ' + DOTS, '( ' + SIGN.fin() + ' )', 'หัวหน้างานการเงิน/เจ้าหน้าที่การเงิน', 'วันที่ ' + DOTS], ['☐ อนุมัติตามเสนอ ☐ อื่น ๆ ...............', '(ลงชื่อ) ' + DOTS, '( ' + SIGN.dir() + ' )', 'ตำแหน่ง ผู้อำนวยการ' + sch, 'วันที่ ' + DOTS]] }];
   return { name: 'บันทึกส่งใช้เงินยืม (ฉบับเปล่า)', pages: [p1] };
 }
-var BOOKR = {"AC1": [25, 33], "AC2": [34, 38], "AC3": [39, 44], "AC4": [45, 49], "AC5": [50, 55], "AC6": [56, 61], "AC7": [62, 69], "AC8": [70, 76], "AC9": [77, 81], "AC10": [82, 87], "AC11": [88, 95], "AC12": [96, 102], "AC13": [103, 110], "AC14": [111, 117], "AC15": [118, 128], "AC16": [129, 137], "AC17": [138, 147], "AC18": [148, 154], "AC19": [155, 159], "AC20": [160, 166], "AC21": [167, 171], "GA1": [174, 178], "GA2": [179, 185], "GA3": [186, 191], "GA4": [192, 196], "GA5": [197, 203], "GA6": [204, 209], "GA7": [210, 213], "GA8": [214, 218], "GA9": [219, 221], "HR1": [224, 233], "HR2": [234, 241], "HR3": [242, 247], "HR4": [248, 254], "HR5": [255, 260], "HR6": [261, 267], "HR7": [268, 272], "HR8": [273, 278], "HR9": [279, 283], "HR10": [284, 287], "HR11": [288, 293], "BG1": [296, 304], "BG2": [305, 312], "BG3": [313, 317], "BG4": [318, 323], "BG5": [324, 328]}, BOOK_FIRST = 25;
-var BOOKDOC = null;
-/* cut this project's pages out of the plan book that was attached, page for page */
-function bookPdf(pid) {
-  var pr = BOOKR[pid], pj = proj(pid); if (!pr) return toast('t_book_none');
+/* เล่มแผนฉบับลงนามจริง: A = เงินอุดหนุน/เงินรายได้สถานศึกษา, B = เงินอื่น ๆ (บำรุงการศึกษา สมาคม สวัสดิการ ผ้าป่า ฯลฯ) — ไฟล์แยกรายโครงการอยู่ที่ assets/book/<A|B>_<โครงการ>.pdf */
+var BOOKS = {"A":{"AC1":[26,34],"AC2":[35,39],"AC3":[40,45],"AC4":[46,50],"AC5":[51,56],"AC6":[57,62],"AC7":[63,70],"AC8":[71,77],"AC9":[78,82],"AC10":[83,88],"AC11":[89,96],"AC12":[97,103],"AC13":[104,111],"AC14":[112,118],"AC15":[119,129],"AC16":[130,138],"AC17":[139,148],"AC18":[149,155],"AC19":[156,160],"AC20":[161,167],"AC21":[168,173],"GA1":[175,179],"GA2":[180,186],"GA3":[187,192],"GA4":[193,197],"GA5":[198,204],"GA6":[205,210],"GA7":[211,214],"GA8":[215,219],"GA9":[220,223],"HR1":[225,234],"HR2":[235,242],"HR3":[243,248],"HR4":[249,255],"HR5":[256,261],"HR6":[262,268],"HR7":[269,273],"HR8":[274,279],"HR9":[280,284],"HR10":[285,288],"HR11":[289,295],"BG1":[297,305],"BG2":[306,313],"BG3":[314,318],"BG4":[319,324],"BG5":[325,329]},"B":{"AC1":[27,35],"AC2":[36,40],"AC3":[41,45],"AC4":[46,50],"AC5":[51,56],"AC6":[57,62],"AC7":[63,70],"AC8":[71,77],"AC9":[78,82],"AC10":[83,88],"AC11":[89,96],"AC12":[97,103],"AC13":[104,111],"AC14":[112,118],"AC15":[119,128],"AC16":[129,137],"AC17":[138,146],"AC18":[147,153],"AC19":[154,158],"AC20":[159,165],"AC21":[166,171],"GA1":[173,177],"GA2":[178,184],"GA3":[185,189],"GA4":[190,193],"GA5":[194,200],"GA6":[201,207],"GA7":[208,211],"GA8":[212,216],"GA9":[217,220],"HR1":[222,231],"HR2":[232,239],"HR3":[240,245],"HR4":[246,252],"HR5":[253,258],"HR6":[259,265],"HR7":[266,270],"HR8":[271,276],"HR9":[277,281],"HR10":[282,285],"HR11":[286,292],"BG1":[294,301],"BG2":[302,309],"BG3":[310,314],"BG4":[315,319],"BG5":[320,324]}};
+var BOOK_LABEL = { A: 'เงินอุดหนุน / เงินรายได้สถานศึกษา', B: 'เงินอื่น ๆ (บำรุงการศึกษา สมาคม สวัสดิการ ฯลฯ)' };
+function fundBook(a) { return 'bwpazo'.indexOf(String(a.id).slice(-1)) >= 0 ? 'B' : 'A'; }
+function bookDefault(pid) { var as = ACTS.filter(function (x) { return x.project === pid; }); return as.some(function (x) { return fundBook(x) === 'A'; }) ? 'A' : 'B'; }
+function bookId(pid, actId) { var a = ACTS.filter(function (x) { return x.id === actId; })[0]; return pid + '@' + (a ? fundBook(a) : bookDefault(pid)); }
+function bookKey(id) { var q = String(id).split('@'); return { pid: q[0], bk: q[1] || bookDefault(q[0]) }; }
+function bookPdf(id) {
+  var k = bookKey(id), pr = BOOKS[k.bk] && BOOKS[k.bk][k.pid], pj = proj(k.pid); if (!pr) return toast('t_book_none');
   toast('t_making', { kind: 'PDF' });
-  loadLib('lib/pdflib').then(function () {
-    var PL = window.PDFLib;
-    var src = BOOKDOC ? Promise.resolve(BOOKDOC) : fetch('assets/book.pdf').then(function (x) { return x.arrayBuffer(); }).then(function (ab) { return PL.PDFDocument.load(new Uint8Array(ab)); }).then(function (doc) { BOOKDOC = doc; return doc; });
-    return src.then(function (book) {
-      return PL.PDFDocument.create().then(function (out) {
-        var idxs = []; for (var p = pr[0]; p <= pr[1]; p++) idxs.push(p - BOOK_FIRST);
-        return out.copyPages(book, idxs).then(function (pages) { pages.forEach(function (pg) { out.addPage(pg); }); return out.save(); });
-      });
-    });
-  }).then(function (bytes) { saveBlob(new Blob([bytes], { type: 'application/pdf' }), fileSafe('โครงการ ' + pj.code.replace(/\s/g, '') + ' ' + pj.name) + '.pdf'); }, function () { toast('t_make_fail'); });
+  fetch('assets/book/' + k.bk + '_' + k.pid + '.pdf').then(function (x) { if (!x.ok) throw new Error('book'); return x.blob(); })
+    .then(function (b) { saveBlob(b, fileSafe('โครงการ ' + pj.code.replace(/\s/g, '') + ' ' + pj.name) + '.pdf'); }, function () { toast('t_make_fail'); });
 }
 /* loan memos follow the school's own loan form: no corner code, 28pt title, 20pt เรียน, the rule line and the finance check in 15pt */
 function loanStyle(m) {
@@ -3354,7 +3365,7 @@ function ofPara(p) { var st = 'text-align:' + ({ c: 'center', r: 'right' }[p.al]
 function ofCell(c, al, tag) {
   c = typeof c === 'object' && c ? c : { x: c };
   if (c.ps) return '<' + tag + (c.rs ? ' rowspan="' + c.rs + '"' : '') + (c.cs ? ' colspan="' + c.cs + '"' : '') + ' class="ops">' + c.ps.map(ofPara).join('') + '</' + tag + '>';
-  var st = 'text-align:' + ({ l: 'left', c: 'center', r: 'right' }[c.al || al || 'l']) + ';' + (c.b ? 'font-weight:700;' : '') + (c.sz ? 'font-size:' + c.sz + 'pt;' : '');
+  var st = 'text-align:' + ({ l: 'left', c: 'center', r: 'right' }[c.al || al || 'l']) + ';' + (c.va === 'c' ? 'vertical-align:middle;' : '') + (c.b ? 'font-weight:700;' : '') + (c.sz ? 'font-size:' + c.sz + 'pt;' : '');
   return '<' + tag + (c.rs ? ' rowspan="' + c.rs + '"' : '') + (c.cs ? ' colspan="' + c.cs + '"' : '') + ' style="' + st + '">' + esc(c.x).replace(/\n/g, '<br>') + '</' + tag + '>';
 }
 function ofBlock(b) {
@@ -3370,7 +3381,7 @@ function ofBlock(b) {
   if (b.k === 'tbl') return '<table class="' + (b.box ? 'obox' : 'otbl') + (b.form ? ' oform' : '') + (b.nb ? ' onb' : '') + '" style="' + sp + 'width:' + b.w.reduce(function (x, y) { return x + y; }, 0) + 'cm"><colgroup>' + b.w.map(function (w) { return '<col style="width:' + w + 'cm">'; }).join('') + '</colgroup>' +
     (b.head ? '<thead><tr>' + b.head.map(function (h) { return ofCell({ x: h, b: 1, al: 'c' }, 'c', 'th'); }).join('') + '</tr></thead>' : '') +
     '<tbody>' + b.rows.map(function (row) { var cs = row.c || row; return '<tr' + (row.h ? ' style="height:' + row.h + 'cm"' : '') + '>' + cs.map(function (c, i) { return ofCell(c, b.al && b.al[i], 'td'); }).join('') + '</tr>'; }).join('') + '</tbody></table>';
-  if (b.k === 'sign') return '<div class="osign" style="' + sp + '">' + b.lines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>';
+  if (b.k === 'sign') return '<div class="osign" style="' + sp + (b.c ? 'margin-left:0;' : '') + '">' + b.lines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>';
   if (b.k === 'sigs') return '<div class="osigs" style="' + sp + '">' + b.items.map(function (it) { return '<div>' + it.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>'; }).join('') + '</div>';
   return '';
 }
@@ -3409,7 +3420,8 @@ function ofPdf(m) {
       var pages = host.querySelectorAll('.a4'), pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', compress: true }), i = 0, first = true;
       var next = function () {
         if (i >= pages.length) return Promise.resolve();
-        return window.html2canvas(pages[i], { scale: 4.2, backgroundColor: '#FFFFFF', logging: false }).then(function (c) {
+        var sc = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 4 : 6, shot = function (k) { return window.html2canvas(pages[i], { scale: k, backgroundColor: '#FFFFFF', logging: false }); };
+        return shot(sc).catch(function () { return shot(4); }).then(function (c) {
           var pxmm = c.width / 210, ph = Math.round(297 * pxmm);
           for (var y = 0; y < c.height - 4; y += ph) {
             var h = Math.min(ph, c.height - y), sl = document.createElement('canvas'); sl.width = c.width; sl.height = h;
@@ -3443,7 +3455,7 @@ function ofDocx(m) {
     var conv = function (b, brk) {
       var sp = b.sp ? b.sp * 20 : 0, first = brk ? { pageBreakBefore: true } : {};
       if (m.st === 'ngp') {
-        var LNN = Math.round((m.ln || (m.v === 'fin' ? 20.75 : 21)) * 20), pt = function (v) { return Math.round(v * 20); }, thin = { style: D.BorderStyle.SINGLE, size: 4, color: '000000' };
+        var LNN = Math.round((m.ln || (m.v === 'fin' ? 20.75 : 21)) * 20), pt = function (v) { return Math.round(v * 20); }, thin = { style: D.BorderStyle.SINGLE, size: 6, color: '000000' };
         var rr = function (u) { return [].concat.apply([], String(u.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, (u.sz || 16) * 2); var o = { text: nbWord(x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }; if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return [new D.TextRun(o)]; })); };
         var rx = function (us) { return [].concat.apply([], nbRuns(us).map(rr)); };
         var np = function (us, o) { return new D.Paragraph(Object.assign({ children: rx(us), spacing: { before: 0, after: 0, line: LNN, lineRule: EX } }, o || {})); };
@@ -3466,9 +3478,9 @@ function ofDocx(m) {
             new D.Paragraph({ spacing: ex(25.9), children: rx([{ x: 'ส่วนราชการ', b: 1, sz: 20 }, { x: ' ' + t('school_name') }]) }),
             new D.Paragraph({ tabStops: tabs2, spacing: ex(25.9), children: rx([{ x: 'ที่', b: 1, sz: 20 }, { x: '  ' + b.no }]).concat([new D.TextRun({ children: [new D.Tab(), new D.Tab()] })]).concat(rx([{ x: 'วันที่', b: 1, sz: 20 }, { x: '    ' + b.date }])) }),
             new D.Paragraph({ spacing: ex(25.9), children: rx([{ x: 'เรื่อง', b: 1, sz: 20 }, { x: ' ' + b.subj }]) }),
-            new D.Paragraph({ spacing: { before: pt(20.8), after: 0, line: LNN, lineRule: EX }, children: rx([{ x: 'เรียน ผู้อำนวยการ' + t('school_name') }]) })];
+            new D.Paragraph({ spacing: { before: pt(8.5), after: 0, line: LNN, lineRule: EX }, children: rx([{ x: 'เรียน ผู้อำนวยการ' + t('school_name') }]) })];
         }
-        if (b.k === 'fsign') return [np([{ x: '     ( ' + b.name + ' )' }], { indent: { left: 3600 }, spacing: { before: pt(41.5), after: 0, line: LNN, lineRule: EX } }), np([{ x: b.pos }], { alignment: AL.c })];
+        if (b.k === 'fsign') return [np([{ x: '( ' + b.name + ' )' }], { alignment: AL.c, spacing: { before: pt(41.5), after: 0, line: LNN, lineRule: EX } }), np([{ x: b.pos }], { alignment: AL.c })];
         if (b.k === 'nto') return [new D.Paragraph({ tabStops: [{ type: D.TabStopType.LEFT, position: 720 }], spacing: { before: 0, after: 0, line: 420, lineRule: EX }, children: rx([{ x: 'เรียน', b: 1 }]).concat([new D.TextRun({ children: [new D.Tab()] })]).concat(rx([{ x: 'ผู้อำนวยการ' + t('school_name') }])) })];
         if (b.k === 'np') return [np(b.runs, Object.assign({ alignment: b.al ? AL[b.al] : D.AlignmentType.THAI_DISTRIBUTE, indent: { firstLine: pt(b.ind || 0), left: pt(b.left || 0) }, spacing: { before: Math.max(0, pt(b.sp || 0)), after: 0, line: b.lh ? pt(b.lh) : LNN, lineRule: EX } }, first))];
         if (b.k === 'insp') {
@@ -3492,7 +3504,7 @@ function ofDocx(m) {
         }
         if (b.k === 'tbl') {
           var tw2 = b.w.map(function (v) { return Math.round(v * 567); }), tot = tw2.reduce(function (s, v) { return s + v; }, 0);
-          var mk2 = function (cells, hd) { var col = 0; return new D.TableRow({ tableHeader: !!hd, children: cells.map(function (c0, i) { var c1 = typeof c0 === 'object' && c0 ? c0 : { x: c0 }, w = tw2.slice(col, col + (c1.cs || 1)).reduce(function (s, v) { return s + v; }, 0); col += c1.cs || 1; return new D.TableCell({ width: cm(w), columnSpan: c1.cs, margins: cellM, children: String(c1.x).split('\n').map(function (ln) { return np([{ x: ln, b: hd || c1.b, sz: c1.sz }], { alignment: AL[hd ? 'c' : (c1.al || (b.al && b.al[i]) || 'l')] }); }) }); }) }); };
+          var occ2 = [], mk2 = function (cells, hd) { var col = 0; return new D.TableRow({ tableHeader: !!hd, children: cells.map(function (c0, i) { var c1 = typeof c0 === 'object' && c0 ? c0 : { x: c0 }; while (occ2[col] > 0) { occ2[col]--; col++; } var w = tw2.slice(col, col + (c1.cs || 1)).reduce(function (s, v) { return s + v; }, 0); if (c1.rs > 1) for (var kk = 0; kk < (c1.cs || 1); kk++) occ2[col + kk] = c1.rs - 1; col += c1.cs || 1; return new D.TableCell({ width: cm(w), columnSpan: c1.cs, rowSpan: c1.rs, verticalAlign: c1.va === 'c' ? D.VerticalAlign.CENTER : D.VerticalAlign.TOP, margins: cellM, children: String(c1.x).split('\n').map(function (ln) { return np([{ x: ln, b: hd || c1.b, sz: c1.sz }], { alignment: AL[hd ? 'c' : (c1.al || (b.al && b.al[i]) || 'l')] }); }) }); }) }); };
           return spacer(b.sp).concat([new D.Table({ width: cm(tot), columnWidths: tw2, layout: D.TableLayoutType.FIXED, borders: b.nb ? { top: { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' }, bottom: { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' }, left: { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' }, right: { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' }, insideHorizontal: { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' }, insideVertical: { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' } } : { top: thin, bottom: thin, left: thin, right: thin, insideHorizontal: thin, insideVertical: thin }, rows: (b.head ? [mk2(b.head, true)] : []).concat(b.rows.map(function (rw) { return mk2(rw.c || rw); })) })]);
         }
       }
@@ -3507,7 +3519,7 @@ function ofDocx(m) {
       if (b.k === 'title') return [para([run({ x: b.x, b: 1, sz: b.sz || 20 })], Object.assign({ alignment: AL.c, spacing: { after: 80, line: 500, lineRule: EX } }, first))];
       if (b.k === 'gap') return [para([run({ x: '' })], first)];
       if (b.k === 'p') return [para([].concat.apply([], nbRuns(b.runs).map(rrb)), Object.assign({ alignment: b.al ? AL[b.al] : D.AlignmentType.THAI_DISTRIBUTE, spacing: { before: sp, line: LN, lineRule: EX }, indent: { firstLine: b.ind ? tw(2.5) : 0, left: b.left ? tw(b.left) : 0 } }, first))];
-      if (b.k === 'sign') return b.lines.map(function (l, i) { return para(rrb({ x: l }), Object.assign({ alignment: AL.c, indent: { left: tw(6) }, spacing: { before: i ? 0 : sp, line: LN, lineRule: EX } }, i ? {} : first)); });
+      if (b.k === 'sign') return b.lines.map(function (l, i) { return para(rrb({ x: l }), Object.assign({ alignment: AL.c, indent: { left: b.c ? 0 : tw(6) }, spacing: { before: i ? 0 : sp, line: LN, lineRule: EX } }, i ? {} : first)); });
       var pre = brk || sp ? [para([run({ x: '', sz: 2 })], Object.assign({ spacing: { before: 0, after: 0, line: Math.max(40, sp), lineRule: D.LineRuleType.EXACT } }, first))] : [];
       if (b.k === 'sigs') {
         var rows = [];
@@ -3528,10 +3540,10 @@ function ofDocx(m) {
       }
       if (b.k === 'tbl') {
         var bd = b.nb ? { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none } : b.box ? { top: line, bottom: line, left: line, right: line, insideHorizontal: none, insideVertical: none } : { top: line, bottom: line, left: line, right: line, insideHorizontal: line, insideVertical: line };
-        var mk = function (row, head) {
+        var occ = [], mk = function (row, head) {
           var cells = row.c || row, col = 0;
           return new D.TableRow(Object.assign({ tableHeader: !!head }, row.h ? { height: { value: tw(row.h), rule: D.HeightRule.ATLEAST } } : {}, { children: cells.map(function (c, i) {
-            var cc = typeof c === 'object' && c ? c : { x: c }, w = b.w.slice(col, col + (cc.cs || 1)).reduce(function (s, v) { return s + v; }, 0); col += cc.cs || 1;
+            var cc = typeof c === 'object' && c ? c : { x: c }; while (occ[col] > 0) { occ[col]--; col++; } var w = b.w.slice(col, col + (cc.cs || 1)).reduce(function (s, v) { return s + v; }, 0); if (cc.rs > 1) for (var kk = 0; kk < (cc.cs || 1); kk++) occ[col + kk] = cc.rs - 1; col += cc.cs || 1;
             return new D.TableCell({ width: { size: tw(w), type: D.WidthType.DXA }, columnSpan: cc.cs, rowSpan: cc.rs, verticalAlign: cc.va === 'b' ? D.VerticalAlign.BOTTOM : cc.va === 'c' ? D.VerticalAlign.CENTER : D.VerticalAlign.TOP, margins: b.form ? { left: 140, right: 140, top: 40, bottom: 80 } : { left: 80, right: 80 }, children: cellParas(head ? { x: cc.x, b: 1, al: 'c' } : cc, b.al && b.al[i]) });
           }) }));
         };
@@ -3572,10 +3584,10 @@ document.addEventListener('click', function (e) { var b = e.target.closest && e.
 function vDoc() {
   var ty = S.doc.type;
   if (ty === 'project') {
-    var pj = proj(S.doc.id), pr = BOOKR[pj.id];
-    $('view').innerHTML = '<div class="row between" style="gap:10px;align-items:center;margin-bottom:12px"><button type="button" class="back sm" data-back>' + T('btn_back') + '</button>' + docIcons('project', pj.id, true) + '</div>' +
+    var bkk = bookKey(S.doc.id), pj = proj(bkk.pid), pr = (BOOKS[bkk.bk] || {})[bkk.pid];
+    $('view').innerHTML = '<div class="row between" style="gap:10px;align-items:center;margin-bottom:12px"><button type="button" class="back sm" data-back>' + T('btn_back') + '</button>' + docIcons('project', S.doc.id, true) + '</div>' +
       '<section class="card bookcard"><div class="bkic" aria-hidden="true">' + FI_PDF + '</div><div style="min-width:0"><div class="muted small">' + T('bk_from') + '</div><h3 style="margin:2px 0 6px">' + esc(pj.code + ' โครงการ' + pj.name) + '</h3>' +
-      '<div class="small">' + T('bk_owner') + ' ' + esc(pj.ownerText || USERS[pj.owner].name) + '</div>' + (pr ? '<div class="small">' + T('bk_pages', { a: pr[0], b: pr[1], n: pr[1] - pr[0] + 1 }) + '</div>' : '') +
+      '<div class="small">' + T('bk_owner') + ' ' + esc(pj.ownerText || USERS[pj.owner].name) + '</div>' + '<div class="small">เล่มแผนฉบับลงนาม: ' + esc(BOOK_LABEL[bkk.bk]) + (pr ? ' · ' + (pr[1] - pr[0] + 1) + ' หน้า' : '') + '</div>' +
       '<div class="note" style="margin-top:12px">' + T('bk_note') + '</div></div></section>';
     return;
   }
