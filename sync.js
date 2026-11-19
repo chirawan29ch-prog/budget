@@ -23,8 +23,24 @@
     if (!j.ok) { var e = new Error(j.error || 'ผิดพลาด'); e.code = j.error; if (j.error === 'SESSION') { onSession(); } throw e; }
     netBar(false); return j.data;
   }
-  var PENDING = 0;
+  var PENDING = 0, BUSY = 0;
+  function barUi() {
+    if (document.getElementById('c7bar')) return;
+    var st = document.createElement('style');
+    st.textContent = '@keyframes c7bar{from{background-position:0 0}to{background-position:-200% 0}}@keyframes c7spin{to{transform:rotate(360deg)}}' +
+      '#c7bar{position:fixed;left:0;right:0;top:0;height:3px;z-index:9997;background:linear-gradient(90deg,#2a5bd7,#9b7cf5,#2a5bd7,#9b7cf5);background-size:200% 100%;animation:c7bar 1s linear infinite}' +
+      '#c7busy{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:9998;background:#1b2b4b;color:#fff;border-radius:999px;padding:10px 20px;font-size:16px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3)}' +
+      '#c7busy i{width:18px;height:18px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:c7spin .8s linear infinite}' +
+      'button.c7wait{opacity:.65;pointer-events:none}';
+    document.head.appendChild(st);
+    var b = document.createElement('div'); b.id = 'c7bar'; b.hidden = true; document.body.appendChild(b);
+    var y = document.createElement('div'); y.id = 'c7busy'; y.hidden = true; y.setAttribute('role', 'status'); y.innerHTML = '<i></i><span></span>'; document.body.appendChild(y);
+  }
+  function busy(on, text) {
+    barUi(); BUSY = on ? 1 : 0; var y = document.getElementById('c7busy'); y.hidden = !on; if (text) y.lastChild.textContent = text; pill();
+  }
   function pill() {
+    barUi(); var tb = document.getElementById('c7bar'); if (tb) tb.hidden = PENDING <= 0 && !BUSY;
     var el = document.getElementById('savepill');
     if (!el) { el = document.createElement('div'); el.id = 'savepill'; el.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9998;background:#1b2b4b;color:#fff;border-radius:999px;padding:6px 14px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.25);opacity:.92'; el.textContent = 'กำลังบันทึก…'; document.body.appendChild(el); }
     el.hidden = PENDING <= 0;
@@ -46,7 +62,7 @@
     var j; try { j = JSON.parse(x.responseText); } catch (e) { throw new Error('ระบบตอบกลับไม่ถูกต้อง ลองใหม่อีกครั้ง'); }
     return handle(j);
   }
-  function say(text, ms) { var el = document.getElementById('toast'); el.textContent = text; el.hidden = false; clearTimeout(say.h); say.h = setTimeout(function () { el.hidden = true; }, ms || 5000); }
+  function say(text, ms) { var el = document.getElementById('toast'); el.textContent = text; el.hidden = false; el.onclick = function () { el.hidden = true; }; clearTimeout(say.h); say.h = setTimeout(function () { el.hidden = true; }, ms || 5000); }
   function failMsg(e) { return (e && e.message) ? e.message : 'ผิดพลาด'; }
 
   /* ---------------------------------------------------------- ผู้ใช้ */
@@ -82,11 +98,13 @@
     } catch (e) {}
   }
   logoCacheLoad();
+  function loginCacheGet() { try { var a = JSON.parse(localStorage.getItem('budget_ulist') || 'null'); return Array.isArray(a) && a.length ? a : null; } catch (e) { return null; } }
+  function loginCacheSave(l) { try { if (Array.isArray(l) && l.length) localStorage.setItem('budget_ulist', JSON.stringify(l)); } catch (e) {} }
   function boot() {
     if (!ready()) { say('ยังไม่ได้ตั้งค่าที่อยู่เว็บแอปในไฟล์ config.js', 60000); return; }
     var saved = null; try { saved = sessionStorage.getItem(SESS); } catch (e) {}
     var showLogin = function () {
-      call('loginList').then(function (list) { setUsers(list || []); S.view = 'login'; render(); },
+      call('loginList').then(function (list) { loginCacheSave(list); setUsers(list || []); S.view = 'login'; render(); },
         function (e) { say('เปิดรายชื่อไม่ได้: ' + failMsg(e), 20000); });
     };
     if (saved) { TOKEN = saved; call('loadAll').then(function (d) { ME = d.me; ingest(d); signIn(USERS[ME.id], true); startPoll(); }, function () { TOKEN = null; try { sessionStorage.removeItem(SESS); } catch (e) {} showLogin(); }); }
@@ -162,18 +180,37 @@
     var c = $('spCancel'); if (c) c.onclick = function () { doLogout(true); };
   };
   var LOADING = false;
+  var SLOW = false, SLOW_T = 0;
   function paintLoading(err) {
     var v = document.getElementById('view'); if (!v) return;
     v.innerHTML = '<div style="max-width:520px;margin:12vh auto;text-align:center;padding:0 16px"><div class="ldspin" style="width:34px;height:34px;margin:0 auto 14px;border:4px solid #cfd8ea;border-top-color:#2a5bd7;border-radius:50%;animation:ldspin .8s linear infinite"></div>' +
-      (err ? '<p style="color:#B3261E;margin:0 0 10px">' + err + '</p><button class="btn" id="ldRetry">ลองใหม่</button>' : '<p style="font-size:1.1em;margin:0">กำลังเตรียมข้อมูลของคุณ…</p>') + '</div>';
+      (err ? '<p style="color:#B3261E;margin:0 0 10px">' + err + '</p><button class="btn" id="ldRetry">ลองใหม่</button>' : '<p style="font-size:1.1em;margin:0">' + (SLOW ? 'ใช้เวลานานกว่าปกติ ระบบกำลังดึงข้อมูลจาก Google Sheet อย่าเพิ่งปิดหน้านี้' : 'กำลังเตรียมข้อมูลของคุณ…') + '</p>') + '</div>';
     var b = document.getElementById('ldRetry'); if (b) b.onclick = function () { loadFull(); };
   }
   function loadFull() {
-    LOADING = true; window.SYNC_LOADING = true; paintLoading();
+    LOADING = true; window.SYNC_LOADING = true; SLOW = false; clearTimeout(SLOW_T); SLOW_T = setTimeout(function () { if (LOADING) { SLOW = true; paintLoading(); } }, 12000); paintLoading();
     call('loadAll').then(function (d) {
+      clearTimeout(SLOW_T); SLOW = false;
       ME = d.me; ingest(d); if (!USERS[ME.id]) setUsers(d.users || []);
-      LOADING = false; window.SYNC_LOADING = false; startPoll(); signIn(USERS[ME.id], true); prefetchId();
-    }, function (e) { if (e && e.code === 'SESSION') return; paintLoading('โหลดข้อมูลไม่ได้: ' + failMsg(e)); });
+      /* ถ้าระหว่างโหลดผู้ใช้กดไปหน้าอื่นแล้ว (เช่น ติดตามสถานะ) ให้อยู่หน้านั้นต่อ ไม่เด้งกลับหน้าแรก */
+      var keep = (S.view && S.view !== 'home') || S.open || S.tab || S.doc || S.draft ? { role: S.u && S.u.role, view: S.view, open: S.open, tab: S.tab, doc: S.doc, draft: S.draft, hmq: S.hmq } : null, aft = S.after;
+      LOADING = false; window.SYNC_LOADING = false; startPoll(); signIn(USERS[ME.id], true); prefetchId(); verCheck();
+      if (keep && !aft) {
+        if (keep.role && S.u && S.u.roles && S.u.roles.indexOf(keep.role) >= 0) S.u.role = keep.role;
+        ['view', 'open', 'tab', 'doc', 'draft', 'hmq'].forEach(function (k) { S[k] = keep[k]; }); render();
+      }
+    }, function (e) { clearTimeout(SLOW_T); SLOW = false; if (e && e.code === 'SESSION') return; paintLoading('โหลดข้อมูลไม่ได้: ' + failMsg(e)); });
+  }
+  var API_MIN = 20261119;
+  function verBar() {
+    if (document.getElementById('verbar')) return;
+    var el = document.createElement('div'); el.id = 'verbar';
+    el.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:9999;background:#B3261E;color:#fff;text-align:center;padding:8px 40px 8px 12px;font-size:15px;line-height:1.4';
+    el.innerHTML = 'Apps Script ยังเป็นเวอร์ชันเก่า (ขอเลขที่/ภาษีอาจใช้ไม่ได้) — วางโค้ดชุดใหม่ แล้ว Deploy → Manage deployments → แก้ไข → New version <button type="button" aria-label="ปิด" style="position:absolute;right:8px;top:4px;background:none;border:0;color:#fff;font-size:22px;cursor:pointer">×</button>';
+    el.lastChild.onclick = function () { el.remove(); }; document.body.appendChild(el);
+  }
+  function verCheck() {
+    call0('ver', {}).then(function (v) { if (!(Number(v) >= API_MIN)) verBar(); }, function (e) { if (/ไม่รู้จักคำสั่ง/.test(failMsg(e))) verBar(); });
   }
   function afterLogin(quiet, pre, light) {
     var go = function (d) { ME = d.me; ingest(d); startPoll(); signIn(USERS[ME.id], quiet); prefetchId(); };
@@ -190,7 +227,18 @@
     var t = TOKEN; TOKEN = null; stopPoll(); try { sessionStorage.removeItem(SESS); } catch (e) {}
     if (t) { try { fetch(CFG.API_URL, { method: 'POST', body: JSON.stringify({ token: t, method: 'logout', args: {} }) }); } catch (e) {} }
     wipe(); S.setPin = null; S.lgPick = null; S.u = null; S.open = null; S.doc = null; S.draft = null; S.view = 'login'; S.hmq = null; S.after = null; endEdit();
-    call('loginList').then(function (l) { setUsers(l); render(); if (!silent) toast('t_logout'); }, function () { render(); });
+    var cached = loginCacheGet();
+    if (cached) {                                   /* ขึ้นหน้าเข้าสู่ระบบทันที ใช้รายชื่อที่จำไว้ แล้วอัปเดตเบื้องหลัง */
+      setUsers(cached); render(); if (!silent) toast('t_logout');
+      call('loginList').then(function (l) {
+        if (JSON.stringify(l) === JSON.stringify(cached)) return;
+        loginCacheSave(l); setUsers(l);
+        var a = document.activeElement; if (S.view === 'login' && !(a && /INPUT|SELECT/.test(a.tagName))) render();
+      }, function () {});
+    } else {
+      busy(true, 'กำลังออกจากระบบ…');
+      call('loginList').then(function (l) { loginCacheSave(l); busy(false); setUsers(l); render(); if (!silent) toast('t_logout'); }, function () { busy(false); render(); });
+    }
     window.scrollTo(0, 0);
   }
   logout = function () { doLogout(false); };
@@ -324,7 +372,7 @@
   }
   function editingNow() { var a = document.activeElement; return a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && $('view') && $('view').contains(a) && a.value !== ''; }
   function OLD_CLEAN() { return OLDLOANS.every(function (x) { return x.srv === 1 && !x.dirty; }); }
-  function TAX_LOCAL_CLEAN() { return TAXB.rows.every(function (x) { return x.srv && !x.dirty; }); }
+  function TAX_LOCAL_CLEAN() { return TAXB.rows.every(function (x) { return x.srv && !x.dirty && !x.adirty; }); }
 
   /* ---------------------------------------------------------- เปิดดูคำขอ: ดึงไฟล์แนบจาก Drive */
   var _openReq = openReq;
@@ -356,7 +404,7 @@
     call('claimNumber', { kind: kind === 'loan' ? 'loan' : 'vch', ref: r.id }).then(function (d) {
       if (d.no !== v) { put(d.no); say('เลขที่ที่ได้รับจริงคือ ' + d.no, 6000); _render(); }
       COUNTERS[key] = Math.max(COUNTERS[key] || 0, parseInt(d.no, 10) || 0); schedSave();
-    }, function (e) { put(''); say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' กรุณากดขอใหม่', 10000); _render(); });
+    }, function (e) { put(''); say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' (ถ้าขึ้นซ้ำ Apps Script อาจยังเป็นเวอร์ชันเก่า ให้ Deploy ใหม่) กรุณากดขอใหม่ · แตะข้อความนี้เพื่อปิด', 60000); _render(); });
     return v;
   };
 
@@ -372,7 +420,7 @@
     call('claimNumber', { kind: k, ref: r.id + ':' + which }).then(function (d) {
       if (d.no !== v) { sup(r)[which] = d.no; say('เลขที่ที่ได้รับจริงคือ ' + d.no, 6000); _render(); }
       COUNTERS[key] = Math.max(COUNTERS[key] || 0, supNum(d.no)); schedSave();
-    }, function (e) { sup(r)[which] = ''; say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' กรุณากดขอใหม่', 10000); _render(); });
+    }, function (e) { sup(r)[which] = ''; say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' (ถ้าขึ้นซ้ำ Apps Script อาจยังเป็นเวอร์ชันเก่า ให้ Deploy ใหม่) กรุณากดขอใหม่ · แตะข้อความนี้เพื่อปิด', 60000); _render(); });
     return v;
   };
   /* พัสดุพิมพ์เลขเองตามกระดาษ (เช่น ซ12/2570) → ให้ตัวนับฝั่งเซิร์ฟเวอร์เดินต่อจากเลขนั้น */
@@ -447,10 +495,11 @@
     var curIds = {}; TAXB.rows.forEach(function (x) { curIds[x.id] = 1; });
     Object.keys(SRV_TAX).forEach(function (id) { if (!curIds[id]) { delete SRV_TAX[id]; call('taxDelete', { id: id }).catch(function (e) { say('ลบรายการภาษีไม่สำเร็จ: ' + failMsg(e), 8000); }); } });
     TAXB.rows.filter(function (x) { return !x.srv; }).forEach(function (x) {
-      x.srv = 2; call('taxAdd', { d: x.d, k: x.k, who: x.who, amt: x.amt, form: x.form, fund: x.fund, cat: x.cat }).then(function (res) { x.id = res.id; x.no = res.no; x.srv = 1; SRV_TAX[x.id] = 1; if (S.tab === 'tax') vTax(); },
-        function (e) { TAXB.rows = TAXB.rows.filter(function (y) { return y !== x; }); say('บันทึกรายการภาษีไม่สำเร็จ: ' + failMsg(e), 9000); if (S.tab === 'tax') vTax(); });
+      x.srv = 2; call('taxAdd', { d: x.d, k: x.k, who: x.who, amt: x.amt, form: x.form, fund: x.fund, cat: x.cat }).then(function (res) { var rq0 = x.fromReq && req(x.fromReq); if (rq0) rq0.taxRow = res.id; x.id = res.id; x.no = res.no; x.srv = 1; SRV_TAX[x.id] = 1; if (S.tab === 'tax') vTax(); },
+        function (e) { var rq1 = x.fromReq && req(x.fromReq); if (rq1) rq1.taxRow = ''; TAXB.rows = TAXB.rows.filter(function (y) { return y !== x; }); say('บันทึกรายการภาษีไม่สำเร็จ: ' + failMsg(e), 9000); if (S.tab === 'tax') vTax(); });
     });
     TAXB.rows.filter(function (x) { return x.srv === 1 && x.dirty && x.k === 'in'; }).forEach(function (x) { x.dirty = 0; call('taxTag', { id: x.id, form: x.form, fund: x.fund, cat: x.cat }).catch(function (e) { say('บันทึกการติ๊กภาษีไม่สำเร็จ: ' + failMsg(e), 8000); }); });
+    TAXB.rows.filter(function (x) { return x.srv === 1 && x.adirty; }).forEach(function (x) { x.adirty = 0; call('taxAmt', { id: x.id, amt: x.amt }).catch(function (e) { say('บันทึกยอดภาษีไม่สำเร็จ: ' + failMsg(e), 9000); }); });
     if (TAXB.open !== TAX_OPEN) { TAX_OPEN = TAXB.open; call('taxOpen', { open: TAXB.open }).catch(function (e) { say('บันทึกยอดยกมาไม่สำเร็จ: ' + failMsg(e), 8000); }); }
   };
 
