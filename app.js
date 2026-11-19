@@ -448,7 +448,9 @@ function heroArt() {
     '<path d="M0 440 C 300 424 600 436 900 432 C 1140 428 1300 436 1440 432 L1440 560 L0 560 Z" fill="#C8E8D6"/><g fill="#5DB48F"><ellipse cx="700" cy="410" rx="46" ry="54"/><ellipse cx="1380" cy="404" rx="52" ry="62"/><ellipse cx="660" cy="430" rx="30" ry="34"/></g><g fill="#6E5A4A"><rect x="697" y="440" width="6" height="22"/><rect x="1377" y="440" width="6" height="22"/></g></svg>';
 }
 function slideHtml(src) { return src ? '<img src="' + src + '" alt="">' : heroArt(); }
-function logoHtml() { return SITE.logo ? '<img src="' + SITE.logo + '" alt="' + esc(t('school_name')) + '">' : crest(); }
+/* ตราโรงเรียน: ถ้ามีไฟล์ assets/logo.png บน GitHub จะใช้ไฟล์นั้นก่อน (ขึ้นทันที) ถ้าไม่มีค่อยใช้ตราที่ตั้งในระบบ แล้วจึงใช้ตราตัวอย่าง */
+function logoFb() { return SITE.logo ? '<img src="' + SITE.logo + '" alt="' + esc(t('school_name')) + '">' : crest(); }
+function logoHtml() { return '<img src="assets/logo.png" alt="' + esc(t('school_name')) + '" onerror="this.onerror=null;this.outerHTML=logoFb()">'; }
 var HI = {
   mail: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>',
   phone: '<svg viewBox="0 0 24 24"><path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/></svg>',

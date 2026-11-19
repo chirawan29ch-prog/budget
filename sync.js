@@ -70,6 +70,18 @@
 
   /* ---------------------------------------------------------- เริ่มระบบ */
   document.addEventListener('focusin', function (e) { if (e.target && e.target.id === 'lp' && !TOKEN) call('ping').catch(function () {}); });
+  /* ตราโรงเรียน: จำรูปที่ดึงจาก Drive ไว้ในเครื่อง ครั้งถัดไปขึ้นทันที ไม่ต้องรอเรียกเซิร์ฟเวอร์ */
+  function logoCacheLoad() {
+    try { var lc = JSON.parse(localStorage.getItem('budget_logo') || 'null'); if (lc && lc.id && /^data:image\//.test(lc.url || '')) { RES[lc.id] = lc.url; ATT.set(lc.url, 'att:' + lc.id); if (!SITE.logo) SITE.logo = lc.url; } } catch (e) {}
+  }
+  function logoCacheSave() {
+    try {
+      var u = SITE.logo, id = u && ATT.get(u);
+      if (id && id.slice(0, 4) === 'att:') localStorage.setItem('budget_logo', JSON.stringify({ id: id.slice(4), url: u }));
+      else if (!u) localStorage.removeItem('budget_logo');
+    } catch (e) {}
+  }
+  logoCacheLoad();
   function boot() {
     if (!ready()) { say('ยังไม่ได้ตั้งค่าที่อยู่เว็บแอปในไฟล์ config.js', 60000); return; }
     var saved = null; try { saved = sessionStorage.getItem(SESS); } catch (e) {}
@@ -210,7 +222,7 @@
       if (Array.isArray(ss.navdocs) && ss.navdocs.length === 4) SITE.navdocs = ss.navdocs.map(function (x) { return x && typeof x === 'object' ? x : {}; });
       if (Array.isArray(ss.forms)) SITE.forms = ss.forms.filter(function (f) { return f && typeof f.title === 'string'; });
       if (Array.isArray(ss.news)) SITE.news = ss.news.filter(function (n) { return n && typeof n.title === 'string'; });
-      resolveAtts(SITE).then(function (did) { if (did) _render(); }, function () {});
+      resolveAtts(SITE).then(function (did) { logoCacheSave(); if (did) _render(); }, function () {});
     }
     SITESIG = siteSig();
   }
