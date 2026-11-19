@@ -58,7 +58,7 @@ var DEF = {
   f_activity: 'โครงการและประเภทเงิน', f_actno: 'กิจกรรมตามแผนปฏิบัติการ', f_form: 'แบบบันทึกข้อความ', f_form01: 'งป. 01 จัดซื้อ/จัดจ้าง', f_form02: 'งป. 02 ค่าอาหาร อาหารว่าง ค่าใช้จ่ายอื่น', f_insp: 'กรรมการตรวจรับ', f_insp_rule: 'น้อยกว่า 5,000 บาท ใช้ผู้ตรวจรับ 1 คน ตั้งแต่ 5,000 บาทขึ้นไป ใช้ผู้ตรวจรับ 3 คน ให้ผู้ที่เกี่ยวข้องกับการดำเนินงานเป็นผู้ตรวจรับ', f_insp_n: 'คนที่ {n}', e_insp: 'กรุณาเลือกกรรมการตรวจรับให้ครบ {n} คน และไม่ซ้ำกัน', f_title: 'เรื่องที่ขออนุมัติ', f_items: 'รายการพัสดุที่จะจัดซื้อ/จัดจ้าง',
   c_item: 'รายการ', c_qty: 'จำนวน', c_unit: 'หน่วย', c_price: 'ราคาต่อหน่วย', c_sum: 'รวม', btn_add_item: 'เพิ่มรายการ', btn_del: 'ลบ',
   f_track: 'วิธีการเบิกจ่าย', f_track_bill: 'ผู้ขายวางบิลได้', f_track_loan: 'วางบิลไม่ได้ ขอยืมเงิน',
-  no_loan: 'เลขที่สัญญายืมเงิน', no_vch: 'เลขที่ใบสำคัญจ่าย', btn_claim_no: 'กดรับเลขที่', no_got: 'ได้เลขแล้ว', no_next: 'เลขถัดไป {no}', no_hint: 'ระบบรันเลขต่อเนื่องตามปีงบประมาณ ใครกดรับเลขก่อนได้ก่อน คนถัดไปได้เลขถัดไปทันที เลขที่ได้แล้วจะใส่ในเอกสารให้เอง ถ้าไม่ได้กด ระบบจะออกเลขให้ตอนกดส่งขั้นนี้', t_no_claimed: 'ได้เลขที่ {no} แล้ว', hm_pg_flow: 'ขั้นตอนการทำงาน', t_text_deleted: 'ลบข้อความแล้ว ถ้าอยากได้คืน เข้าโหมดแก้ไขแล้วกดที่ข้อความ (ลบแล้ว)', btn_sup_add: 'เพิ่มชื่อนี้ในรายการ', sup_added_lbl: 'ชื่อที่เพิ่มไว้:', t_sup_added: 'เพิ่มชื่อในรายการแล้ว', e_sup_empty: 'พิมพ์ชื่อเจ้าหน้าที่พัสดุก่อน', menu_loans: 'สรุปยืมเงิน', ln_note: 'ทะเบียนคุมสัญญายืมเงิน ดูว่าเลขที่สัญญาแต่ละฉบับเป็นเรื่องอะไร ใครยืม ยืมมากี่วัน คืนหรือยัง กดแถวเพื่อเปิดคำขอ', ln_k_open: 'สัญญาที่ยังไม่ปิด', ln_k_sum: 'ยอดเงินยืมค้าง (บาท)', ln_k_near: 'ครบกำหนดใน 14 วัน', ln_k_over: 'เกินกำหนด', ln_k_wait: 'รอการเงินจ่ายเงิน', ln_f_all: 'ทั้งหมด', ln_f_open: 'ยังไม่ปิด', ln_f_over: 'เกินกำหนด', ln_f_done: 'ปิดแล้ว', ln_c_no: 'เลขที่สัญญา', ln_c_title: 'เรื่อง', ln_c_who: 'ผู้ยืม', ln_c_fund: 'ประเภทเงิน', ln_c_at: 'วันที่ยืม', ln_c_due: 'ครบกำหนด', ln_c_days: 'ยืมมาแล้ว', ln_c_paid: 'เงินยืม', ln_c_used: 'ใช้จริง', ln_c_back: 'ต้องคืนเงินสด', ln_c_st: 'สถานะ', ln_s_pay: 'รอการเงินจ่ายเงิน', ln_s_work: 'ครูกำลังใช้เงิน', ln_s_ret: 'รอครูส่งใช้เงินยืม', ln_s_close: 'รอการเงินปิดสัญญา', ln_s_done: 'ปิดสัญญาแล้ว', ln_left: 'เหลือ {n} วัน', ln_days: '{n} วัน', ln_over: 'เกินกำหนด', ln_nonum: 'รอรับเลข', ln_ask: 'ขอ', ln_none: 'ไม่มีรายการ', ln_total: 'รวมเงินยืมค้าง {n} สัญญา', menu_tax: 'เล่มคุมภาษี', tax_note: 'ทะเบียนคุมเงินนอกงบประมาณ ประเภทภาษีหัก ณ ที่จ่าย 1% ใบรับเงินเขียนหักเองตอนคู่ค้ามารับเช็ค แล้วมาบันทึกที่นี่ ระบบรันเลข ภษ. (รับ) และ บจ. (นำส่ง) ต่อเนื่องทั้งปีงบประมาณและคำนวณคงเหลือให้', tax_k_bal: 'ภาษีรอนำส่ง (บาท)', tax_k_in: 'รับรวมปีงบประมาณนี้', tax_k_out: 'นำส่งแล้วรวม', tax_title: 'ทะเบียนคุมเงินนอกงบประมาณ', tax_type: 'ประเภทเงิน ภาษีหัก ณ ที่จ่าย', tax_year: 'พ.ศ.', tax_fy: 'ปีงบประมาณ {fy}', tax_c_m: 'เดือน', tax_c_d: 'วันที่', tax_c_no: 'ที่เอกสาร', tax_c_item: 'รายการ', tax_c_in: 'รับ', tax_c_out: 'จ่าย', tax_c_bal: 'คงเหลือ', tax_open_row: 'ยอดยกมา', tax_in_row: 'รับเงินภาษีหัก ณ ที่จ่าย', tax_out_row: 'นำส่งเงินภาษีหัก ณ ที่จ่าย', tax_sum: 'รวมรายการ', tax_f_date: 'วันที่', tax_f_type: 'ประเภทรายการ', tax_o_in: 'รับภาษีหัก ณ ที่จ่าย (ภษ.)', tax_o_out: 'นำส่งภาษี (บจ.)', tax_f_who: 'ร้านค้า / ผู้รับ', tax_f_who_ph: 'ชื่อร้านค้า (ถ้ามี)', tax_f_amt: 'จำนวนเงิน', tax_add: 'เพิ่มรายการ', tax_open_lbl: 'ยอดยกมาต้นปีงบประมาณ', tax_sg1: 'ผู้ลงบัญชี', tax_sg2: 'ผู้ตรวจสอบบัญชี', tax_sg3: 'หัวหน้าสถานศึกษา', tax_del_sure: 'ยืนยันลบ', t_tax_added: 'เพิ่มรายการแล้ว', t_tax_deleted: 'ลบรายการแล้ว', e_tax_date: 'เลือกวันที่ก่อน', e_tax_fy: 'วันที่ต้องอยู่ในปีงบประมาณนี้ (1 ต.ค. – 30 ก.ย.)', e_tax_amt: 'กรอกจำนวนเงินมากกว่า 0', e_tax_over: 'ยอดนำส่งมากกว่ายอดภาษีที่รอนำส่ง', lane_lbl: 'ลู่การใช้เงิน', lane_ok: 'ตรงตามแผน', lane_no: 'ไม่ตรงตามแผน', f_loan_note: 'ระบบจะจัดทำสัญญายืมเงินให้พิมพ์แนบ เมื่อผู้อำนวยการอนุมัติแล้ว งานการเงินจะจ่ายเงินยืม และต้องส่งใช้ภายใน 30 วันนับจากวันที่ได้รับเงิน',
+  no_loan: 'เลขที่สัญญายืมเงิน', no_vch: 'เลขที่ใบสำคัญจ่าย', btn_claim_no: 'กดรับเลขที่', no_got: 'ได้เลขแล้ว', no_next: 'เลขถัดไป {no}', no_hint: 'ระบบรันเลขต่อเนื่องตามปีงบประมาณ ใครกดรับเลขก่อนได้ก่อน คนถัดไปได้เลขถัดไปทันที เลขที่ได้แล้วจะใส่ในเอกสารให้เอง ถ้าไม่ได้กด ระบบจะออกเลขให้ตอนกดส่งขั้นนี้', t_no_claimed: 'ได้เลขที่ {no} แล้ว', hm_pg_flow: 'ขั้นตอนการทำงาน', t_text_deleted: 'ลบข้อความแล้ว ถ้าอยากได้คืน เข้าโหมดแก้ไขแล้วกดที่ข้อความ (ลบแล้ว)', btn_sup_add: 'เพิ่มชื่อนี้ในรายการ', sup_added_lbl: 'ชื่อที่เพิ่มไว้:', t_sup_added: 'เพิ่มชื่อในรายการแล้ว', e_sup_empty: 'พิมพ์ชื่อเจ้าหน้าที่พัสดุก่อน', menu_loans: 'สรุปยืมเงิน', ln_note: 'ทะเบียนคุมสัญญายืมเงิน ดูว่าเลขที่สัญญาแต่ละฉบับเป็นเรื่องอะไร ใครยืม ยืมมากี่วัน ครบกำหนดวันไหน คืนหรือยัง กดแถวเพื่อเปิดคำขอ สัญญาที่ทำก่อนใช้ระบบเพิ่มได้ที่ช่องด้านล่าง', ln_k_open: 'สัญญาที่ยังไม่ปิด', ln_k_sum: 'ยอดเงินยืมค้าง (บาท)', ln_k_near: 'ครบกำหนดใน 5 วัน', ln_k_over: 'เกินกำหนด', ln_k_wait: 'รอการเงินจ่ายเงิน', ln_f_all: 'ทั้งหมด', ln_f_open: 'ยังไม่ปิด', ln_f_over: 'เกินกำหนด', ln_f_done: 'ปิดแล้ว', ln_c_no: 'เลขที่สัญญา', ln_c_title: 'เรื่อง', ln_c_who: 'ผู้ยืม', ln_c_fund: 'ประเภทเงิน', ln_c_at: 'วันที่ยืม', ln_c_due: 'ครบกำหนด', ln_c_days: 'ยืมมาแล้ว', ln_c_paid: 'เงินยืม', ln_c_used: 'ใช้จริง', ln_c_back: 'ต้องคืนเงินสด', ln_c_st: 'สถานะ', ln_s_pay: 'รอการเงินจ่ายเงิน', ln_s_work: 'ครูกำลังใช้เงิน', ln_s_ret: 'รอครูส่งใช้เงินยืม', ln_s_close: 'รอการเงินปิดสัญญา', ln_s_done: 'ปิดสัญญาแล้ว', ln_left: 'เหลือ {n} วัน', ln_days: '{n} วัน', ln_over: 'เกินกำหนด', ln_nonum: 'รอรับเลข', ln_ask: 'ขอ', ln_none: 'ไม่มีรายการ', ln_total: 'รวมเงินยืมค้าง {n} สัญญา', menu_tax: 'เล่มคุมภาษี', tax_note: 'ทะเบียนคุมเงินนอกงบประมาณ ประเภทภาษีหัก ณ ที่จ่าย 1% ใบรับเงินเขียนหักเองตอนคู่ค้ามารับเช็ค แล้วมาบันทึกที่นี่ ระบบรันเลข ภษ. (รับ) และ บจ. (นำส่ง) ต่อเนื่องทั้งปีงบประมาณและคำนวณคงเหลือให้', tax_k_bal: 'ภาษีรอนำส่ง (บาท)', tax_k_in: 'รับรวมปีงบประมาณนี้', tax_k_out: 'นำส่งแล้วรวม', tax_title: 'ทะเบียนคุมเงินนอกงบประมาณ', tax_type: 'ประเภทเงิน ภาษีหัก ณ ที่จ่าย', tax_year: 'พ.ศ.', tax_fy: 'ปีงบประมาณ {fy}', tax_c_m: 'เดือน', tax_c_d: 'วันที่', tax_c_no: 'ที่เอกสาร', tax_c_item: 'รายการ', tax_c_in: 'รับ', tax_c_out: 'จ่าย', tax_c_bal: 'คงเหลือ', tax_open_row: 'ยอดยกมา', tax_in_row: 'รับเงินภาษีหัก ณ ที่จ่าย', tax_out_row: 'นำส่งเงินภาษีหัก ณ ที่จ่าย', tax_sum: 'รวมรายการ', tax_f_date: 'วันที่', tax_f_type: 'ประเภทรายการ', tax_o_in: 'รับภาษีหัก ณ ที่จ่าย (ภษ.)', tax_o_out: 'นำส่งภาษี (บจ.)', tax_f_who: 'ร้านค้า / ผู้รับ', tax_f_who_ph: 'ชื่อร้านค้า (ถ้ามี)', tax_f_amt: 'จำนวนเงิน', tax_add: 'เพิ่มรายการ', tax_open_lbl: 'ยอดยกมาต้นปีงบประมาณ', tax_sg1: 'ผู้ลงบัญชี', tax_sg2: 'ผู้ตรวจสอบบัญชี', tax_sg3: 'หัวหน้าสถานศึกษา', tax_del_sure: 'ยืนยันลบ', t_tax_added: 'เพิ่มรายการแล้ว', t_tax_deleted: 'ลบรายการแล้ว', e_tax_date: 'เลือกวันที่ก่อน', e_tax_fy: 'วันที่ต้องอยู่ในปีงบประมาณนี้ (1 ต.ค. – 30 ก.ย.)', e_tax_amt: 'กรอกจำนวนเงินมากกว่า 0', e_tax_over: 'ยอดนำส่งมากกว่ายอดภาษีที่รอนำส่ง', lane_lbl: 'ลู่การใช้เงิน', lane_ok: 'ตรงตามแผน', lane_no: 'ไม่ตรงตามแผน', f_loan_note: 'ระบบจะจัดทำสัญญายืมเงินให้พิมพ์แนบ เมื่อผู้อำนวยการอนุมัติแล้ว งานการเงินจะจ่ายเงินยืม และต้องส่งใช้ภายใน 30 วันนับจากวันที่ได้รับเงิน',
   f_use_date: 'วันที่ต้องใช้เงิน', f_vendor: 'ผู้ขาย/ผู้รับจ้าง (ถ้าทราบ)', f_reason: 'เหตุผลและความจำเป็น', btn_submit: 'บันทึกและจัดทำบันทึกขออนุมัติ',
   act_info: '{fund} · งบประมาณ {budget} · ตัดยอดแล้ว {cut} · อยู่ระหว่างดำเนินการ {hold}', act_left: 'คงเหลือ {left} บาท', link_project: 'ดูหน้าโครงการ',
   e_activity: 'กรุณาเลือกกิจกรรมตามแผนปฏิบัติการ', e_title: 'กรุณาระบุเรื่องที่ขออนุมัติ', e_items: 'กรุณาระบุรายการพร้อมจำนวนและราคาต่อหน่วยให้ครบ',
@@ -85,7 +85,7 @@ var DEF = {
   a_plan_check_text: 'ตรวจสอบในระบบก่อนผู้รับผิดชอบโครงการพิมพ์ ว่าตรงตามแผนปฏิบัติการและยอดเงินไม่เกินงบประมาณของกิจกรรม', btn_plan_ok: 'ตรวจสอบผ่าน แจ้งให้พิมพ์เอกสาร',
   f_return_note: 'หรือส่งคืนเพื่อแก้ไข (ระบุรายการที่ต้องแก้ไข)', btn_return: 'ส่งคืนผู้รับผิดชอบโครงการ',
   a_dir1_text: 'ได้รับเอกสารที่ลงนามแล้ว เสนอผู้อำนวยการ เมื่อลงนามแล้วกดบันทึก ระบบจะแจ้งผู้รับผิดชอบโครงการให้มารับเอกสาร', btn_dir_ok: 'ผู้อำนวยการลงนามอนุมัติแล้ว', f_reject_note: 'กรณีไม่อนุมัติ ระบุเหตุผล', btn_reject: 'ผู้อำนวยการไม่อนุมัติ',
-  f_loan_amount: 'จำนวนเงินที่จ่าย (บาท)', a_loan_due: 'กำหนดส่งใช้ 30 วันนับจากวันนี้', btn_loan_paid: 'จ่ายเงินยืมแล้ว ส่งเอกสารถึงผู้รับผิดชอบโครงการ',
+  f_loan_amount: 'จำนวนเงินที่จ่าย (บาท)', a_loan_due: 'ครบกำหนดส่งใช้ 15 วันนับจากวันนี้', btn_loan_paid: 'จ่ายเงินยืมแล้ว ส่งเอกสารถึงผู้รับผิดชอบโครงการ',
   f_photos: 'ภาพพัสดุที่ได้รับ/ใบส่งของ (อย่างน้อย 1 ภาพ)', f_photos_paper: 'ภาพพัสดุที่ได้รับ/ใบส่งของ (ถ้ามี — ภาพที่ครูพิมพ์แนบมาในชุดใช้แทนได้)', btn_sample_photo: 'ใช้ภาพตัวอย่าง (เฉพาะพรีวิว)', f_actual: 'ยอดจริงตามใบเสร็จ/ใบส่งของ (บาท)', f_actual_hint: 'ไม่เกินยอดที่อนุมัติ {amount} บาท', btn_to_supply: 'ส่งเอกสารถึงงานพัสดุ',
   a_inspect_text: 'ตรวจสอบภาพตรวจรับในหน้านี้ แล้วบันทึกรายการพัสดุ', f_ref: 'เลขที่เอกสารในระบบพัสดุ (ถ้ามี)', btn_inspect_done: 'จัดทำเอกสารแล้ว แจ้งผู้รับผิดชอบโครงการมารับ',
   a_sign_text: 'นำเอกสารตรวจรับให้คณะกรรมการลงนามให้ครบ แล้วส่งคืนงานพัสดุ', btn_sign_done: 'คณะกรรมการลงนามครบแล้ว ส่งคืนงานพัสดุ',
@@ -338,7 +338,7 @@ function seed(o) {
   var run = function () {
     var s = cur(r), by = actorFor(s.role, r), lk = '', lv = {};
     if (s.k === 'consent') { Object.keys(r.consents).forEach(function (k) { r.consents[k] = true; }); lk = 'lg_consent'; lv = { name: USERS[by].name, amount: baht(trSum(r)) }; }
-    if (s.k === 'loan_pay') { r.loan = { paid: r.amount, at: x, due: x + 30 * DAY }; lk = 'lg_loan'; lv = { amount: baht(r.amount) }; }
+    if (s.k === 'loan_pay') { r.loan = { paid: r.amount, at: x, due: x + LOAN_DAYS * DAY }; lk = 'lg_loan'; lv = { amount: baht(r.amount) }; }
     if (s.k === 'evid') { r.actual = o.actual || r.amount; r.photos = [samplePhoto(r.title.slice(0, 18), o.hue || 200)]; lk = 'lg_evid'; lv = { amount: baht(r.actual), n: 1 }; }
     if (s.k === 'submit' && r.recur) { r.actual = r.amount; lk = 'lg_recur'; lv = { amount: baht(r.amount) }; }
     if (s.k === 'buy') { r.actual = o.actual || r.amount; r.photos = [samplePhoto(r.title.slice(0, 18), o.hue || 200), samplePhoto('ใบส่งของ', (o.hue || 200) + 40)]; lk = 'lg_buy'; lv = { amount: baht(r.actual), n: 2 }; }
@@ -1423,7 +1423,7 @@ function legApply(r, d, now) {
   while (r.status === 'active' && cur(r).k !== tgt && guard++ < 30) {
     var c = cur(r);
     if (c.k === 'consent') Object.keys(r.consents).forEach(function (k) { r.consents[k] = true; });
-    if (c.k === 'loan_pay') { var la = legDay(d.legLoanDate, at), no = String(d.legLoanNo || '').trim(); r.loan = { paid: Number(d.legPaid) > 0 ? Number(d.legPaid) : r.amount, at: la, due: legDay(d.legDue, la + 30 * DAY) }; if (no) { r.loan.no = no; r.loanNo = no; } }
+    if (c.k === 'loan_pay') { var la = legDay(d.legLoanDate, at), no = String(d.legLoanNo || '').trim(); r.loan = { paid: Number(d.legPaid) > 0 ? Number(d.legPaid) : r.amount, at: la, due: legDay(d.legDue, la + LOAN_DAYS * DAY) }; if (no) { r.loan.no = no; r.loanNo = no; } }
     if (c.k === 'buy' || c.k === 'evid') r.actual = Number(d.legActual) > 0 ? Number(d.legActual) : r.amount;
     if (c.k === 'cut') r.cutAmount = Number(d.legCut) > 0 ? Number(d.legCut) : (r.actual || r.amount);
     complete(r, S.u.id, at, 'lg_legacy', { name: S.u.name });
@@ -1709,7 +1709,64 @@ function saveTax() { try { localStorage.setItem('budget_tax', JSON.stringify(TAX
 var TAX_MN = ['ตุลาคม', 'พฤศจิกายน', 'ธันวาคม', 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน'], TAX_MS = ['ต.ค.', 'พ.ย.', 'ธ.ค.', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.'];
 function taxInfo(iso) { var d = new Date(iso + 'T00:00:00'), m = d.getMonth(); return { fy: d.getFullYear() + 543 + (m >= 9 ? 1 : 0), i: (m + 3) % 12, day: d.getDate() }; }
 function taxNo(k, fy) { var n = 0; TAXB.rows.forEach(function (x) { if (x.k === k && x.no && taxInfo(x.d).fy === fy) n = Math.max(n, parseInt(String(x.no).replace(/^\D+/, ''), 10) || 0); }); return (k === 'in' ? 'ภษ.' : 'บจ.') + (n + 1) + '/' + String(fy).slice(-2); }
+function taxTagSel(x) {
+  if (x.k !== 'in') return '';
+  var o = function (map, cur, f) { return '<select class="sm" data-tg="' + x.id + ':' + f + '" style="max-width:150px;' + (cur ? '' : 'border-color:#E5A23A;') + '">' + (cur ? '' : '<option value="">— ติ๊ก —</option>') + Object.keys(map).map(function (k) { return '<option value="' + k + '"' + (k === cur ? ' selected' : '') + '>' + esc(map[k]) + '</option>'; }).join('') + '</select>'; };
+  return '<div style="display:flex;flex-wrap:wrap;gap:4px">' + o(TAX_FORM, x.form, 'form') + o({ rev: 'เงินรายได้', sub: 'เงินอุดหนุน' }, x.fund, 'fund') + o({ shop: 'ร้านค้า', temp: 'ลูกจ้างชั่วคราว' }, x.cat, 'cat') + '</div>';
+}
+function taxSumHtml(fy, M) {
+  var z = taxSum(fy, M), du = taxDue(fy, M), mn = TAX_MN[M] + ' ' + taxMonthBE(fy, M), n = function (a) { return '<td class="n">' + a.c + '</td><td class="n">' + taxMoney(a.s) + '</td>'; };
+  var rowsF = '<tr><td>' + TAX_FORMN['53'] + '</td>' + n(z.f53) + '</tr><tr><td>' + TAX_FORMN['3'] + '</td>' + n(z.f3) + '</tr><tr><td><b>รวม</b></td>' + n(z.all).replace(/<td class="n">/g, '<td class="n"><b>').replace(/<\/td>/g, '</b></td>') + '</tr>';
+  var rowsU = [['rev', 'temp', z.rt], ['rev', 'shop', z.rs], ['sub', 'temp', z.st], ['sub', 'shop', z.ss]].filter(function (k) { return k[2].c; }).map(function (k) { return '<tr><td>' + TAX_FUND[k[0]] + ' · ' + TAX_CAT[k[1]] + '</td>' + n(k[2]) + '</tr>'; }).join('') + '<tr><td><b>รวม</b></td>' + n(z.all).replace(/<td class="n">/g, '<td class="n"><b>').replace(/<\/td>/g, '</b></td>') + '</tr>';
+  var list = z.rows.map(function (x, i) { return '<tr><td>' + (i + 1) + '</td><td>' + TAX_FORM[x.form] + '</td><td>' + esc(x.who || '') + '</td><td>' + TAX_FUND[x.fund] + '</td><td>' + TAX_CAT[x.cat] + '</td><td class="n">' + taxMoney(x.amt) + '</td></tr>'; }).join('');
+  return '<section class="card" style="margin-top:14px"><h3 style="margin:0 0 4px">สรุปภาษีหัก ณ ที่จ่ายประจำเดือน' + esc(mn) + ' <span class="muted small">(ต้องยื่นทุกเดือน)</span></h3>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 10px"><span class="chip ' + du.cls + '">' + esc(du.txt) + '</span><span class="small muted">' + esc(du.st) + '</span></div>' +
+    (z.untag ? '<div class="note" style="border-color:#E5A23A;background:#FFF6E6;margin-bottom:10px">ยังมี ' + z.untag + ' รายการที่ยังไม่ติ๊ก แบบ / ประเภทเงิน / หมวด (ช่องสีส้มในตารางด้านบน) รายการเหล่านี้ยังไม่นับในสรุปและบันทึกข้อความ</div>' : '') +
+    (z.all.c ? '<h4 style="margin:12px 0 6px">แยกตามแบบ (ตรงกับใบแนบที่ส่งกรมสรรพากร)</h4><div class="table"><table class="lntab"><thead><tr><th>แบบ</th><th class="n">จำนวนราย</th><th class="n">ภาษีที่หัก (บาท)</th></tr></thead><tbody>' + rowsF + '</tbody></table></div>' +
+    '<h4 style="margin:12px 0 6px">แยกตามประเภทเงิน (ตรงกับบรรทัดที่ขออนุมัติจ่าย)</h4><div class="table"><table class="lntab"><thead><tr><th>ประเภทเงิน · หมวด</th><th class="n">จำนวนราย</th><th class="n">ภาษีที่หัก (บาท)</th></tr></thead><tbody>' + rowsU + '</tbody></table></div>' +
+    '<div style="margin:8px 0"><span class="chip c-ok">ยอดรวมสองตารางตรงกัน ' + taxMoney(z.all.s) + ' บาท ✓</span></div>' +
+    '<h4 style="margin:12px 0 6px">ใบแนบ: รายชื่อผู้ถูกหักภาษี แยกตามแบบ</h4><div class="table"><table class="lntab" style="min-width:560px"><thead><tr><th>#</th><th>แบบ</th><th>ผู้ถูกหัก</th><th>ประเภทเงิน</th><th>หมวด</th><th class="n">ภาษี</th></tr></thead><tbody>' + list + '</tbody></table></div>' +
+    '<div class="row" style="gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap"><button type="button" class="primary" data-doc="taxmemo" data-id="' + fy + '-' + M + '">บันทึกข้อความขออนุมัติจ่ายภาษี</button>' + docIcons('taxmemo', fy + '-' + M) + '</div>'
+    : '<div class="muted small">เดือนนี้ยังไม่มีรายการภาษีที่ติ๊กแบบและประเภทเงิน เพิ่มรายการ "รับภาษีหัก ณ ที่จ่าย" ด้านบน แล้วติ๊กให้ครบ ระบบจะสรุปและทำบันทึกข้อความให้</div>') + '</section>';
+}
 function taxMoney(n) { return Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+/* ภาษีหัก ณ ที่จ่ายที่รับไว้ แต่ละใบติ๊ก 3 อย่าง: แบบ (ภ.ง.ด.53 นิติบุคคล / ภ.ง.ด.3 บุคคลธรรมดา) · ประเภทเงิน · หมวด — ใช้สรุปรายเดือนและทำบันทึกขออนุมัติจ่าย */
+var TAX_FORM = { '53': 'ภ.ง.ด.53', '3': 'ภ.ง.ด.3' }, TAX_FORMN = { '53': 'ภ.ง.ด.53 (นิติบุคคล)', '3': 'ภ.ง.ด.3 (บุคคลธรรมดา)' }, TAX_FUND = { rev: 'เงินรายได้สถานศึกษา', sub: 'เงินอุดหนุนทั่วไป' }, TAX_CAT = { shop: 'ร้านค้า', temp: 'ค่าจ้างเหมาบริการลูกจ้างชั่วคราว' };
+function taxMonthBE(fy, M) { return M <= 2 ? fy - 1 : fy; }
+function taxSum(fy, M) {
+  var all = TAXB.rows.filter(function (x) { return x.k === 'in' && taxInfo(x.d).fy === fy && taxInfo(x.d).i === M; }), rows = all.filter(function (x) { return x.form && x.fund && x.cat; });
+  var agg = function (f) { var c = 0, v = 0; rows.forEach(function (x) { if (f(x)) { c++; v += x.amt; } }); return { c: c, s: Math.round(v * 100) / 100 }; };
+  rows.sort(function (a, b) { return a.form === b.form ? (a.fund === b.fund ? (a.d < b.d ? -1 : a.d > b.d ? 1 : 0) : (a.fund < b.fund ? 1 : -1)) : (a.form === '53' ? -1 : 1); });
+  return { rows: rows, untag: all.length - rows.length, f53: agg(function (x) { return x.form === '53'; }), f3: agg(function (x) { return x.form === '3'; }), all: agg(function () { return true; }),
+    rt: agg(function (x) { return x.fund === 'rev' && x.cat === 'temp'; }), rs: agg(function (x) { return x.fund === 'rev' && x.cat === 'shop'; }), st: agg(function (x) { return x.fund === 'sub' && x.cat === 'temp'; }), ss: agg(function (x) { return x.fund === 'sub' && x.cat === 'shop'; }),
+    rev: agg(function (x) { return x.fund === 'rev'; }), sub: agg(function (x) { return x.fund === 'sub'; }) };
+}
+/* ยื่นแบบและนำส่งภายในวันที่ 7 ของเดือนถัดไป (ยื่นออนไลน์ขยายถึงวันที่ 15) */
+function taxDue(fy, M) {
+  var cm = (M + 9) % 12, cy = taxMonthBE(fy, M), nm = (cm + 1) % 12, ny = cy + (cm === 11 ? 1 : 0), iso = (ny - 543) + '-' + ('0' + (nm + 1)).slice(-2) + '-07', iso15 = (ny - 543) + '-' + ('0' + (nm + 1)).slice(-2) + '-15';
+  var today = new Date(NOW).toISOString().slice(0, 10), left = Math.round((new Date(iso + 'T00:00:00') - new Date(today + 'T00:00:00')) / 864e5), left15 = Math.round((new Date(iso15 + 'T00:00:00') - new Date(today + 'T00:00:00')) / 864e5);
+  var ms = TAX_MS[(nm + 3) % 12];
+  return { txt: 'ยื่นแบบและนำส่งภายในวันที่ 7 ' + ms + ' ' + ny + ' (ยื่นออนไลน์ถึงวันที่ 15)', left: left, left15: left15, cls: left15 < 0 ? 'c-bad' : left <= 5 ? 'c-wait' : 'c-mute',
+    st: left > 0 ? 'อีก ' + left + ' วัน' : left === 0 ? 'ครบกำหนดวันนี้' : left15 >= 0 ? 'เลยวันที่ 7 แล้ว (ออนไลน์ถึงวันที่ 15 อีก ' + left15 + ' วัน)' : 'เกินกำหนด ' + (-left15) + ' วัน' };
+}
+function taxFundLine(lbl, t, sh, tot) {
+  var seg = []; if (t.c) seg.push('ภาษีหัก ณ ที่จ่าย ค่าจ้างเหมาบริการลูกจ้างชั่วคราว จำนวน ' + t.c + ' คน เป็นเงิน ' + bahtD(t.s) + ' บาท'); if (sh.c) seg.push('ภาษีหัก ณ ที่จ่าย ร้านค้า จำนวน ' + sh.c + ' รายการ เป็นเงิน ' + bahtD(sh.s) + ' บาท');
+  return lbl + ' ' + seg.join(' และ ') + (seg.length > 1 ? ' รวมเป็นเงินทั้งสิ้น ' + mtext(tot.s) : ' (' + bahtText(tot.s) + ')');
+}
+/* บันทึกข้อความขออนุมัติจ่ายเงินภาษีหัก ณ ที่จ่าย — ถ้อยคำตามฉบับจริงของงานการเงิน (เดือนก่อนหน้า) เติมยอดจากเล่มคุมภาษี */
+function ofTaxMemo(id) {
+  var q = String(id).split('-'), fy = +q[0], M = +q[1], me = finMe(null), z = taxSum(fy, M), mn = TAX_MN[M] + ' ' + taxMonthBE(fy, M), p1 = finTop('ขออนุมัติจ่ายเงินภาษีหัก ณ ที่จ่าย');
+  if (!z.all.c) { p1.push(NP('ยังไม่มีรายการภาษีหัก ณ ที่จ่ายที่ติ๊กแบบและประเภทเงินของเดือน' + mn, { ind: 72, j: 1 })); return { name: 'ขออนุมัติจ่ายภาษี_' + mn, st: 'ngp', v: 'fin', pages: [finEnd(p1, me)] }; }
+  var funds = z.sub.c && z.rev.c ? 'เงินอุดหนุนทั่วไปและเงินรายได้สถานศึกษา' : z.sub.c ? 'เงินอุดหนุนทั่วไป' : 'เงินรายได้สถานศึกษา', parts = [];
+  if (z.f53.c) parts.push('ภ.ง.ด.53 จำนวน ' + z.f53.c + ' รายการ เป็นเงิน ' + bahtD(z.f53.s) + ' บาท (' + bahtText(z.f53.s) + ')');
+  if (z.f3.c) parts.push('ภ.ง.ด.3 จำนวน ' + z.f3.c + ' รายการ เป็นเงิน ' + bahtD(z.f3.s) + ' บาท (' + bahtText(z.f3.s) + ')');
+  var lines = []; if (z.rev.c) lines.push(taxFundLine('เงินรายได้สถานศึกษา', z.rt, z.rs, z.rev)); if (z.sub.c) lines.push(taxFundLine('เงินอุดหนุนทั่วไป', z.st, z.ss, z.sub));
+  p1.push(NP('ตามที่ ' + t('school_name') + ' ได้ดำเนินการจ่าย' + funds + ' ในการจัดซื้อ-จัดจ้างต่างๆ ให้กับคู่ค้าของทางโรงเรียน ซึ่งทางโรงเรียนจะดำเนินการ หักภาษี ณ ที่จ่าย 1% เพื่อนำส่งกรมสรรพากรในทุกสิ้นเดือน โดยในเดือน' + mn + ' ทางโรงเรียนมีรายการหักภาษี ณ ที่จ่าย 1% ตามใบแนบ ' + parts.join(' และ ') + (parts.length > 1 ? ' รวมเป็นเงินทั้งสิ้น ' + mtext(z.all.s) : '') + ' เอกสารดังแนบ', { ind: 72, j: 1 }),
+    NP('ในการนี้ ' + finI(me) + ' จึงขออนุมัติจ่ายเงินภาษีหัก ณ ที่จ่าย 1% ประจำเดือน' + mn + ' ให้กับกรมสรรพากร โดยใช้ประเภทเงินดังนี้', { ind: 72, j: 1, sp: 7.8 }));
+  lines.forEach(function (l, i) { p1.push(NP((i + 1) + '. ' + l, { ind: 72, j: 1, sp: 7.8 })); });
+  return { name: 'ขออนุมัติจ่ายภาษี_' + mn, st: 'ngp', v: 'fin', pages: [finEnd(p1, me)] };
+}
 function vTax() {
   var fy = fyBE(NOW), nowI = taxInfo(new Date(NOW).toISOString().slice(0, 10)).i;
   if (S.taxM == null) S.taxM = nowI;
@@ -1718,31 +1775,39 @@ function vTax() {
   rows.forEach(function (x) { var i = taxInfo(x.d).i; bal += x.k === 'in' ? x.amt : -x.amt; x._bal = bal; if (x.k === 'in') tin += x.amt; else tout += x.amt; if (i < M) before = bal; if (i === M) mrows.push(x); });
   var yr = function (i) { return fy - 543 + (i <= 2 ? -1 : 0) + 543; }, mi = M, ri = 0, ro = 0;
   var tabs = TAX_MS.map(function (m, i) { return '<button type="button" data-tm="' + i + '"' + (i === M ? ' class="on"' : '') + '>' + m + '</button>'; }).join('');
-  var body = '<tr><td>' + TAX_MN[M] + '</td><td class="n">1</td><td></td><td>' + T('tax_open_row') + '</td><td class="n">' + (M === 0 ? taxMoney(TAXB.open) : '') + '</td><td class="n"></td><td class="n">' + taxMoney(before) + '</td><td></td></tr>' +
-    mrows.map(function (x) { if (x.k === 'in') ri += x.amt; else ro += x.amt; return '<tr><td>' + TAX_MN[M] + '</td><td class="n">' + taxInfo(x.d).day + '</td><td class="num" style="white-space:nowrap"><b>' + esc(x.no) + '</b></td><td>' + (x.k === 'in' ? T('tax_in_row') + (x.who ? ' ' + esc(x.who) : '') : T('tax_out_row') + (x.who ? ' ' + esc(x.who) : '')) + '</td><td class="n">' + (x.k === 'in' ? taxMoney(x.amt) : '') + '</td><td class="n">' + (x.k === 'out' ? taxMoney(x.amt) : '') + '</td><td class="n">' + taxMoney(x._bal) + '</td><td><button type="button" class="sm" data-tdel="' + x.id + '" aria-label="ลบ">×</button></td></tr>'; }).join('');
+  var body = '<tr><td>' + TAX_MN[M] + '</td><td class="n">1</td><td></td><td>' + T('tax_open_row') + '</td><td class="n">' + (M === 0 ? taxMoney(TAXB.open) : '') + '</td><td class="n"></td><td class="n">' + taxMoney(before) + '</td><td></td><td></td></tr>' +
+    mrows.map(function (x) { if (x.k === 'in') ri += x.amt; else ro += x.amt; return '<tr><td>' + TAX_MN[M] + '</td><td class="n">' + taxInfo(x.d).day + '</td><td class="num" style="white-space:nowrap"><b>' + esc(x.no) + '</b></td><td>' + (x.k === 'in' ? T('tax_in_row') + (x.who ? ' ' + esc(x.who) : '') : T('tax_out_row') + (x.who ? ' ' + esc(x.who) : '')) + '</td><td class="n">' + (x.k === 'in' ? taxMoney(x.amt) : '') + '</td><td class="n">' + (x.k === 'out' ? taxMoney(x.amt) : '') + '</td><td class="n">' + taxMoney(x._bal) + '</td><td>' + taxTagSel(x) + '</td><td><button type="button" class="sm" data-tdel="' + x.id + '" aria-label="ลบ">×</button></td></tr>'; }).join('');
   var first = new Date(fy - 544, 9, 1), today = new Date(NOW).toISOString().slice(0, 10), dflt = M === nowI ? today : (yr(M) - 543) + '-' + ('0' + (((M + 9) % 12) + 1)).slice(-2) + '-01';
   var lo = (fy - 544) + '-10-01', hi = (fy - 543) + '-09-30';
   $('view').innerHTML = '<h2>' + T('menu_tax') + '</h2><p class="muted" style="margin:4px 0 14px">' + T('tax_note') + '</p>' +
     '<div class="stats" style="margin:0 0 14px"><div><small>' + T('tax_k_bal') + '</small><b class="num" style="color:var(--wait)">' + taxMoney(bal) + '</b></div><div><small>' + T('tax_k_in') + '</small><b class="num">' + taxMoney(tin) + '</b></div><div><small>' + T('tax_k_out') + '</small><b class="num">' + taxMoney(tout) + '</b></div></div>' +
     '<section class="card"><div style="text-align:center"><h3 style="margin:0">' + T('tax_title') + '</h3><div class="muted">' + T('tax_type') + ' · ' + T('tax_year') + ' ' + yr(M) + ' · ' + T('tax_fy', { fy: fy }) + '</div></div>' +
     '<div class="seg" style="margin:12px 0">' + tabs + '</div>' +
-    '<div class="table"><table class="lntab" style="min-width:640px"><thead><tr><th>' + T('tax_c_m') + '</th><th class="n">' + T('tax_c_d') + '</th><th>' + T('tax_c_no') + '</th><th>' + T('tax_c_item') + '</th><th class="n">' + T('tax_c_in') + '</th><th class="n">' + T('tax_c_out') + '</th><th class="n">' + T('tax_c_bal') + '</th><th></th></tr></thead><tbody>' + body + '</tbody><tfoot><tr><td colspan="4"><b>' + T('tax_sum') + '</b></td><td class="n"><b>' + taxMoney(ri + (M === 0 ? TAXB.open : 0)) + '</b></td><td class="n"><b>' + taxMoney(ro) + '</b></td><td colspan="2"></td></tr></tfoot></table></div>' +
+    '<div class="table"><table class="lntab" style="min-width:900px"><thead><tr><th>' + T('tax_c_m') + '</th><th class="n">' + T('tax_c_d') + '</th><th>' + T('tax_c_no') + '</th><th>' + T('tax_c_item') + '</th><th class="n">' + T('tax_c_in') + '</th><th class="n">' + T('tax_c_out') + '</th><th class="n">' + T('tax_c_bal') + '</th><th>แบบ · ประเภทเงิน · หมวด</th><th></th></tr></thead><tbody>' + body + '</tbody><tfoot><tr><td colspan="4"><b>' + T('tax_sum') + '</b></td><td class="n"><b>' + taxMoney(ri + (M === 0 ? TAXB.open : 0)) + '</b></td><td class="n"><b>' + taxMoney(ro) + '</b></td><td colspan="3"></td></tr></tfoot></table></div>' +
     '<div id="taxErr" class="err small" style="margin-top:8px"></div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0 4px"><label style="display:flex;flex-direction:column;font-size:13px;gap:3px">' + T('tax_f_date') + '<input id="tDate" type="date" min="' + lo + '" max="' + hi + '" value="' + dflt + '"></label>' +
     '<label style="display:flex;flex-direction:column;font-size:13px;gap:3px">' + T('tax_f_type') + '<select id="tKind"><option value="in">' + T('tax_o_in') + '</option><option value="out">' + T('tax_o_out') + '</option></select></label>' +
+    '<span id="tTags" style="display:flex;flex-wrap:wrap;gap:10px;align-items:end"><label style="display:flex;flex-direction:column;font-size:13px;gap:3px">แบบ<select id="tForm"><option value="53">ภ.ง.ด.53 (นิติบุคคล)</option><option value="3">ภ.ง.ด.3 (บุคคลธรรมดา)</option></select></label>' +
+    '<label style="display:flex;flex-direction:column;font-size:13px;gap:3px">ประเภทเงิน<select id="tFund"><option value="rev">เงินรายได้สถานศึกษา</option><option value="sub">เงินอุดหนุนทั่วไป</option></select></label>' +
+    '<label style="display:flex;flex-direction:column;font-size:13px;gap:3px">หมวด<select id="tCat"><option value="shop">ร้านค้า</option><option value="temp">ค่าจ้างเหมาบริการลูกจ้างชั่วคราว</option></select></label></span>' +
     '<label style="display:flex;flex-direction:column;font-size:13px;gap:3px;flex:1 1 180px;min-width:0">' + T('tax_f_who') + '<input id="tWho" placeholder="' + esc(t('tax_f_who_ph')) + '"></label>' +
     '<label style="display:flex;flex-direction:column;font-size:13px;gap:3px">' + T('tax_f_amt') + '<input id="tAmt" type="number" min="0.01" step="0.01" style="width:130px"></label><button type="button" class="primary" id="tAdd">' + T('tax_add') + '</button></div>' +
     '<div class="small muted" style="margin-top:6px">' + T('tax_open_lbl') + ' <input id="tOpen" type="number" min="0" step="0.01" value="' + TAXB.open + '" style="width:130px;display:inline-block"> ' + T('baht') + '</div>' +
-    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;text-align:center;margin-top:26px" class="small muted"><div>........................................<div>' + T('tax_sg1') + '</div></div><div>........................................<div>' + T('tax_sg2') + '</div></div><div>........................................<div>' + T('tax_sg3') + '</div></div></div></section>';
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;text-align:center;margin-top:26px" class="small muted"><div>........................................<div>' + T('tax_sg1') + '</div></div><div>........................................<div>' + T('tax_sg2') + '</div></div><div>........................................<div>' + T('tax_sg3') + '</div></div></div></section>' + taxSumHtml(fy, M);
   [].forEach.call(document.querySelectorAll('[data-tm]'), function (b) { b.onclick = function () { S.taxM = +b.dataset.tm; vTax(); }; });
   var err = function (k) { $('taxErr').innerHTML = T(k); };
   $('tAdd').onclick = function () {
     var d = $('tDate').value, a = Math.round(Number($('tAmt').value) * 100) / 100, k = $('tKind').value;
     if (!d) return err('e_tax_date'); var ti = taxInfo(d); if (ti.fy !== fy) return err('e_tax_fy'); if (!(a > 0)) return err('e_tax_amt');
     if (k === 'out') { var tot = TAXB.open; TAXB.rows.forEach(function (x) { if (taxInfo(x.d).fy === fy) tot += x.k === 'in' ? x.amt : -x.amt; }); if (a > Math.round(tot * 100) / 100) return err('e_tax_over'); }
-    TAXB.rows.push({ id: 'tx' + Date.now() + Math.floor(Math.random() * 100), t: Date.now(), d: d, k: k, who: $('tWho').value.trim(), amt: a, no: taxNo(k, fy) });
+    TAXB.rows.push({ id: 'tx' + Date.now() + Math.floor(Math.random() * 100), t: Date.now(), d: d, k: k, who: $('tWho').value.trim(), amt: a, no: taxNo(k, fy), form: k === 'in' ? $('tForm').value : '', fund: k === 'in' ? $('tFund').value : '', cat: k === 'in' ? $('tCat').value : '' });
     saveTax(); S.taxM = ti.i; vTax(); toast('t_tax_added');
   };
+  var tgl = function () { $('tTags').style.display = $('tKind').value === 'in' ? 'flex' : 'none'; };
+  $('tKind').onchange = tgl; tgl(); $('tCat').onchange = function () { if (this.value === 'temp') $('tForm').value = '3'; };
+  [].forEach.call(document.querySelectorAll('[data-tg]'), function (el) { el.onchange = function () {
+    var q = el.dataset.tg.split(':'), x = TAXB.rows.filter(function (y) { return y.id === q[0]; })[0]; if (!x) return;
+    x[q[1]] = el.value; if (q[1] === 'cat' && el.value === 'temp' && !x.form) x.form = '3'; x.dirty = 1; saveTax(); vTax(); }; });
   $('tOpen').onchange = function () { var v = Math.max(0, Number(this.value) || 0); TAXB.open = Math.round(v * 100) / 100; saveTax(); vTax(); };
   [].forEach.call(document.querySelectorAll('[data-tdel]'), function (b) { b.onclick = function () {
     if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = t('tax_del_sure'); b.className = 'sm danger'; return; }
@@ -1750,6 +1815,26 @@ function vTax() {
 }
 
 /* ===================== finance back office: ทะเบียนคุมสัญญายืมเงิน ===================== */
+var LOAN_DAYS = 15, LOAN_NEAR = 5;      /* ครบกำหนดส่งใช้เงินยืมกี่วันนับจากวันยืม / เตือนก่อนครบกี่วัน */
+/* สัญญาที่ทำก่อนใช้ระบบ: การเงินคีย์เอง เลขที่สัญญาที่ระบบออกต่อไปนับต่อจากเลขสูงสุดที่คีย์ */
+var OLDLOANS = [];
+try { var ol0 = JSON.parse(localStorage.getItem('budget_oldloans') || '[]'); if (Array.isArray(ol0)) OLDLOANS = ol0.filter(function (x) { return x && /^\d+\/\d+$/.test(x.no) && /^\d{4}-\d\d-\d\d$/.test(x.d) && x.paid > 0; }); } catch (e) {}
+function saveOldLoans() { try { localStorage.setItem('budget_oldloans', JSON.stringify(OLDLOANS)); } catch (e) {} }
+function isoAdd(iso, n) { var p = iso.split('-'), d = new Date(+p[0], +p[1] - 1, +p[2] + n); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function isoMs(iso) { return new Date(iso + 'T00:00:00').getTime(); }
+function oldLoanRows() {
+  var today = new Date(NOW); today = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+  return OLDLOANS.map(function (o) {
+    var at = isoMs(o.d), due = isoMs(o.due || isoAdd(o.d, LOAN_DAYS)), done = o.st === 'done', end = done && o.closed ? isoMs(o.closed) : NOW;
+    var left = done ? null : Math.round((due - today) / DAY);
+    return { old: o, r: null, st: done ? 'done' : 'work', no: o.no, paid: o.paid, lo: { at: at, due: due }, el: Math.max(0, Math.floor((end - at) / DAY)), left: left, used: null, back: null, over: left != null && left < 0, open: !done };
+  });
+}
+function loanNoTaken(no) {
+  if (OLDLOANS.some(function (o) { return o.no === no; })) return true;
+  return REQS.some(function (r) { var n = noOf(r, 'loan'); return n && n === no; });
+}
+function oldLoanNext() { var m = 0, yy = fyYY(Date.now()); OLDLOANS.forEach(function (o) { if (o.no.split('/')[1] === yy) m = Math.max(m, parseInt(o.no, 10) || 0); }); REQS.forEach(function (r) { var n = noOf(r, 'loan'), q = /^(\d+)\/(\d+)$/.exec(n || ''); if (q && q[2] === yy) m = Math.max(m, +q[1]); }); return (m + 1) + '/' + yy; }
 function loanState(r) {
   if (r.status === 'done') return 'done';
   var i = r.step, lp = idx(r, 'loan_pay'), lr = idx(r, 'loan_ret'), py = idx(r, 'pay');
@@ -1770,8 +1855,8 @@ function loanRows() {
   }).sort(function (a, b) { return (b.lo ? b.lo.at : NOW + 1) - (a.lo ? a.lo.at : NOW + 1); });
 }
 function vLoans() {
-  var all = loanRows(), fl = S.lnF || 'all', open = all.filter(function (x) { return x.open; }),
-    near = open.filter(function (x) { return x.left >= 0 && x.left <= 14 && (x.st === 'work' || x.st === 'ret'); }).length, over = all.filter(function (x) { return x.over; }).length, wait = all.filter(function (x) { return x.st === 'pay'; }).length;
+  var all = loanRows().concat(oldLoanRows()).sort(function (a, b) { return (b.lo ? b.lo.at : NOW + 1) - (a.lo ? a.lo.at : NOW + 1); }), canOld = S.u && (S.u.role === 'finance' || (S.u.roles || []).indexOf('finance') >= 0 || (S.u.roles || []).indexOf('admin') >= 0 || S.u.role === 'admin'), fl = S.lnF || 'all', open = all.filter(function (x) { return x.open; }),
+    near = open.filter(function (x) { return x.left >= 0 && x.left <= LOAN_NEAR && (x.st === 'work' || x.st === 'ret'); }).length, over = all.filter(function (x) { return x.over; }).length, wait = all.filter(function (x) { return x.st === 'pay'; }).length;
   var rows = all.filter(function (x) { return fl === 'all' || (fl === 'open' && x.st !== 'done') || (fl === 'over' && x.over) || (fl === 'done' && x.st === 'done'); }), sum = rows.filter(function (x) { return x.open; });
   var kp = function (l, v, c) { return '<div><small>' + T(l) + '</small><b class="num"' + (c ? ' style="color:var(--' + c + ')"' : '') + '>' + v + '</b></div>'; };
   var chips = [['all', 'ln_f_all'], ['open', 'ln_f_open'], ['over', 'ln_f_over'], ['done', 'ln_f_done']].map(function (c) { return '<button type="button" data-lf="' + c[0] + '"' + (fl === c[0] ? ' class="on"' : '') + '>' + T(c[1]) + '</button>'; }).join('');
@@ -1780,11 +1865,51 @@ function vLoans() {
     '<div class="seg" style="margin-bottom:12px">' + chips + '</div>' +
     '<div class="table"><table class="lntab"><thead><tr><th>' + T('ln_c_no') + '</th><th>' + T('ln_c_title') + '</th><th>' + T('ln_c_who') + '</th><th>' + T('ln_c_fund') + '</th><th>' + T('ln_c_at') + '</th><th>' + T('ln_c_due') + '</th><th class="n">' + T('ln_c_days') + '</th><th class="n">' + T('ln_c_paid') + '</th><th class="n">' + T('ln_c_used') + '</th><th class="n">' + T('ln_c_back') + '</th><th>' + T('ln_c_st') + '</th></tr></thead><tbody>' +
     (rows.length ? rows.map(function (x) {
-      var r = x.r, s = LN_ST[x.st], dc = x.left == null ? '' : x.left < 0 ? '<span class="chip c-bad">' + T('due_over', { n: -x.left }) + '</span>' : '<span class="chip ' + (x.left <= 14 ? 'c-wait' : 'c-mute') + '">' + T('ln_left', { n: x.left }) + '</span>';
+      if (x.old) return oldLoanRowHtml(x);
+      var r = x.r, s = LN_ST[x.st], dc = x.left == null ? '' : x.left < 0 ? '<span class="chip c-bad">' + T('due_over', { n: -x.left }) + '</span>' : '<span class="chip ' + (x.left <= LOAN_NEAR ? 'c-wait' : 'c-mute') + '">' + T('ln_left', { n: x.left }) + '</span>';
       return '<tr class="click" data-open="' + r.id + '"><td class="num" style="white-space:nowrap"><b>' + (x.no ? esc(x.no) : '<span class="muted">' + T('ln_nonum') + '</span>') + '</b></td><td>' + esc(r.title) + '<div class="muted small">' + reqNo(r) + '</div></td><td class="small">' + esc(USERS[r.owner].name) + '</td><td class="small"><b>' + esc(act(r.act).group || act(r.act).fund) + '</b>' + (act(r.act).group && act(r.act).group !== act(r.act).fund ? '<div class="muted">' + esc(act(r.act).fund) + '</div>' : '') + '</td><td style="white-space:nowrap">' + (x.lo ? d8(x.lo.at) : '-') + '</td><td style="white-space:nowrap">' + (x.lo ? d8(x.lo.due) : '-') + (dc ? '<div>' + dc + '</div>' : '') + '</td><td class="n num"><b>' + (x.el != null ? T('ln_days', { n: x.el }) : '-') + '</b></td><td class="n">' + (x.lo ? baht(x.paid) : '<span class="muted small">' + T('ln_ask') + ' ' + baht(x.paid) + '</span>') + '</td><td class="n">' + (x.used != null ? baht(x.used) : '-') + '</td><td class="n">' + (x.back != null ? baht(x.back) : '-') + '</td><td><span class="chip ' + s[1] + '">' + T(s[0]) + '</span>' + (x.over ? ' <span class="chip c-bad">' + T('ln_over') + '</span>' : '') + '</td></tr>';
     }).join('') : '<tr><td colspan="11" class="muted">' + T('ln_none') + '</td></tr>') +
-    '</tbody><tfoot><tr><td colspan="7"><b>' + T('ln_total', { n: sum.length }) + '</b></td><td class="n"><b>' + baht(sum.reduce(function (a, x) { return a + x.paid; }, 0)) + '</b></td><td colspan="3"></td></tr></tfoot></table></div>';
+    '</tbody><tfoot><tr><td colspan="7"><b>' + T('ln_total', { n: sum.length }) + '</b></td><td class="n"><b>' + baht(sum.reduce(function (a, x) { return a + x.paid; }, 0)) + '</b></td><td colspan="3"></td></tr></tfoot></table></div>' + (canOld ? oldLoanForm() : '');
   [].forEach.call(document.querySelectorAll('[data-lf]'), function (b) { b.onclick = function () { S.lnF = b.dataset.lf; vLoans(); }; });
+  oldLoanWire();
+}
+function oldLoanRowHtml(x) {
+  var o = x.old, s = LN_ST[x.st], dc = x.left == null ? '' : x.left < 0 ? '<span class="chip c-bad">' + T('due_over', { n: -x.left }) + '</span>' : '<span class="chip ' + (x.left <= LOAN_NEAR ? 'c-wait' : 'c-mute') + '">' + (x.left === 0 ? 'ครบกำหนดวันนี้' : T('ln_left', { n: x.left })) + '</span>';
+  var canEdit = S.u && (S.u.role === 'finance' || S.u.role === 'admin' || (S.u.roles || []).indexOf('finance') >= 0 || (S.u.roles || []).indexOf('admin') >= 0);
+  return '<tr><td class="num" style="white-space:nowrap"><b>' + esc(o.no) + '</b><div><span class="chip c-mute">ก่อนใช้ระบบ</span></div></td><td>' + esc(o.title) + '</td><td class="small">' + esc(o.who) + '</td><td class="small"><b>' + esc(o.fund) + '</b></td><td style="white-space:nowrap">' + d8(x.lo.at) + '</td><td style="white-space:nowrap">' + d8(x.lo.due) + (dc ? '<div>' + dc + '</div>' : '') + '</td><td class="n num"><b>' + T('ln_days', { n: x.el }) + '</b></td><td class="n">' + baht(x.paid) + '</td><td class="n">-</td><td class="n">-</td><td><span class="chip ' + s[1] + '">' + T(s[0]) + '</span>' + (x.over ? ' <span class="chip c-bad">' + T('ln_over') + '</span>' : '') +
+    (canEdit ? '<div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap"><button type="button" class="sm" data-olret="' + esc(o.id) + '">' + (o.st === 'done' ? 'ยกเลิกคืนแล้ว' : 'ทำเครื่องหมายคืนแล้ว') + '</button><button type="button" class="sm" data-oldel="' + esc(o.id) + '" aria-label="ลบ">ลบ</button></div>' : '') + '</td></tr>';
+}
+function oldLoanForm() {
+  var names = Object.keys(USERS).filter(function (k) { return USERS[k].name && !USERS[k].disabled; }).map(function (k) { return USERS[k].name; }).sort();
+  var lab = 'display:flex;flex-direction:column;font-size:13px;gap:3px;min-width:0';
+  return '<section class="card" style="margin-top:16px"><h3 style="margin:0 0 2px">เพิ่มสัญญายืมเงินที่ทำก่อนใช้ระบบ</h3><div class="muted small" style="margin-bottom:10px">คีย์สัญญาที่ทำบนกระดาษมาก่อน เลขที่สัญญาที่ระบบออกต่อไปจะนับต่อจากเลขสูงสุดที่คีย์ ครบกำหนดคือ ' + LOAN_DAYS + ' วันนับจากวันที่ยืม</div>' +
+    '<div id="olErr" class="err small" style="margin-bottom:6px"></div><div style="display:flex;flex-wrap:wrap;gap:10px;align-items:end">' +
+    '<label style="' + lab + '">เลขที่สัญญา<input id="olNo" placeholder="ถัดไป ' + esc(oldLoanNext()) + '" style="width:110px"></label>' +
+    '<label style="' + lab + ';flex:1 1 220px">เรื่อง<input id="olTitle" placeholder="เช่น ยืมเงินจัดกิจกรรมค่ายวิทยาศาสตร์"></label>' +
+    '<label style="' + lab + '">ผู้ยืม<input id="olWho" list="olNames" placeholder="เลือกหรือพิมพ์ชื่อ" style="width:190px"><datalist id="olNames">' + names.map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist></label>' +
+    '<label style="' + lab + '">ประเภทเงิน<select id="olFund"><option>เงินอุดหนุน</option><option>เงินรายได้</option></select></label>' +
+    '<label style="' + lab + '">วันที่ยืม<input id="olDate" type="date"><span id="olDue" class="small" style="color:var(--acc,var(--accent));font-weight:600"></span></label>' +
+    '<label style="' + lab + '">จำนวนเงิน<input id="olAmt" type="number" min="0.01" step="0.01" style="width:130px"></label>' +
+    '<label style="' + lab + '">สถานะ<select id="olSt"><option value="open">ยังไม่คืน</option><option value="done">คืนแล้ว</option></select></label>' +
+    '<button type="button" class="primary" id="olAdd">เพิ่มสัญญา</button></div></section>';
+}
+function oldLoanWire() {
+  var sh = function () { if ($('olDate') && $('olDue')) $('olDue').textContent = $('olDate').value ? 'ครบกำหนดวันที่ ' + d8(isoMs(isoAdd($('olDate').value, LOAN_DAYS))) : ''; };
+  if ($('olDate')) { $('olDate').onchange = sh; $('olDate').oninput = sh; }
+  if ($('olAdd')) $('olAdd').onclick = function () {
+    var err = function (m) { $('olErr').textContent = m; }, no = $('olNo').value.trim().replace(/\s/g, '') || oldLoanNext(), title = $('olTitle').value.trim(), who = $('olWho').value.trim(), d = $('olDate').value, amt = Math.round(Number($('olAmt').value) * 100) / 100;
+    if (!/^\d+\/\d{2}$/.test(no)) return err('เลขที่สัญญาให้ใส่แบบ 7/70 (เลขที่/ปีงบประมาณสองหลัก)');
+    if (loanNoTaken(no)) return err('เลขที่สัญญา ' + no + ' มีอยู่แล้ว ใช้เลขอื่น');
+    if (!title) return err('กรอกเรื่องที่ยืม'); if (!who) return err('กรอกชื่อผู้ยืม'); if (!d) return err('เลือกวันที่ยืม'); if (!(amt > 0)) return err('กรอกจำนวนเงินยืม');
+    var st = $('olSt').value, rec = { id: 'old' + Date.now() + Math.floor(Math.random() * 100), no: no, title: title, who: who, fund: $('olFund').value, paid: amt, d: d, due: isoAdd(d, LOAN_DAYS), st: st, closed: st === 'done' ? new Date(NOW).toISOString().slice(0, 10) : '' };
+    OLDLOANS.push(rec); saveOldLoans(); vLoans(); toast('t_tax_added');
+  };
+  [].forEach.call(document.querySelectorAll('[data-olret]'), function (b) { b.onclick = function () {
+    var o = OLDLOANS.filter(function (x) { return x.id === b.dataset.olret; })[0]; if (!o) return;
+    o.st = o.st === 'done' ? 'open' : 'done'; o.closed = o.st === 'done' ? new Date(NOW).toISOString().slice(0, 10) : ''; o.dirty = 1; saveOldLoans(); vLoans(); }; });
+  [].forEach.call(document.querySelectorAll('[data-oldel]'), function (b) { b.onclick = function () {
+    if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = t('tax_del_sure'); b.className = 'sm danger'; return; }
+    OLDLOANS = OLDLOANS.filter(function (x) { return x.id !== b.dataset.oldel; }); saveOldLoans(); vLoans(); toast('t_tax_deleted'); }; });
 }
 function vOverview() {
   var all = sumStats(ACTS), funds = {};
@@ -1871,12 +1996,7 @@ function vDetail(r) {
     '<details style="margin-top:10px"><summary class="small">' + T('custody_hist', { n: r.custody.length }) + '</summary><ul class="log" style="margin-top:6px">' +
     r.custody.slice().reverse().map(function (c) { return '<li><span class="num muted">' + dt(c.at) + '</span> ' + esc(USERS[c.from].name) + ' → ' + holderT(c.to, r) + '<br>' + (c.by ? '<span style="color:var(--ok)">' + T('custody_recv', { by: USERS[c.by].name, at: dt(c.byAt) }) + ' · ' + recvHow(c) + '</span>' + (c.missing && c.missing.length ? '<br>' + missNote(c) : '') : '<span style="color:var(--wait)">' + T('custody_wait') + '</span>') + '</li>'; }).join('') + '</ul></details></section>';
   var locked = !canPrint(r) && r.owner === u.id;
-  var docs = '<section class="card"><h3>' + T('docs_title') + '</h3><div class="stack small" style="gap:6px;margin-top:8px">' +
-    (r.recur ? '' : locked ? '<span class="muted">' + T('doc_memo') + ' · ' + T('doc_locked') + '</span>' : '<span><button type="button" class="link" data-doc="memo" data-id="' + r.id + '">' + T('doc_memo') + '</button>' + docIcons('memo', r.id) + '</span>') +
-    (r.recur ? '' : '<span><button type="button" class="link" data-doc="project" data-id="' + bookId(p.id, r.act) + '">' + T('btn_project_page') + ' (' + esc(p.code) + ')</button>' + docIcons('project', bookId(p.id, r.act)) + '</span>') +
-    (r.track === 'loan' ? (locked ? '<span class="muted">' + T('doc_loan') + ' · ' + T('doc_locked') + '</span>' : '<span><button type="button" class="link" data-doc="loan" data-id="' + r.id + '">' + T('doc_loan') + '</button>' + docIcons('loan', r.id) + '</span><span><button type="button" class="link" data-doc="contract" data-id="' + r.id + '">' + T('doc_contract') + '</button>' + docIcons('contract', r.id) + '</span>') : '') +
-    (idx(r, 'loan_ret') >= 0 && r.step >= idx(r, 'loan_ret') && (u.role !== 'teacher' || own) ? '<span><button type="button" class="link" data-doc="loanret" data-id="' + r.id + '">' + T('doc_loanret') + '</button>' + docIcons('loanret', r.id) + '</span>' : '') +
-    (u.role !== 'teacher' ? staffDocsOf(r).map(function (d) { return sdLink(d, r); }).join('') : '') + '</div></section>';
+  var docs = docsCard(r, u, p, own);
   var trList = (r.transfers || []).length ? '<dt>' + T(r.type === 'change' ? 'f_tr_src' : 'i_transfers') + '</dt><dd>' + r.transfers.map(function (x) { var o = srcOwner(x), ok = o === r.owner ? 'tr_self' : (r.consents && r.consents[o]) || r.adjApplied ? 'tr_ok' : 'tr_wait';
       return '<div style="margin-bottom:4px">' + esc(act(x.from).name) + ' · <span class="num">' + baht(x.amount) + '</span> ' + T('baht') + '<div class="small" style="color:' + (ok === 'tr_wait' ? 'var(--wait)' : 'var(--ok)') + '">' + T(ok) + (ok === 'tr_self' ? '' : ' · ' + esc(USERS[o].name)) + '</div></div>'; }).join('') + '</dd>' : '';
   var info = '<section class="card"><dl class="kv"><dt>' + T('i_type') + '</dt><dd>' + (r.recur ? T('rt_recur') : T('rt_' + r.type) + (r.kind === 'svc' ? ' · ' + esc(r.svcKind) : '')) + '</dd><dt>' + T('i_channel') + '</dt><dd>' + (r.paper ? T('ch_paper', { name: USERS[r.enteredBy].name }) + (r.paperScan ? ' · <button type="button" class="link" id="ppView">' + T('pp_view_scan') + '</button>' : '') : T('ch_online')) + '</dd><dt>' + T('no_label') + '</dt><dd class="num">' + reqNo(r) + '</dd><dt>' + T('role_teacher') + '</dt><dd>' + esc(USERS[r.owner].name) + '</dd><dt>' + T('i_project') + '</dt><dd>' + esc(p.code + ' ' + p.name) + '</dd>' + (r.type !== 'change' ? '<dt>' + T('f_actno') + '</dt><dd>' + esc('กิจกรรมที่ ' + actOf(r).no + ' ' + actOf(r).name) + '</dd>' : '') + '<dt>' + T('col_fund') + '</dt><dd>' + esc(a.fund) + '</dd>' + (r.docNo ? '<dt>' + T('f_memo_no') + '</dt><dd>' + esc(docNoOf(r, r.type === 'carry' ? '03' : r.form === '02' ? '02' : '01')) + '</dd>' : '') + (r.quote ? '<dt>' + T('f_quote') + '</dt><dd><button type="button" class="link" id="qView">' + esc(r.quoteName || 'ใบเสนอราคา') + '</button></dd>' : '') +
@@ -1939,10 +2059,10 @@ function actionPanel0(r, u) {
   if (k === 'dir1') return box(title, txt(r.type === 'use' ? 'a_dir1_text' : 'a_dir1_text_x') + btn('primary', 'ok', 'btn_dir_ok') + '<label for="aNote">' + T('f_reject_note') + '</label><textarea id="aNote" rows="2"></textarea><div style="margin-top:8px">' + btn('danger', 'reject', 'btn_reject') + '</div>');
   if (k === 'loan_pay') return box(title, '<label for="aAmt">' + T('f_loan_amount') + '</label><input id="aAmt" type="number" min="1" value="' + r.amount + '" style="max-width:200px">' +
     '<div class="row" style="gap:12px;flex-wrap:wrap"><div><label for="aLoanChq">เลขที่เช็ค</label><input id="aLoanChq" value="' + esc(r.loanChq || '') + '" style="max-width:200px"></div></div><div class="small muted" style="margin:6px 0 10px">' + T('a_loan_due') + '</div>' + btn('primary', 'ok', 'btn_loan_paid'));
-  if (k === 'evid') return box(title, '<label for="aPh">' + T('f_evid') + '</label><input id="aPh" type="file" accept="image/*" multiple><div class="photos" id="aPrev" style="margin-top:8px"></div>' +
+  if (k === 'evid') return box(title, '<label for="aPh">' + T('f_evid') + '</label><input id="aPh" type="file" accept="image/*" multiple><div class="photos" id="aPrev" style="margin-top:8px"></div>' + insBox(r) +
     '<label for="aAmt">' + T('f_actual') + '</label><input id="aAmt" type="number" min="1" step="0.01" value="' + r.amount + '" style="max-width:200px"><div class="small muted" style="margin-bottom:10px">' + T('f_actual_hint', { amount: baht(r.amount) }) + '</div>' + btn('primary', 'ok', 'btn_to_plan_evid'));
   if (k === 'rpay') return box(title, txt('a_rpay_text') + (recurType(r) === 'wage' ? '<label for="aRef">เลขที่ข้อมูล Krungthai Corporate Online</label>' : '<label for="aChq">เลขที่เช็ค</label><input id="aChq" value="' + esc(r.chq || '') + '" style="max-width:200px"><label for="aRef">เลขที่ใบแจ้งหนี้</label>') + '<input id="aRef" value="' + esc(r.ref || '') + '" style="max-width:280px"><div style="margin-top:10px">' + btn('primary', 'ok', 'btn_rpay_done') + '</div>');
-  if (k === 'buy') return box(title, '<label for="aPh">' + T(r.paper ? 'f_photos_paper' : 'f_photos') + '</label><input id="aPh" type="file" accept="image/*" multiple><div class="row" style="margin-top:6px">' + btn('sm', 'sample', 'btn_sample_photo') + '</div><div class="photos" id="aPrev" style="margin-top:8px"></div>' +
+  if (k === 'buy') return box(title, '<label for="aPh">' + T(r.paper ? 'f_photos_paper' : 'f_photos') + '</label><input id="aPh" type="file" accept="image/*" multiple><div class="row" style="margin-top:6px">' + btn('sm', 'sample', 'btn_sample_photo') + '</div><div class="photos" id="aPrev" style="margin-top:8px"></div>' + insBox(r) +
     '<label for="aAmt">' + T('f_actual') + '</label><input id="aAmt" type="number" min="1" step="0.01" value="' + r.amount + '" style="max-width:200px"><div class="small muted" style="margin-bottom:10px">' + T('f_actual_hint', { amount: baht(r.amount) }) + '</div>' + btn('primary', 'ok', 'btn_to_supply'));
   if (k === 'inspect_doc') return box(title, supPanel(r));
   if (k === 'loan_ret') { var paidL = r.loan ? r.loan.paid : r.amount, usedL = r.cutAmount || r.actual || r.amount;
@@ -1957,9 +2077,16 @@ function actionPanel0(r, u) {
     return box(title, '<div class="small" style="margin:6px 0 10px">' + (r.loan ? T('a_pay_loan', { paid: baht(r.loan.paid), used: baht(r.cutAmount) }) + (diff > 0 ? ' · <b>' + T('a_pay_refund', { diff: baht(diff) }) + '</b>' : '') : T('a_pay_bill', { vendor: r.vendor || '-', amount: baht(r.cutAmount) })) + '</div>' + btn('primary', 'ok', r.loan ? 'btn_loan_clear_done' : 'btn_pay_done')); }
   return '';
 }
-var tmpPhotos = [];
+var tmpPhotos = [], tmpIns = [];
+/* รูปภาพการตรวจรับ + วันที่ใบส่งมอบงาน — เจ้าของโครงการแนบตอนซื้อ/จ้างเสร็จ งานพัสดุนำไปทำชุดเอกสาร */
+function insBox(r) {
+  return '<div style="border-top:1px dashed var(--line2);margin:12px 0 4px;padding-top:8px"><label for="aIp">รูปภาพการตรวจรับ (ถ่ายตอนตรวจรับของ/งาน · แนบได้หลายรูป ระบบจัดหน้าเป็นเอกสาร “รูปภาพตรวจรับ” ให้)</label><input id="aIp" type="file" accept="image/*" multiple><div class="row" style="margin-top:6px"><button type="button" class="sm" data-a="samplei">เพิ่มรูปตัวอย่าง</button></div><div class="photos" id="aIprev" style="margin-top:8px"></div>' +
+    (supIsHire(r) ? '<label for="aHd">วันที่ในใบส่งมอบงาน (ผู้รับจ้างลงนามแล้วจึงกรอก · เว้นว่างได้ จะพิมพ์เป็นเส้นประให้เขียนมือ)</label><input id="aHd" type="date" style="max-width:200px" value="' + esc(r.handDate || '') + '">' : '') + '</div>';
+}
+function showIprev() { var p = $('aIprev'); if (p) p.innerHTML = tmpIns.map(function (s, i) { return '<img src="' + s + '" alt="' + (i + 1) + '">'; }).join(''); }
 function bindActions(r) {
-  tmpPhotos = [];
+  tmpPhotos = []; tmpIns = (r.insPhotos || []).slice(); setTimeout(showIprev, 0);
+  var ip = $('aIp'); if (ip) ip.onchange = function () { [].forEach.call(ip.files, function (f) { var rd = new FileReader(); rd.onload = function () { shrinkImg(rd.result, 1600, function (d) { tmpIns.push(d); showIprev(); }); }; rd.readAsDataURL(f); }); };
   var err = function (k, v) { $('aErr').innerHTML = T(k, v); };
   var after = function (k, v) { S.sel = null; render(); toast(k, v); };
   var ph = $('aPh');
@@ -1989,6 +2116,7 @@ function bindActions(r) {
           r.log.push({ step: r.step, at: now, by: u.id, k: 'lg_track', v: { track: tn } });
           return after('t_track', { track: tn });
         case 'sample': tmpPhotos.push(samplePhoto(r.title.slice(0, 18), 200 + tmpPhotos.length * 40)); return showPrev();
+        case 'samplei': shrinkImg(samplePhoto(r.title.slice(0, 18), 300 + tmpIns.length * 45), 1200, function (d) { tmpIns.push(d); showIprev(); }); return;
         case 'back': if (!note) { $('aNote').focus(); return err('e_note_return'); } sendBack(r, u.id, now, note); return after('t_returned');
         case 'consent-ok':
           r.consents[u.id] = true; var mine = r.transfers.filter(function (x) { return srcOwner(x) === u.id; }).reduce(function (s2, x) { return s2 + x.amount; }, 0);
@@ -1999,9 +2127,9 @@ function bindActions(r) {
         case 'reject': if (!note) { $('aNote').focus(); return err('e_note_reject'); } reject(r, u.id, now, note); return after('t_rejected');
         case 'ok':
           var lk = '', lv = {};
-          if (k === 'loan_pay') { var p = Number($('aAmt').value); if (!(p > 0)) return err('e_loan_amount'); if (p > r.amount) return err('e_loan_over'); r.loanChq = $('aLoanChq').value.trim(); claimNo(r, 'loan'); claimNo(r, 'vch'); var lno = loanNo(r); r.loan = { paid: p, at: now, due: now + 30 * DAY, no: lno, chq: r.loanChq }; lk = 'lg_loan'; lv = { amount: baht(p) }; }
-          if (k === 'buy') { var amt = Number($('aAmt').value); if (!tmpPhotos.length && !r.paper) return err('e_photos'); if (!(amt > 0)) return err('e_actual'); if (amt > r.amount) return err('e_actual_over', { amount: baht(r.amount) }); r.actual = amt; r.photos = tmpPhotos.slice(); lk = 'lg_buy'; lv = { amount: baht(amt), n: r.photos.length }; }
-          if (k === 'evid') { var am2 = Number($('aAmt').value); if (!(am2 > 0)) return err('e_actual'); if (am2 > r.amount) return err('e_actual_over', { amount: baht(r.amount) }); r.actual = am2; r.photos = tmpPhotos.slice(); lk = 'lg_evid'; lv = { amount: baht(am2), n: r.photos.length }; }
+          if (k === 'loan_pay') { var p = Number($('aAmt').value); if (!(p > 0)) return err('e_loan_amount'); if (p > r.amount) return err('e_loan_over'); r.loanChq = $('aLoanChq').value.trim(); claimNo(r, 'loan'); claimNo(r, 'vch'); var lno = loanNo(r); r.loan = { paid: p, at: now, due: now + LOAN_DAYS * DAY, no: lno, chq: r.loanChq }; lk = 'lg_loan'; lv = { amount: baht(p) }; }
+          if (k === 'buy') { var amt = Number($('aAmt').value); if (!tmpPhotos.length && !r.paper) return err('e_photos'); if (!(amt > 0)) return err('e_actual'); if (amt > r.amount) return err('e_actual_over', { amount: baht(r.amount) }); r.actual = amt; r.photos = tmpPhotos.slice(); r.insPhotos = tmpIns.slice(); if ($('aHd')) r.handDate = $('aHd').value || ''; lk = 'lg_buy'; lv = { amount: baht(amt), n: r.photos.length }; }
+          if (k === 'evid') { var am2 = Number($('aAmt').value); if (!(am2 > 0)) return err('e_actual'); if (am2 > r.amount) return err('e_actual_over', { amount: baht(r.amount) }); r.actual = am2; r.photos = tmpPhotos.slice(); r.insPhotos = tmpIns.slice(); lk = 'lg_evid'; lv = { amount: baht(am2), n: r.photos.length }; }
           if (k === 'rpay') { r.ref = $('aRef').value.trim(); if ($('aChq')) r.chq = $('aChq').value.trim(); lk = 'lg_rpay'; }
           if (k === 'apply') { lk = 'lg_adj'; lv = { amount: baht(trSum(r)) }; }
           if (k === 'inspect_doc') { var se = supCheck(r); if (se) return err('e_sp', { m: se }); var ss = sup(r), st2 = supTotal2(ss); if (ss.fix && Math.abs(st2 - (r.actual || r.amount)) > 0.005) r.actual = st2; r.vendor = ss.vendor.trim(); r.supBy = u.id; r.ref = ($('aRef').value || '').trim(); lk = 'lg_sup'; lv = { n: ss.items.length, amount: baht(st2), vendor: r.vendor }; }
@@ -2151,12 +2279,23 @@ function ofCarryBlank() {
 }
 
 /* ---- on screen / PDF ---- */
-function nRuns(runs) { return runs.map(function (u) { var cls = (u.b ? ' ob' : '') + (u.red ? ' ored' : ''); return cls || u.sz ? '<span' + (cls ? ' class="' + cls.trim() + '"' : '') + (u.sz ? ' style="font-size:' + u.sz + 'pt"' : '') + '>' + esc(u.x) + '</span>' : esc(u.x); }).join(''); }
+/* ---- หมึกน้ำเงิน: ค่าที่กรอกในเอกสารพัสดุ (เลขที่ วันที่ ชื่อ จำนวนเงิน รายการ) ห่อด้วย BL() ---- */
+var INK_ON = true, INK0 = '\uE000', INK1 = '\uE001';
+function BL(x) { return INK_ON && x != null && x !== '' ? INK0 + x + INK1 : x; }
+function inkSplit(s) { var out = [], re = /\uE000([^\uE001]*)\uE001/g, i = 0, m; s = String(s == null ? '' : s); while ((m = re.exec(s))) { if (m.index > i) out.push({ x: s.slice(i, m.index) }); out.push({ x: m[1], blue: 1 }); i = re.lastIndex; } if (i < s.length) out.push({ x: s.slice(i) }); return out.length ? out : [{ x: '' }]; }
+function escI(s) { return esc(s).replace(/\uE000/g, '<span class="ink">').replace(/\uE001/g, '</span>'); }
+function shrinkImg(src, mx, cb) { var im = new Image(); im.onload = function () { var k = Math.min(1, mx / Math.max(im.width, im.height)), c = document.createElement('canvas'); c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k)); var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL('image/jpeg', 0.85)); }; im.onerror = function () { cb(src); }; im.src = src; }
+function photoDims(m) {
+  var jobs = [];
+  m.pages.forEach(function (pg) { pg.forEach(function (b) { if (b.k !== 'photos') return; b.dims = b.imgs.map(function () { return null; }); b.imgs.forEach(function (s, i) { jobs.push(new Promise(function (ok) { var im = new Image(); im.onload = function () { b.dims[i] = [im.naturalWidth, im.naturalHeight]; ok(); }; im.onerror = function () { ok(); }; im.src = s; })); }); }); });
+  return Promise.all(jobs);
+}
+function nRuns(runs) { return runs.map(function (u) { var cls = (u.b ? ' ob' : '') + (u.red ? ' ored' : ''); return cls || u.sz ? '<span' + (cls ? ' class="' + cls.trim() + '"' : '') + (u.sz ? ' style="font-size:' + u.sz + 'pt"' : '') + '>' + escI(u.x) + '</span>' : escI(u.x); }).join(''); }
 var NGPH = {
   nmh: function (b) {
     return '<div class="ntt"><img alt="" src="' + KRUT + '">บันทึกข้อความ</div>' +
       '<div class="nl"><b>ส่วนราชการ</b>  ' + (b.org ? esc(b.org) : school()) + '</div>' +
-      '<div class="nl"><b>ที่</b>  ' + esc(b.no) + '<span class="ndt" style="left:' + b.dx + 'pt"><b>วันที่</b>  ' + esc(b.date) + '</span></div>' +
+      '<div class="nl"><b>ที่</b>  ' + escI(b.no) + '<span class="ndt" style="left:' + b.dx + 'pt"><b>วันที่</b>  ' + escI(b.date) + '</span></div>' +
       '<div class="nl nsub"><b>เรื่อง</b>   ' + esc(b.subj) + '</div><div class="nhr"></div>';
   },
   /* finance memo header, as the finance office's own file: no rule under the header, title 35 pt, labels 20 pt, date at 7.75 cm */
@@ -2193,12 +2332,15 @@ var NGPH = {
   }
 };
 
+NGPH.krut = function (b) { return '<div class="okr"><img alt="" src="' + KRUT + '" style="height:' + b.h + 'cm"></div>'; };
+NGPH.photos = function (b) { return '<div class="opho" style="grid-template-columns:repeat(' + b.cols + ',minmax(0,1fr));grid-auto-rows:' + b.h + 'cm">' + b.imgs.map(function (s) { return '<div><img alt="" src="' + s + '"></div>'; }).join('') + '</div>'; };
+
 /* ===== documents each office makes at its own step (ร่าง: wording and layout wait for the school's real forms) ===== */
 var STAFFDOCS = { plan_check: ['pg01'], rpay: ['recurmemo', 'voucher'], inspect_doc: ['buyrpt', 'ordrpt', 'insprpt', 'issue', 'ackpay'], dir2: [], loan_pay: ['loanpaymemo', 'voucher'], pay: ['paymemo', 'voucher'] };
-var SD_NAME = { pg01: 'บันทึกข้อความ ผง. 01 พร้อมรายละเอียดแนบท้าย', recurmemo: 'บันทึกขออนุมัติจ่ายรายจ่ายประจำ', buyrpt: 'รายงานขอซื้อพัสดุ พร้อมรายละเอียดแนบท้าย', ordrpt: 'รายงานผลการพิจารณาและขออนุมัติสั่งซื้อ', insprpt: 'ใบตรวจรับพัสดุ พร้อมรายการพัสดุที่ตรวจรับ', issue: 'ใบเบิก', ackpay: 'บันทึกทราบผลการตรวจรับและอนุมัติจ่ายเงิน', loanpaymemo: 'บันทึกขออนุมัติเขียนเช็คจ่ายเงินยืม', paymemo: 'บันทึกขออนุมัติเขียนเช็คและจ่ายเช็ค', voucher: 'ใบสำคัญจ่าย', rcptform: 'ใบสำคัญรับเงิน (ผู้รับเงินไม่มีใบเสร็จ)' };
-var SD_OFFICE = { pg01: 'งานแผนงาน', recurmemo: 'งานการเงิน', buyrpt: 'งานพัสดุ', ordrpt: 'งานพัสดุ', insprpt: 'งานพัสดุ', issue: 'งานพัสดุ', ackpay: 'งานพัสดุ', loanpaymemo: 'งานการเงิน', paymemo: 'งานการเงิน', voucher: 'งานการเงิน', rcptform: 'งานการเงิน' };
+var SD_NAME = { hirehand: 'ใบส่งมอบงาน', insphoto: 'รูปภาพตรวจรับ', hirerpt: 'รายงานขอจ้าง พร้อมรายละเอียดแนบท้าย', hireord: 'รายงานผลการพิจารณาและขออนุมัติสั่งจ้าง', pohire: 'ใบสั่งจ้าง', pobuy: 'ใบสั่งซื้อ', hireinsp: 'ใบตรวจรับพัสดุ (จ้าง)', hireack: 'ทราบผลการตรวจรับและอนุมัติจ่ายเงิน (จ้าง)', pg01: 'บันทึกข้อความ ผง. 01 พร้อมรายละเอียดแนบท้าย', recurmemo: 'บันทึกขออนุมัติจ่ายรายจ่ายประจำ', buyrpt: 'รายงานขอซื้อพัสดุ พร้อมรายละเอียดแนบท้าย', ordrpt: 'รายงานผลการพิจารณาและขออนุมัติสั่งซื้อ', insprpt: 'ใบตรวจรับพัสดุ พร้อมรายการพัสดุที่ตรวจรับ', issue: 'ใบเบิก', ackpay: 'บันทึกทราบผลการตรวจรับและอนุมัติจ่ายเงิน', loanpaymemo: 'บันทึกขออนุมัติเขียนเช็คจ่ายเงินยืม', paymemo: 'บันทึกขออนุมัติเขียนเช็คและจ่ายเช็ค', voucher: 'ใบสำคัญจ่าย', rcptform: 'ใบสำคัญรับเงิน (ผู้รับเงินไม่มีใบเสร็จ)' };
+var SD_OFFICE = { hirehand: 'เจ้าของโครงการ', insphoto: 'เจ้าของโครงการ', hirerpt: 'งานพัสดุ', hireord: 'งานพัสดุ', pohire: 'งานพัสดุ', pobuy: 'งานพัสดุ', hireinsp: 'งานพัสดุ', hireack: 'งานพัสดุ', taxmemo: 'งานการเงิน', pg01: 'งานแผนงาน', recurmemo: 'งานการเงิน', buyrpt: 'งานพัสดุ', ordrpt: 'งานพัสดุ', insprpt: 'งานพัสดุ', issue: 'งานพัสดุ', ackpay: 'งานพัสดุ', loanpaymemo: 'งานการเงิน', paymemo: 'งานการเงิน', voucher: 'งานการเงิน', rcptform: 'งานการเงิน' };
 var DOCEDITS = {};
-function sdName(type, r) { var so = SUP_ORDER.indexOf(type); if (so >= 0) return (so + 1) + '. ' + SD_NAME[type]; return type === 'paymemo' && r && r.track === 'loan' ? 'บันทึกขออนุมัติจ่าย หักจากสัญญายืมเงิน / ส่งใช้เงินยืม' : SD_NAME[type]; }
+function sdName(type, r) { var so = r ? sdTypes(r, 'inspect_doc').indexOf(type) : SUP_ORDER.indexOf(type); return type === 'paymemo' && r && r.track === 'loan' ? 'บันทึกขออนุมัติจ่าย หักจากสัญญายืมเงิน / ส่งใช้เงินยืม' : SD_NAME[type]; }
 function draftTop(type, no, subj) { var b = nTop('ร่าง · รอแบบฟอร์มจริงจาก' + SD_OFFICE[type], no, dlong(NOW), subj); b[0].red = 1; b[1].dx = 205.3; return b; }
 function staffSign(name, pos) { return { k: 'nsign', lines: ['ลงชื่อ .................................................', '( ' + name + ' )', pos] }; }
 function refOf(r) { return docNoOf(r, r.form === '02' ? '02' : '01') + ' ลงวันที่ ' + dlong(r.created); }
@@ -2228,7 +2370,26 @@ function sup(r) {
   }
   return r.sup;
 }
-function supNo(r) { var s = sup(r); return s.no || ('ซ' + (r.docNo || '.........') + '/' + fyBE(r.created)); }
+/* เลขที่ของงานพัสดุ: รันของตัวเอง ไม่อิงเลขบันทึกขอใช้งบ — จัดซื้อ ซ1/2570 · จัดจ้าง จ1/2570 · อื่นๆ 1/2570 · ใบสั่งซื้อ / ใบสั่งจ้างแยกชุดกันเอง (ปีงบประมาณ พ.ศ. เต็ม) */
+var SUPK = { supbuy: ['ซ', 'ชุดพัสดุ-ซื้อ'], suphire: ['จ', 'ชุดพัสดุ-จ้าง'], supoth: ['', 'ชุดพัสดุ-อื่นๆ'], pobuy: ['', 'ใบสั่งซื้อ'], pohire: ['', 'ใบสั่งจ้าง'] };
+function supIsHire(r) { return r.kind !== 'svc' && r.buyHire === 'จัดจ้าง'; }
+function supKind(r) { return r.kind === 'svc' ? 'supoth' : (supIsHire(r) ? 'suphire' : 'supbuy'); }
+function supPoKind(r) { return supIsHire(r) ? 'pohire' : 'pobuy'; }
+function supYear() { return fyBE(Date.now()); }
+function supNextN(kind) {
+  var mx = 0, pf = SUPK[kind][0], po = kind === 'pobuy' || kind === 'pohire', y = String(supYear());
+  REQS.forEach(function (x) {
+    if (!x.sup) return; var v = po ? (supPoKind(x) === kind ? x.sup.po : '') : (supKind(x) === kind ? x.sup.no : ''); if (!v) return;
+    var m = /^(\D*)(\d+)\/(\d{4})$/.exec(String(v).replace(/\s/g, '')); if (m && m[1] === pf && m[3] === y) mx = Math.max(mx, +m[2]);
+  });
+  return mx + 1;
+}
+/* รับเลขที่ถัดไปของชุดนั้นให้คำขอนี้ (which = 'no' เลขที่ชุด · 'po' เลขที่ใบสั่ง) กดซ้ำได้เลขเดิม */
+function claimSup(r, which) {
+  var s = sup(r); if (s[which]) return s[which];
+  var k = which === 'po' ? supPoKind(r) : supKind(r); s[which] = SUPK[k][0] + supNextN(k) + '/' + supYear(); return s[which];
+}
+function supNo(r) { var s = sup(r); return s.no || (SUPK[supKind(r)][0] + '............/' + supYear()); }
 function supTs(r, k) { var v = sup(r).d[k]; return v ? new Date(v + 'T00:00:00').getTime() : 0; }
 function supDue(r) { return supTs(r, 'order') ? supTs(r, 'order') + (Number(sup(r).days) || 3) * DAY : 0; }
 function supWhat(r) { return String(r.title || '').replace(/^(จัดซื้อ|จัดจ้าง)/, '').trim(); }
@@ -2247,6 +2408,7 @@ function supTotal(r) { return r2(supLines(r).reduce(function (s, x) { return s +
 function supVat(r) { var t0 = supTotal(r); if (!r.vat) return { pre: t0, vat: 0, tot: t0 }; var pre = r2(t0 / 1.07); return { pre: pre, vat: r2(t0 - pre), tot: t0 }; }
 function bs(n) { var x = Math.round(Number(n || 0) * 100), b = Math.floor(x / 100), s = x % 100; return [b.toLocaleString('en-US'), ('0' + s).slice(-2)]; }
 function supPoTxt(r) { return supTotal(r) > 5000 && sup(r).po ? sup(r).po : (supTotal(r) > 5000 ? '..............' : '-'); }
+function supNeedPo(r) { return supTotal(r) > 5000; }
 
 /* ---- ภาพถ่ายใบเสนอราคา/ใบส่งของ → รายการ (สาธิต: ระบบจริงส่งภาพให้ Gemini อ่านแล้วได้ข้อมูลชุดนี้กลับมา) ---- */
 function supplyRead(r, name) {
@@ -2272,8 +2434,11 @@ function supCheck(r) {
     if (tot > r.amount + 0.005) return 'ยอดตามรายการ ' + bahtD(tot) + ' บาท เกินวงเงินที่ได้รับอนุมัติ ' + bahtD(r.amount) + ' บาท';
   }
   if (!String(s.vendor).trim()) return 'กรุณาระบุชื่อผู้ขาย';
-  if (tot > 5000 && !String(s.po).trim()) return 'ยอดเกิน 5,000 บาท กรุณากรอกเลขที่ใบสั่งซื้อ (ออกจากระบบ e-GP)';
-  var d = s.d; if (!d.buy || !d.order || !d.insp || !d.pay) return 'กรุณาลงวันที่ในเอกสารให้ครบ 4 ช่อง (รายงานขอซื้อ · สั่งซื้อ · ตรวจรับ · ขออนุมัติจ่าย)'; if (!(d.buy <= d.order && d.order <= d.insp && d.insp <= d.pay)) return 'วันที่ในเอกสารต้องเรียงตามลำดับ: ขอซื้อ → สั่งซื้อ → ตรวจรับ → ขออนุมัติจ่าย';
+  var hh = supIsHire(r), W = hh ? 'จ้าง' : 'ซื้อ';
+  if (!String(s.no || '').trim()) return 'กรุณากดรับเลขที่ชุดของงานพัสดุ (' + SUPK[supKind(r)][0] + '…/' + supYear() + ')';
+  if (tot > 5000 && !String(s.po || '').trim()) return 'ยอดเกิน 5,000 บาท กรุณากดรับเลขที่ใบสั่ง' + W;
+  if (tot > 5000 && !String(s.poName || '').trim()) return 'ยอดเกิน 5,000 บาท กรุณาเลือกหรือพิมพ์ชื่อผู้ลงนามในใบสั่ง' + W;
+  var d = s.d; if (!d.buy || !d.order || !d.insp || !d.pay) return 'กรุณาลงวันที่ในเอกสารให้ครบ 4 ช่อง (รายงานขอ' + W + ' · สั่ง' + W + ' · ตรวจรับ · ขออนุมัติจ่าย)'; if (!(d.buy <= d.order && d.order <= d.insp && d.insp <= d.pay)) return 'วันที่ในเอกสารต้องเรียงตามลำดับ: ขอ' + W + ' → สั่ง' + W + ' → ตรวจรับ → ขออนุมัติจ่าย';
   return '';
 }
 function supRowNote(it, i) {
@@ -2286,7 +2451,7 @@ function supSumHtml(r) {
   return '<div>รวมตามรายการ <b class="num">' + bahtD(tot) + '</b> บาท · ยอดที่ครูซื้อจริง <b class="num">' + bahtD(ac) + '</b> บาท ' + (ok ? '<span class="chip c-ok" style="font-size:11px">ตรงกัน</span>' : '<span class="chip c-wait" style="font-size:11px">ไม่ตรงกัน</span>') + '</div>' +
     (r.vat ? '<div class="small muted">ร้านคิด VAT 7% (ราคาต่อหน่วยรวมภาษีแล้ว) · มูลค่าสินค้า ' + bahtD(pre) + ' + ภาษี ' + bahtD(r2(tot - pre)) + ' บาท</div>' : '') +
     (!ok && tot > 0 ? '<label style="font-weight:400;display:flex;gap:8px;align-items:flex-start;margin:6px 0 0"><input type="checkbox" data-sp="fix" style="width:auto;flex:none;margin-top:4px"' + (s.fix ? ' checked' : '') + '><span style="flex:1 1 auto;min-width:0">ใช้ยอดตามรายการเป็นยอดซื้อจริง (ต้องไม่เกินวงเงินที่อนุมัติ ' + bahtD(r.amount) + ' บาท)</span></label>' : '') +
-    (tot > 5000 ? '<div class="small" style="margin-top:4px;color:var(--wait)">ยอดเกิน 5,000 บาท ต้องกรอกเลขที่ใบสั่งซื้อจาก e-GP</div>' : '');
+    (tot > 5000 ? '<div class="small" style="margin-top:4px;color:var(--wait)">ยอดเกิน 5,000 บาท ต้องออก' + (supIsHire(r) ? 'ใบสั่งจ้าง' : 'ใบสั่งซื้อ') + ' (กรอกในช่อง “ใบสั่ง” ด้านล่าง)</div>' : '');
 }
 function supPanel(r) {
   var s = sup(r), q = function (o, k) { return o.q && o.q[k] ? ' aifill' : ''; }, dl = '<datalist id="spUnits">' + UNIT_STD.map(function (u) { return '<option value="' + u + '">'; }).join('') + '</datalist>';
@@ -2300,20 +2465,41 @@ function supPanel(r) {
   }).join('');
   var inp = function (id, lab, v, att, w, extra) { return '<div style="min-width:0;flex:' + (w || '1 1 200px') + '"><label for="' + id + '">' + lab + '</label><input id="' + id + '" data-sp="' + att + '" value="' + esc(v || '') + '"' + (extra || '') + '></div>'; };
   var dt = function (id, lab, k) { return '<div style="min-width:0"><label for="' + id + '">' + lab + '</label><input id="' + id + '" type="date" data-sp="d_' + k + '" value="' + esc(s.d[k]) + '"></div>'; };
-  return '<div class="note" style="margin:0 0 10px">ครูส่งชุดมาเป็นกระดาษ งานพัสดุถ่ายรูปใบเสนอราคาหรือใบส่งของเข้าระบบ ระบบอ่านรายการให้ ตรวจแก้ช่องสีเหลืองแล้วกดบันทึก เอกสารพัสดุ 5 ใบจะเติมให้ครบ</div>' +
+  return '<div class="note" style="margin:0 0 10px">ครูส่งชุดมาเป็นกระดาษ งานพัสดุถ่ายรูปใบเสนอราคาหรือใบส่งของเข้าระบบ ระบบอ่านรายการให้ ตรวจแก้ช่องสีเหลืองแล้วกดบันทึก เอกสารพัสดุ ' + (supIsHire(r) ? 'ชุดจัดจ้าง 4 ใบ' : 'ชุดจัดซื้อ 5 ใบ') + ' (ยอดเกิน 5,000 บาทเพิ่มใบสั่ง' + (supIsHire(r) ? 'จ้าง' : 'ซื้อ') + ') จะเติมให้ครบ</div>' +
     '<label for="spPh">ถ่ายรูปใบเสนอราคา / ใบส่งของ (ถ่ายหลายใบได้ ระบบต่อรายการให้)</label><input id="spPh" type="file" accept="image/*" multiple><div class="small muted" id="spState" style="margin:4px 0 8px">' + (s.photos ? 'อ่านจากภาพแล้ว ' + s.photos + ' ภาพ · ตรวจแก้ช่องสีเหลืองก่อนบันทึก' : 'ไม่สะดวกถ่ายรูป พิมพ์รายการเองก็ได้') + '</div>' +
-    '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spVendor', 'ชื่อผู้ขาย', s.vendor, 'vendor', '2 1 260px', (s.q.vendor ? ' class="aifill"' : '') + ' list="vdList" autocomplete="off"') + '<datalist id="vdList">' + Object.keys(VENDORS).sort().map(function (k) { return '<option value="' + esc(k) + '">'; }).join('') + '</datalist>' + inp('spDn', 'เลขที่ใบส่งของ (หนังสือส่งมอบ)', s.dn, 'dn', '1 1 160px', s.q.dn ? ' class="aifill"' : '') +
-    '<div style="min-width:0;flex:1 1 150px"><label for="spDnDate">วันที่ใบส่งของ</label><input id="spDnDate" type="date" data-sp="dnDate" value="' + esc(s.dnDate) + '"' + (s.q.dnDate ? ' class="aifill"' : '') + '></div></div>' +
+    '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spVendor', 'ชื่อผู้ขาย', s.vendor, 'vendor', '2 1 260px', (s.q.vendor ? ' class="aifill"' : '') + ' list="vdList" autocomplete="off"') + '<datalist id="vdList">' + Object.keys(VENDORS).sort().map(function (k) { return '<option value="' + esc(k) + '">'; }).join('') + '</datalist>' + (supIsHire(r) ? '' : inp('spDn', 'เลขที่ใบส่งของ (หนังสือส่งมอบ)', s.dn, 'dn', '1 1 160px', s.q.dn ? ' class="aifill"' : '') +
+    '<div style="min-width:0;flex:1 1 150px"><label for="spDnDate">วันที่ใบส่งของ</label><input id="spDnDate" type="date" data-sp="dnDate" value="' + esc(s.dnDate) + '"' + (s.q.dnDate ? ' class="aifill"' : '') + '></div>') + '</div>' +
+    (supIsHire(r) ? '<div class="small muted" style="margin:-4px 0 6px">วันที่ในใบส่งมอบงานมาจากที่เจ้าของโครงการกรอกไว้' + (r.handDate ? ' · ' + esc(sdl(handTs(r))) : ' · ยังไม่ได้กรอก (จะเป็นเส้นประให้เขียนมือ)') + '</div>' : '') +
     '<div style="font-weight:600;margin:12px 0 2px">รายการพัสดุ <span class="small muted" style="font-weight:400">· หน่วยนับระบบแก้ให้ถูกตามหลักภาษาไทย</span></div>' + dl + '<div id="spRows">' + rows + '</div>' +
     '<div style="margin:6px 0"><button type="button" class="sm" data-spa="add">+ เพิ่มรายการ</button></div><div class="note" id="spSum" style="margin:8px 0">' + supSumHtml(r) + '</div>' +
-    '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spNo', 'เลขที่บันทึกของพัสดุ', supNo(r), 'no', '1 1 160px') + inp('spPo', 'เลขที่ใบสั่งซื้อ (e-GP) — ยอดเกิน 5,000 บาท', s.po, 'po', '1 1 200px') + inp('spDays', 'ส่งมอบภายใน (วัน)', s.days, 'days', '0 1 120px', ' type="number" min="1"') + inp('aRef', T_('f_ref'), r.ref || '', 'ref', '1 1 200px', ' placeholder="ตร.45/2570"') + '</div>' +
-    '<div class="small muted" style="margin:8px 0 2px">วันที่ในเอกสาร — งานพัสดุลงเอง (ต้องเรียงตามลำดับ)</div><div class="spdates">' + dt('spD0', 'รายงานขอซื้อ', 'buy') + dt('spD1', 'สั่งซื้อ', 'order') + dt('spD2', 'ตรวจรับ', 'insp') + dt('spD3', 'ขออนุมัติจ่าย', 'pay') + '</div>' +
+    supNoBlock(r) + '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spDays', 'ส่งมอบภายใน (วัน)', s.days, 'days', '0 1 120px', ' type="number" min="1"') + inp('aRef', T_('f_ref'), r.ref || '', 'ref', '1 1 200px', ' placeholder="ตร.45/2570"') + '</div>' + supPoBlock(r, inp) +
+    '<div class="small muted" style="margin:8px 0 2px">วันที่ในเอกสาร — งานพัสดุลงเอง (ต้องเรียงตามลำดับ)</div><div class="spdates">' + dt('spD0', supIsHire(r) ? 'รายงานขอจ้าง' : 'รายงานขอซื้อ', 'buy') + dt('spD1', supIsHire(r) ? 'สั่งจ้าง' : 'สั่งซื้อ', 'order') + dt('spD2', 'ตรวจรับ', 'insp') + dt('spD3', 'ขออนุมัติจ่าย', 'pay') + '</div>' +
     '<div style="margin-top:12px">' + '<button class="primary" type="button" data-a="ok">' + T_('btn_inspect_done') + '</button></div>';
+}
+
+function supNoBlock(r) {
+  var s = sup(r), k = supKind(r), pf = SUPK[k][0], lab = supIsHire(r) ? 'เลขที่ชุดจัดจ้าง (จ…/ปี)' : (r.kind === 'svc' ? 'เลขที่ชุด (อื่นๆ)' : 'เลขที่ชุดจัดซื้อ (ซ…/ปี)');
+  return '<div class="nobox' + (s.no ? ' on' : '') + '" style="margin:10px 0"><div class="small" style="font-weight:600">' + lab + ' · งานพัสดุรันเลขของตัวเอง ไม่อิงเลขบันทึกขอใช้งบ</div>' +
+    '<div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div style="min-width:0;flex:1 1 180px"><input id="spNo" data-sp="no" value="' + esc(s.no || '') + '" placeholder="' + esc(pf + 'เลข/' + supYear()) + '" aria-label="เลขที่ชุด"></div>' +
+    (s.no ? '<span class="chip c-ok">ได้เลขแล้ว</span>' : '<button type="button" class="sm primary" data-spa="claim" data-w="no">กดรับเลขที่ ' + esc(pf + supNextN(k) + '/' + supYear()) + '</button>') + '</div></div>';
+}
+function supSigOpts(r) { var o = [['', '— เลือกผู้ลงนาม —'], ['dir', SIGN.dir() + ' · ผู้อำนวยการ'], ['su', USERS.su.name + ' · หัวหน้าเจ้าหน้าที่พัสดุ'], ['of', supOfficer(r).name + ' · เจ้าหน้าที่พัสดุ'], ['x', 'พิมพ์เองด้านล่าง']]; return o; }
+function supPoBlock(r, inp) {
+  var s = sup(r), k = supPoKind(r), W = supIsHire(r) ? 'จ้าง' : 'ซื้อ', show = supTotal2(s) > 5000;
+  return '<div id="spPoBox"' + (show ? '' : ' hidden') + ' style="border:1px solid var(--line,#ddd);border-radius:10px;padding:10px 12px;margin:12px 0"><div style="font-weight:600;margin-bottom:6px">ใบสั่ง' + W + ' <span class="small muted" style="font-weight:400">· ยอดเกิน 5,000 บาท · เลขที่รันแยกของใบสั่ง' + W + 'เอง · เลขนี้จะลงในใบตรวจรับ (5(2)) และหน้าทราบผลการตรวจรับให้อัตโนมัติ</span></div>' +
+    '<div class="row" style="gap:10px;flex-wrap:wrap;align-items:flex-end"><div style="min-width:0;flex:1 1 180px"><label for="spPo">เลขที่ใบสั่ง' + W + '</label><input id="spPo" data-sp="po" value="' + esc(s.po || '') + '" placeholder="เลข/' + supYear() + '"></div>' +
+    (s.po ? '<span class="chip c-ok">ได้เลขแล้ว</span>' : '<button type="button" class="sm primary" data-spa="claim" data-w="po">กดรับเลขที่ ' + esc(supNextN(k) + '/' + supYear()) + '</button>') + '</div>' +
+    '<div class="row" style="gap:12px;flex-wrap:wrap;margin-top:8px"><div style="min-width:0;flex:1 1 220px"><label for="spSigSel">ผู้ลงนามในใบสั่ง (พัสดุเลือกเอง)</label><select id="spSigSel" data-spsel="1">' + supSigOpts(r).map(function (o) { return '<option value="' + o[0] + '"' + (s.poSel === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></div>' +
+    inp('spPoName', 'ชื่อผู้ลงนาม', s.poName, 'poName', '1 1 200px') + inp('spPoPos', 'ตำแหน่ง', s.poPos, 'poPos', '1 1 200px') + '</div>' +
+    '<div class="small muted" style="margin:10px 0 2px">ข้อมูลผู้' + (supIsHire(r) ? 'รับจ้าง' : 'ขาย') + 'ที่พิมพ์ในใบสั่ง (เว้นว่างได้ จะเป็นเส้นประให้เขียนมือ)</div>' +
+    '<div class="row" style="gap:12px;flex-wrap:wrap">' + inp('spVAddr', 'ที่อยู่', s.vAddr, 'vAddr', '2 1 260px') + inp('spVTax', 'เลขประจำตัวผู้เสียภาษี', s.vTax, 'vTax', '1 1 170px') + inp('spQNo', 'ใบเสนอราคาเลขที่', s.qNo, 'qNo', '1 1 150px') + '<div style="min-width:0;flex:1 1 150px"><label for="spQDate">ลงวันที่ใบเสนอราคา</label><input id="spQDate" type="date" data-sp="qDate" value="' + esc(s.qDate || '') + '"></div></div>' +
+    '<div class="row" style="gap:12px;flex-wrap:wrap;margin-top:6px">' + inp('spVAcct', 'เลขที่บัญชีเงินฝาก', s.vAcct, 'vAcct', '1 1 170px') + inp('spVAcctName', 'ชื่อบัญชี', s.vAcctName, 'vAcctName', '1 1 200px') + inp('spVBank', 'ธนาคาร', s.vBank, 'vBank', '1 1 130px') + inp('spVBranch', 'สาขา', s.vBranch, 'vBranch', '1 1 130px') + inp('spWarr', 'ระยะเวลารับประกัน', s.warranty, 'warranty', '1 1 150px') + '</div></div>';
 }
 function T_(k) { return esc(t(k)); }
 function supRefresh(r) {
   var s = sup(r); s.items.forEach(function (it, i) { var e = document.querySelector('[data-rt="' + i + '"]'); if (e) e.textContent = bahtD((Number(it.qty) || 0) * (Number(it.price) || 0)); });
   var e2 = $('spSum'); if (e2) e2.innerHTML = supSumHtml(r);
+  var pb = $('spPoBox'); if (pb) pb.hidden = !(supTotal2(s) > 5000);
 }
 document.addEventListener('input', function (e) {
   var el = e.target, f = el.dataset && el.dataset.sp; if (!f || f === 'fix') return;
@@ -2332,6 +2518,11 @@ document.addEventListener('input', function (e) {
 document.addEventListener('change', function (e) {
   var el = e.target, r = S.open && req(S.open); if (!r || !el) return;
   if (el.dataset && el.dataset.sp === 'fix') { sup(r).fix = el.checked; return; }
+  if (el.dataset && el.dataset.spsel) {
+    var s9 = sup(r), v9 = el.value; s9.poSel = v9;
+    if (v9 === 'dir') { s9.poName = SIGN.dir(); s9.poPos = 'ผู้อำนวยการ' + t('school_name'); } else if (v9 === 'su') { s9.poName = USERS.su.name; s9.poPos = 'หัวหน้าเจ้าหน้าที่พัสดุ'; } else if (v9 === 'of') { s9.poName = supOfficer(r).name; s9.poPos = 'เจ้าหน้าที่พัสดุ'; } else if (v9 === '') { s9.poName = ''; s9.poPos = ''; }
+    render(); return;
+  }
   if (el.dataset && el.dataset.sp === 'unit') {
     var s = sup(r), it = s.items[+el.dataset.i]; if (!it) return;
     var fx = unitFix(el.value, it.name); it.keep = false;
@@ -2351,116 +2542,195 @@ document.addEventListener('change', function (e) {
 document.addEventListener('click', function (e) {
   var b = e.target.closest && e.target.closest('[data-spa]'); if (!b) return;
   var r = S.open && req(S.open); if (!r) return; var s = sup(r), i = +b.dataset.i;
+  if (b.dataset.spa === 'claim') { claimSup(r, b.dataset.w); render(); return; }
   if (b.dataset.spa === 'add') { s.items.push({ name: '', qty: '', unit: '', price: '', q: {} }); render(); return; }
   if (b.dataset.spa === 'del') { s.items.splice(i, 1); render(); return; }
   if (b.dataset.spa === 'undo') { var it = s.items[i]; if (it) { it.unit = it.unitFrom; it.keep = true; var inp = document.querySelector('[data-sp="unit"][data-i="' + i + '"]'); if (inp) inp.value = it.unit; var nt = $('spfx' + i); if (nt) nt.innerHTML = ''; } }
 });
 
 /* ---- เอกสารงานพัสดุ ---- */
-function supTop(r, no, ts, subj, org) { return [{ k: 'code', x: '', plain: 1 }, { k: 'nmh', no: no, date: sdl(ts), subj: subj, dx: 205.3, org: org || ('กลุ่มบริหารงบประมาณ ' + t('school_name')) }, { k: 'nto' }]; }
+function supTop(r, no, ts, subj, org) { return [{ k: 'code', x: '', plain: 1 }, { k: 'nmh', no: no, date: sdlB(ts), subj: subj, dx: 205.3, org: org || ('กลุ่มบริหารงบประมาณ ' + t('school_name')) }, { k: 'nto' }]; }
 function sigCell(role, name, ts) { return 'ลงชื่อ ................................. ' + role + '\n( ' + name + ' )' + (ts ? '\n' + sdh(ts) : ''); }
 function sigPair(a, b, sp) { return { k: 'tbl', nb: 1, sp: sp == null ? 8 : sp, w: [8.25, 8.25], al: ['c', 'c'], rows: [[a, b]] }; }
 function dirBlock(ts, head) { return [NP(head || 'เห็นชอบ', { al: 'c', sp: 4 }), NP('..................................................', { al: 'c', sp: 8 }), NP('( ' + SIGN.dir() + ' )', { al: 'c' }), NP('ผู้อำนวยการ' + t('school_name'), { al: 'c' }), NP(sdl(ts), { al: 'c' })]; }
 function hC(x, o) { return Object.assign({ x: x, b: 1, al: 'c', va: 'c' }, o || {}); }
 function moneyCellsDoc(v) { var a = bs(v); return [{ x: a[0], al: 'r' }, { x: a[1], al: 'c' }]; }
+/* ---- ค่าที่กรอกในเอกสารพัสดุพิมพ์เป็นหมึกน้ำเงิน (เหมือนชุดจริง) · ปิดได้ที่ INK_ON ---- */
+function sdlB(ts) { return ts ? BL(dlong(ts)) : sdl(ts); }
+function sdhB(ts) { return ts ? BL(sdh(ts)) : sdh(ts); }
+function dB(v, n) { return v ? BL(v) : dots('', n); }
+function mB(c) { return Object.assign({}, c, { x: c.x === '' ? '' : BL(c.x) }); }
+function moneyB(v) { return moneyCellsDoc(v).map(mB); }
+function supNoB(r) { return sup(r).no ? BL(supNo(r)) : supNo(r); }
+function supPoB(r) { return sup(r).po && supNeedPo(r) ? BL(supPoTxt(r)) : supPoTxt(r); }
+function padRows(rows, n, nc) { while (rows.length < n) { var z = []; for (var i = 0; i < nc; i++) z.push(i === 0 ? ' ' : ''); rows.push(z); } return rows; }
+var PADN = { detail: 16, insp: 22, issue: 14, hand: 5 };
+function handTs(r) { return r.handDate ? new Date(r.handDate + 'T00:00:00').getTime() : 0; }
+function insPhotoList(r) { return (r.insPhotos || []).filter(function (x) { return x && /^(data:|blob:|https?:)/.test(x); }); }
 function ofBuyRpt(r) {
-  var a = act(r.act), pj = proj(a.project), L = supLines(r), tot = supTotal(r), V = supVat(r), no = supNo(r), ts = supTs(r, 'buy'), ins = supIns(r), s = sup(r), pc = String(pj.code).replace(/[.\s]/g, '');
-  var p1 = supTop(r, no, ts, 'รายงานขอซื้อพัสดุ');
-  p1.push(NP('ด้วย' + supGrp(r) + ' มีความประสงค์จะขอซื้อพัสดุ จำนวน ' + L.length + ' รายการ เพื่อ' + supPurp(r) + ' ซึ่งได้รับอนุมัติเงินจากแผนงาน งาน/โครงการ ' + pc + ' ' + pj.name + ' จำนวน ' + bahtD(tot) + ' บาท รายละเอียดดังแนบ', { ind: 36, j: 1 }),
-    NP('งานพัสดุได้ตรวจสอบแล้วเห็นสมควรจัดซื้อตามเสนอ และเพื่อให้เป็นไปตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริการบริหารพัสดุภาครัฐ พ.ศ.2560 ข้อ 56 วรรคหนึ่ง (2) (ข) และระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ.2560 ข้อ 22 ข้อ 79 ข้อ 25 (5) และกฎกระทรวงกำหนดวงเงินการจัดซื้อจัดจ้างพัสดุโดยวิธีเฉพาะเจาะจง วงเงินการจัดซื้อจัดจ้างที่ไม่ทำข้อตกลงเป็นหนังสือ และวงเงินการจัดซื้อจัดจ้างในการแต่งตั้งผู้ตรวจรับพัสดุ พ.ศ.2560 ข้อ 1 และข้อ 5 จึงขอรายงานขอซื้อ ดังนี้', { ind: 36, j: 1 }),
-    NP('1. เหตุผลความจำเป็นที่ต้องซื้อคือ ' + supPurp(r), { left: 36, j: 1 }),
-    NP('2. รายละเอียดของที่จะซื้อคือ ' + supWhat(r), { left: 36, j: 1 }),
-    NP('3. ราคากลางของพัสดุที่จะซื้อเป็นเงิน ' + bahtD(tot) + ' บาท', { left: 36 }),
-    NP('4. วงเงินที่จะขอซื้อครั้งนี้ ' + mtext(tot), { left: 36 }),
-    NP('5. กำหนดเวลาที่จะใช้พัสดุภายใน ' + (Number(s.days) || 3) + ' วัน นับถัดจากวันลงนามในใบสั่งซื้อ/สัญญา', { left: 36 }),
-    NP('6. ซื้อโดยวิธีเฉพาะเจาะจง เนื่องจาก การจัดจ้างพัสดุที่มีการผลิต จำหน่าย ก่อสร้าง หรือให้บริการทั่วไป และมีวงเงินในการจัดซื้อจัดจ้างครั้งหนึ่งไม่เกิน 500,000 บาท ที่กำหนดในกฎกระทรวง', { left: 36, j: 1 }),
+  var h = supIsHire(r), A = h ? 'จ้าง' : 'ซื้อ', a = act(r.act), pj = proj(a.project), L = supLines(r), tot = supTotal(r), V = supVat(r), ts = supTs(r, 'buy'), ins = supIns(r), s = sup(r), pc = String(pj.code).replace(/[.\s]/g, ''), no = supNoB(r);
+  var grp = BL(supGrp(r)), purp = BL(supPurp(r)), what = BL(supWhat(r)), amt = BL(bahtD(tot)), pjt = BL(pc + ' ' + pj.name);
+  var p1 = supTop(r, no, ts, h ? 'รายงานขอจ้าง' : 'รายงานขอซื้อพัสดุ');
+  p1.push(NP(h ? 'ด้วย' + grp + ' มีความประสงค์จะขอจ้าง ' + what + ' เพื่อ' + purp + ' ซึ่งได้รับอนุมัติเงินจากแผนงาน งาน/โครงการ ' + pjt + ' จำนวน ' + amt + ' บาท รายละเอียดดังแนบ'
+      : 'ด้วย' + grp + ' มีความประสงค์จะขอซื้อพัสดุ จำนวน ' + BL(String(L.length)) + ' รายการ เพื่อ' + purp + ' ซึ่งได้รับอนุมัติเงินจากแผนงาน งาน/โครงการ ' + pjt + ' จำนวน ' + amt + ' บาท รายละเอียดดังแนบ', { ind: 36, j: 1 }),
+    NP('งานพัสดุได้ตรวจสอบแล้วเห็นสมควร' + (h ? 'จัดจ้าง' : 'จัดซื้อ') + 'ตามเสนอ และเพื่อให้เป็นไปตามพระราชบัญญัติการจัดซื้อจัดจ้างและบริการบริหารพัสดุภาครัฐ พ.ศ.2560 ข้อ 56 วรรคหนึ่ง (2) (ข) และระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ.2560 ข้อ 22 ข้อ 79 ข้อ 25 (5) และกฎกระทรวงกำหนดวงเงินการจัดซื้อจัดจ้างพัสดุโดยวิธีเฉพาะเจาะจง วงเงินการจัดซื้อจัดจ้างที่ไม่ทำข้อตกลงเป็นหนังสือ และวงเงินการจัดซื้อจัดจ้างในการแต่งตั้งผู้ตรวจรับพัสดุ พ.ศ.2560 ข้อ 1 และข้อ 5 จึงขอรายงานขอ' + A + ' ดังนี้', { ind: 36, j: 1 }),
+    NP('1. เหตุผลความจำเป็นที่ต้อง' + A + 'คือ ' + purp, { left: 36, j: 1 }),
+    NP('2. รายละเอียด' + (h ? 'ที่จะจ้าง' : 'ของที่จะซื้อ') + 'คือ ' + what, { left: 36 }),
+    NP('3. ราคากลางของพัสดุที่จะ' + A + 'เป็นเงิน ' + amt + ' บาท', { left: 36 }),
+    NP('4. วงเงินที่จะขอ' + A + 'ครั้งนี้ ' + BL(mtext(tot)), { left: 36 }),
+    NP('5. กำหนดเวลาที่จะใช้พัสดุภายใน ' + BL(String(Number(s.days) || 3)) + ' วัน นับถัดจากวันลงนามใน' + (h ? 'ใบสั่งจ้าง/สัญญา' : 'ใบสั่งซื้อ/สัญญา'), { left: 36 }),
+    NP('6. ' + A + 'โดยวิธีเฉพาะเจาะจง เนื่องจาก การจัดจ้างพัสดุที่มีการผลิต จำหน่าย ก่อสร้าง หรือให้บริการทั่วไป และมีวงเงินในการจัดซื้อจัดจ้างครั้งหนึ่งไม่เกิน 500,000 บาท ที่กำหนดในกฎกระทรวง', { left: 36, j: 1 }),
     NP('7. หลักเกณฑ์การพิจารณาคัดเลือกข้อเสนอ โดยใช้เกณฑ์ราคา', { left: 36 }),
     NP('8. ข้อเสนออื่นๆ เห็นควรแต่งตั้งผู้ตรวจรับพัสดุ ตามเสนอ', { left: 36 }),
     NP('จึงเรียนมาเพื่อโปรดพิจารณา', { ind: 36, sp: 3 }),
-    NP('1. เห็นชอบในรายงานการขอซื้อดังกล่าวข้างต้น', { left: 36 }),
-    NP('2. อนุมัติให้แต่งตั้งบุคคลต่อไปนี้เป็น' + (ins.length > 1 ? 'คณะกรรมการตรวจรับพัสดุ' : 'ผู้ตรวจรับพัสดุ'), { left: 36 }),
-    { k: 'tbl', nb: 1, w: [1.2, 1.0, 5.8, 1.7, 1.5, 3.6], al: ['l', 'l', 'l', 'l', 'l', 'l'], rows: (ins.length ? ins : ['']).map(function (k, i) { return ['', '(' + (i + 1) + ')', k ? USERS[k].name : '..............................', 'ตำแหน่ง', k ? USERS[k].pos : '....', ins.length > 1 ? (i ? 'กรรมการ' : 'ประธานกรรมการ') : '']; }) },
+    NP('1. เห็นชอบในรายงานการขอ' + A + 'ดังกล่าวข้างต้น', { left: 36 }),
+    NP('2. อนุมัติให้แต่งตั้งบุคคลต่อไปนี้เป็น' + (ins.length > 1 || h ? 'คณะกรรมการตรวจรับพัสดุ' : 'ผู้ตรวจรับพัสดุ'), { left: 36 }),
+    { k: 'tbl', nb: 1, w: [1.2, 1.0, 5.8, 1.7, 1.5, 3.6], al: ['l', 'l', 'l', 'l', 'l', 'l'], rows: (ins.length ? ins : ['']).map(function (k, i) { return ['', '(' + (i + 1) + ')', k ? BL(USERS[k].name) : '..............................', 'ตำแหน่ง', k ? BL(USERS[k].pos) : '....', ins.length > 1 ? (i ? 'กรรมการ' : 'ประธานกรรมการ') : '']; }) },
     sigPair(sigCell('เจ้าหน้าที่พัสดุ', supOfficer(r).name, ts), sigCell('หัวหน้าเจ้าหน้าที่พัสดุ', USERS.su.name, ts), 2));
   dirBlock(ts).forEach(function (b) { p1.push(b); });
-  var p2 = [NP('รายละเอียดแนบท้ายบันทึกข้อความที่ ' + no + ' ลงวันที่ ' + sdl(ts), { al: 'c' }),
-    NP('งานจัดซื้อพัสดุ จำนวน ' + L.length + ' รายการ ' + supGrp(r).replace('กลุ่มบริหาร', 'กลุ่ม/งาน '), { al: 'c' }), NP(t('school_name'), { al: 'c' })];
-  p2.push(NP('☐ ราคามาตรฐาน    ☑ ราคาที่ได้มาจากการสืบจากท้องตลาด (หน่วยละ)', { sp: 4 }));
-  var rows = [[hC('ลำดับที่', { rs: 3 }), hC('รายละเอียดของพัสดุที่จะขอซื้อ', { rs: 3 }), hC('จำนวน/หน่วย', { rs: 3 }), hC('จำนวนและวงเงินที่ขอซื้อครั้งนี้', { cs: 4 })],
-    [hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })],
-    [hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
-  L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: x.qty + ' ' + x.unit, al: 'c' }].concat(moneyCellsDoc(x.price), moneyCellsDoc(x.amt))); });
-  if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 5, al: 'r' }].concat(moneyCellsDoc(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 5, al: 'r' }].concat(moneyCellsDoc(V.vat)));
-  rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 5, al: 'l', b: 1 }].concat(moneyCellsDoc(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
-  p2.push({ k: 'tbl', sp: 6, w: [1.6, 5.6, 2.4, 1.7, 1.0, 2.2, 1.0], rows: rows.reduce(function (o, rw) { if (Array.isArray(rw[0])) rw.forEach(function (z) { o.push(z); }); else o.push(rw); return o; }, []) },
-    sigPair(sigCell('เจ้าหน้าที่พัสดุ', supOfficer(r).name), sigCell('หัวหน้าเจ้าหน้าที่พัสดุ', USERS.su.name), 14));
-  return { v: 'sup', ln: 18.5, name: '1_รายงานขอซื้อ_' + r.id + '_' + r.title, st: 'ngp', pages: [p1, p2] };
+  var p2 = h ? [NP('รายละเอียดของพัสดุที่จะขอจ้าง แนบท้ายรายงานขอจ้าง', { al: 'c' }), NP(t('school_name'), { al: 'c' }), NP('เลขที่ ' + no + ' วันที่ ' + sdlB(ts), { sp: 2 })]
+    : [NP('รายละเอียดแนบท้ายบันทึกข้อความที่ ' + no + ' ลงวันที่ ' + sdlB(ts), { al: 'c' }),
+      NP('งานจัดซื้อพัสดุ จำนวน ' + BL(String(L.length)) + ' รายการ ' + BL(supGrp(r).replace('กลุ่มบริหาร', 'กลุ่ม/งาน ')), { al: 'c' }), NP(t('school_name'), { al: 'c' })];
+  var hd = [[hC('ลำดับที่', { rs: 2 }), hC('รายละเอียดของพัสดุที่จะขอ' + A, { rs: 2 }), hC('จำนวน/หน่วย', { rs: 2 }), hC('☐ ราคามาตรฐาน\n☑ ราคาที่ได้มาจาก\nการสืบจากท้องตลาด', { rs: 2, cs: 2, al: 'l', b: 0 }), hC('จำนวนและวงเงินที่ขอ' + A + 'ครั้งนี้', { cs: 4 })],
+    [hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })]];
+  var dr = L.map(function (x, i) { return [{ x: String(i + 1), al: 'c' }, { x: BL(x.name), al: 'l' }, { x: BL(x.qty + ' ' + x.unit), al: 'c' }].concat(moneyB(x.price), moneyB(x.price), moneyB(x.amt)); });
+  padRows(dr, PADN.detail - (r.vat ? 2 : 0), 9);
+  if (r.vat) dr.push([{ x: 'มูลค่าสินค้า', cs: 7, al: 'r' }].concat(moneyB(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 7, al: 'r' }].concat(moneyB(V.vat)));
+  dr.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + BL(bahtText(tot)) + ' )', cs: 7, al: 'l', b: 1 }].concat(moneyB(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
+  p2.push({ k: 'tbl', sp: 6, w: [1.2, 4.4, 2.0, 2.9, 1.0, 1.3, 1.0, 1.7, 1.0], rows: hd.concat(dr) },
+    NP('ลงชื่อ ................................. เจ้าหน้าที่พัสดุ', { al: 'c', sp: 14 }), NP('( ' + supOfficer(r).name + ' )', { al: 'c' }),
+    NP('ลงชื่อ ................................. หัวหน้าเจ้าหน้าที่พัสดุ', { al: 'c', sp: 8 }), NP('( ' + USERS.su.name + ' )', { al: 'c' }));
+  return { v: 'sup', ln: 18.5, name: '1_รายงานขอ' + A + '_' + r.id + '_' + r.title, st: 'ngp', pages: [p1, p2] };
 }
 function ofOrdRpt(r) {
-  var tot = supTotal(r), ts = supTs(r, 'order'), vn = sup(r).vendor || '................................', what = supWhat(r);
-  var p1 = supTop(r, supNo(r), ts, 'รายงานผลการพิจารณาและขออนุมัติสั่งซื้อ', t('school_name') + ' สพม. กท 1');
-  p1.push(NP('ตามที่ผู้อำนวยการ' + t('school_name') + ' เห็นชอบรายงานขอซื้อ ' + what + ' จำนวน ' + mtext(tot) + ' ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 24 รายละเอียดดังแนบ', { ind: 36, j: 1 }),
-    NP('ในการนี้เจ้าหน้าที่ได้เจรจาตกลงราคากับ ' + vn + ' ซึ่งมีอาชีพขายแล้ว ปรากฏว่าเสนอราคาเป็นเงิน ' + bahtD(tot) + ' บาท ดังนั้นเพื่อให้เป็นไปตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 79 จึงเห็นควรจัดซื้อ/จัดจ้างจากผู้เสนอราคารายดังกล่าว', { ind: 36, j: 1 }),
+  var h = supIsHire(r), A = h ? 'จ้าง' : 'ซื้อ', tot = supTotal(r), ts = supTs(r, 'order'), vn = sup(r).vendor ? BL(sup(r).vendor) : '................................', what = BL(supWhat(r)), mt = BL(mtext(tot));
+  var p1 = supTop(r, supNoB(r), ts, 'รายงานผลการพิจารณาและขออนุมัติสั่ง' + A, t('school_name') + ' สพม. กท 1');
+  p1.push(NP('ตามที่ผู้อำนวยการ' + t('school_name') + ' เห็นชอบรายงานขอ' + A + ' ' + what + ' จำนวน ' + mt + ' ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 24 รายละเอียดดังแนบ', { ind: 36, j: 1 }),
+    NP('ในการนี้เจ้าหน้าที่ได้เจรจาตกลงราคากับ ' + vn + ' ซึ่งมีอาชีพ' + (h ? 'รับจ้าง' : 'ขาย') + 'แล้ว ปรากฏว่าเสนอราคาเป็นเงิน ' + BL(bahtD(tot)) + ' บาท ดังนั้นเพื่อให้เป็นไปตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560 ข้อ 79 จึงเห็นควรจัดซื้อ/จัดจ้างจากผู้เสนอราคารายดังกล่าว', { ind: 36, j: 1 }),
     NP('จึงเรียนมาเพื่อโปรดทราบ และพิจารณา', { ind: 36, sp: 3 }),
-    NP('1. อนุมัติให้สั่งซื้อจาก ' + vn + ' เป็นผู้ขาย ทำการส่งมอบ ' + what + ' ในวงเงิน ' + mtext(tot) + ' กำหนดเวลาการส่งมอบ ' + sdl(supDue(r)), { left: 36, j: 1 }),
-    NP('2. ลงนามในสัญญา/ใบสั่งซื้อ ดังแนบ', { left: 36 }),
+    NP('1. อนุมัติให้สั่ง' + A + ' ' + vn + ' เป็น' + (h ? 'ผู้รับจ้าง ทำการ ' : 'ผู้ขาย ทำการส่งมอบ ') + what + ' ในวงเงิน ' + mt + ' กำหนดเวลาการส่งมอบ ' + sdlB(supDue(r)), { left: 36, j: 1 }),
+    NP('2. ลงนามในสัญญา/ใบสั่ง' + A + ' ดังแนบ', { left: 36 }),
     NP('ลงชื่อ .................................. เจ้าหน้าที่พัสดุ', { al: 'c', sp: 16 }), NP('( ' + supOfficer(r).name + ' )', { al: 'c' }), NP(sdh(ts), { al: 'c' }),
     NP('อนุมัติ', { al: 'c', sp: 8 }), NP('ลงนามแล้ว', { al: 'c' }),
     NP('ลงชื่อ .................................. หัวหน้าเจ้าหน้าที่พัสดุ', { al: 'c', sp: 14 }), NP('( ' + USERS.su.name + ' )', { al: 'c' }), NP(sdh(ts), { al: 'c' }));
-  return { v: 'sup', ln: 18.5, name: '2_ผลพิจารณาสั่งซื้อ_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
+  return { v: 'sup', ln: 18.5, name: '2_ผลพิจารณาสั่ง' + A + '_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
+}
+/* ใบสั่งซื้อ / ใบสั่งจ้าง — ออกเมื่อยอดเกิน 5,000 บาท ตามแบบไฟล์ .docx ของงานพัสดุ (ครุฑเหนือชื่อใบสั่ง · ใบสั่งซื้อไม่มีแถวส่วนลด) */
+function ofPo(r) {
+  var h = supIsHire(r), A = h ? 'จ้าง' : 'ซื้อ', s = sup(r), L = supLines(r), V = supVat(r), tot = V.tot, ts = supTs(r, 'order'), vn = s.vendor ? BL(s.vendor) : '................................', vd = VENDORS[s.vendor] || {}, D = sdlB(ts);
+  var addr = s.vAddr || vd.payAddr || '', tax = s.vTax || vd.payTax || '';
+  var p1 = [{ k: 'code', x: '', plain: 1 }, { k: 'krut', h: 2.4 }, NP([{ x: 'ใบสั่ง' + A, b: 1, sz: 20 }], { al: 'c', sp: 2 })];
+  p1.push({ k: 'tbl', nb: 1, sp: 4, w: [9.0, 7.5], al: ['l', 'l'], rows: [[
+    'ผู้ขาย  ' + vn + '\nที่อยู่  ' + dB(addr, 34) + '\nเลขประจำตัวผู้เสียภาษี  ' + dB(tax, 24) + '\nเลขที่บัญชีเงินฝากธนาคาร  ' + dB(s.vAcct, 24) + '\nชื่อบัญชี  ' + dB(s.vAcctName, 30) + '\nธนาคาร  ' + dB(s.vBank, 14) + '  สาขา  ' + dB(s.vBranch, 14),
+    'ใบสั่ง' + A + 'เลขที่  ' + dB(s.po, 12) + '\nวันที่  ' + D + '\n' + t('school_name') + '\nที่อยู่ 94 แขวงบางพรม เขตตลิ่งชัน กรุงเทพฯ\nโทรศัพท์ 02-418-2911']] });
+  p1.push(NP('ตามที่ ' + vn + ' ได้เสนอราคา ตามใบเสนอราคาเลขที่ ' + dB(s.qNo, 20) + ' ลงวันที่ ' + (s.qDate ? BL(dlong(new Date(s.qDate + 'T00:00:00').getTime())) : '..........................') + ' ไว้ต่อ' + t('school_name') + ' ซึ่งได้รับราคาและตกลง' + A + ' ตามรายการดังต่อไปนี้', { ind: 36, j: 1, sp: 4 }));
+  var rows = L.map(function (x, i) { return [String(i + 1), BL(x.name), BL(String(x.qty)), BL(x.unit), BL(bahtD(x.price)), BL(bahtD(x.amt))]; });
+  while (rows.length < 8) rows.push(['\u00A0', '', '', '', '', '']);
+  rows.push([{ x: '', cs: 4, al: 'c' }, { x: 'รวมเป็นเงิน', al: 'r' }, { x: BL(bahtD(V.pre)), al: 'r' }]);
+  if (h) rows.push([{ x: '', cs: 4, al: 'c' }, { x: 'ส่วนลด', al: 'r' }, { x: '-', al: 'r' }]);
+  rows.push([{ x: '', cs: 4, al: 'c' }, { x: 'ภาษีมูลค่าเพิ่ม', al: 'r' }, { x: r.vat ? BL(bahtD(V.vat)) : '-', al: 'r' }]);
+  rows.push([{ x: '( ' + BL(bahtText(tot)) + ' )', cs: 4, al: 'c' }, { x: 'รวมทั้งสิ้น', al: 'r', b: 1 }, { x: BL(bahtD(tot)), al: 'r', b: 1 }]);
+  p1.push({ k: 'tbl', sp: 2, w: [1.4, 6.6, 1.6, 1.6, 2.6, 2.7], al: ['c', 'l', 'c', 'c', 'r', 'r'], head: ['ลำดับ', 'รายการ', 'จำนวน', 'หน่วย', 'ราคาต่อหน่วย (บาท)', 'จำนวนเงิน (บาท)'], rows: rows });
+  p1.push(NP('การสั่ง' + A + ' อยู่ภายใต้เงื่อนไขต่อไปนี้', { sp: 6 }),
+    NP('กำหนดส่งมอบภายใน ' + BL(String(Number(s.days) || 3)) + ' วัน นับถัดจากวันที่' + (h ? 'ผู้รับจ้าง' : 'ผู้ขาย') + 'ได้รับใบสั่ง' + A),
+    NP('ครบกำหนดส่งมอบวันที่ ' + sdlB(supDue(r))), NP('สถานที่ส่งมอบ ' + t('school_name')), NP('ระยะเวลารับประกัน ' + dB(s.warranty, 24)),
+    NP(h ? 'สงวนสิทธิ์ค่าปรับกรณีส่งมอบเกินกำหนด โดยคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.10 ของวงเงินทั้งหมด' : 'สงวนสิทธิ์ค่าปรับกรณีส่งมอบเกินกำหนด โดยคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.20 ของราคาสิ่งของที่ยังไม่ได้รับมอบ', { j: 1 }),
+    NP('โรงเรียนสงวนสิทธิ์ที่จะไม่รับมอบถ้าปรากฏว่า' + (h ? 'งานนั้นมีลักษณะไม่ตรงตามรายการ' : 'สินค้านั้นมีลักษณะไม่ตรงตามรายการ') + 'ที่ระบุไว้ในใบสั่ง' + A, { j: 1 }),
+    NP('ลงชื่อ ................................................ ผู้สั่ง' + A, { al: 'c', sp: 14 }), NP('( ' + dB(s.poName, 30) + ' )', { al: 'c' }), NP('ตำแหน่ง ' + dB(s.poPos, 30), { al: 'c' }), NP('วันที่ ' + D, { al: 'c' }),
+    NP('ลงชื่อ ................................................ ' + (h ? 'ผู้รับจ้าง' : 'ผู้ขาย'), { al: 'c', sp: 12 }), NP('( .................................................... )', { al: 'c' }), NP('ตำแหน่ง ' + (h ? 'ผู้รับจ้าง' : 'ผู้เสนอราคา') + ' ........................', { al: 'c' }), NP('วันที่ ' + D, { al: 'c' }));
+  return { v: 'sup', ln: 18.5, name: '3_ใบสั่ง' + A + '_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
 }
 function ofInspRpt(r) {
-  var L = supLines(r), V = supVat(r), tot = V.tot, s = sup(r), no = supNo(r), ts = supTs(r, 'insp'), ins = supIns(r), what = supWhat(r), vn = s.vendor || '................................', po = supPoTxt(r), D = sdl(ts), N = ins.length > 1;
+  var h = supIsHire(r), A = h ? 'จ้าง' : 'ซื้อ', L = supLines(r), V = supVat(r), tot = V.tot, s = sup(r), no = supNo(r), ts = supTs(r, 'insp'), ins = supIns(r), what = BL(supWhat(r)), vn = s.vendor ? BL(s.vendor) : '................................', po = supPoB(r), D = sdlB(ts), N = h || ins.length > 1, hd = handTs(r);
   var p1 = [{ k: 'code', x: no, plain: 1 }, NP([{ x: 'ใบตรวจรับพัสดุ', b: 1, sz: 20 }], { al: 'c' }),
     NP('ตามระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ.2560 ข้อ 175', { al: 'c' }),
     NP('เขียนที่' + t('school_name'), { al: 'r', sp: 3 }), NP('วันที่ ' + D, { al: 'r' }),
-    NP('ตามที่' + t('school_name') + ' ได้จัดซื้อ ' + what + ' จาก ' + vn + ' ตามสัญญา/ใบสั่งซื้อ เลขที่ ' + po + ' ลงวันที่ ' + sdl(supTs(r, 'order')) + ' ครบกำหนดส่งมอบวันที่ ' + sdl(supDue(r)), { ind: 36, j: 1 }),
-    NP('บัดนี้ผู้ขายได้จัดส่ง ' + what + ' ตามหนังสือส่งมอบของ ผู้ขาย เลขที่ ' + (s.dn || '..............') + ' ลงวันที่ ' + (s.dnDate ? sdl(new Date(s.dnDate + 'T00:00:00').getTime()) : '..............') + ' การซื้อนี้ได้สั่งแก้ไขเปลี่ยนแปลงคือ ..........-.......................................', { ind: 36, j: 1 }),
-    NP((N ? 'คณะกรรมการตรวจรับพัสดุ' : 'ผู้ตรวจรับพัสดุ') + 'ได้ตรวจรับงานเมื่อวันที่ ' + D + ' แล้วปรากฏว่างานเสร็จเรียบร้อยถูกต้องตามสัญญา/ใบสั่งซื้อ ทุกประการ เมื่อวันที่ ' + D + ' โดยส่งมอบเกินกำหนด จำนวน ......-..... วัน คิดค่าปรับในอัตรา .......-......... รวมเป็นเงินทั้งสิ้น ..........-.......... บาท', { ind: 36, j: 1 }),
-    NP('จึงออกหนังสือสำคัญ ฉบับนี้ให้ไว้ วันที่ ' + D + ' ผู้ขายควรได้รับเงินเป็นจำนวนเงินทั้งสิ้น ' + mtext(tot) + ' ตามสัญญา/ใบสั่งซื้อ', { ind: 36, j: 1 }),
+    NP('ตามที่' + t('school_name') + ' ได้จัด' + A + ' ' + what + ' จาก ' + vn + ' ตามสัญญา/ใบสั่ง' + A + ' เลขที่ ' + po + ' ลงวันที่ ' + sdlB(supTs(r, 'order')) + ' ครบกำหนดส่งมอบวันที่ ' + sdlB(supDue(r)), { ind: 36, j: 1 }),
+    NP(h ? 'บัดนี้ผู้รับจ้างได้ทำงาน ' + what + ' ตามใบส่งมอบงานของผู้รับจ้าง ลงวันที่ ' + (hd ? BL(dlong(hd)) : '..............') + ' การจ้างรายนี้ได้สั่งแก้ไขเปลี่ยนแปลงคือ ..........-.......................................' : 'บัดนี้ผู้ขายได้จัดส่ง ' + what + ' ตามหนังสือส่งมอบของ ผู้ขาย เลขที่ ' + dB(s.dn, 14) + ' ลงวันที่ ' + (s.dnDate ? BL(dlong(new Date(s.dnDate + 'T00:00:00').getTime())) : '..............') + ' การซื้อนี้ได้สั่งแก้ไขเปลี่ยนแปลงคือ ..........-.......................................', { ind: 36, j: 1 }),
+    NP((N ? 'คณะกรรมการตรวจรับพัสดุ' : 'ผู้ตรวจรับพัสดุ') + 'ได้ตรวจรับงานเมื่อวันที่ ' + D + ' แล้วปรากฏว่างานเสร็จเรียบร้อยถูกต้องตามสัญญา/ใบสั่ง' + A + ' ทุกประการ เมื่อวันที่ ' + D + ' โดยส่งมอบเกินกำหนด จำนวน ......-..... วัน คิดค่าปรับในอัตรา .......-......... รวมเป็นเงินทั้งสิ้น ..........-.......... บาท', { ind: 36, j: 1 }),
+    NP('จึงออกหนังสือสำคัญ ฉบับนี้ให้ไว้ วันที่ ' + D + ' ' + (h ? 'ผู้รับจ้าง' : 'ผู้ขาย') + 'ควรได้รับเงินเป็นจำนวนเงินทั้งสิ้น ' + BL(mtext(tot)) + ' ตามสัญญา/ใบสั่ง' + A, { ind: 36, j: 1 }),
     NP('จึงขอเสนอรายงานต่อผู้อำนวยการ' + t('school_name') + ' เพื่อโปรดทราบ ตามนัยข้อ 175 (4) แห่งระเบียบกระทรวงการคลังว่าด้วยการจัดซื้อจัดจ้างและการบริหารพัสดุภาครัฐ พ.ศ. 2560', { ind: 36, j: 1 })];
   (ins.length ? ins : ['']).forEach(function (k, i) { p1.push(NP('ลงชื่อ ................................. ' + (N ? (i ? 'กรรมการ' : 'ประธานกรรมการ') : 'ผู้ตรวจรับพัสดุ'), { al: 'c', sp: i ? 8 : 12 }), NP('( ' + (k ? USERS[k].name : '.................................') + ' )', { al: 'c' })); });
   p1.push(NP('เรียน ผู้อำนวยการ' + t('school_name') + ' เพื่อโปรดทราบผลการตรวจรับ', { sp: 8 }),
     { k: 'tbl', nb: 1, sp: 2, w: [8.25, 8.25], al: ['c', 'c'], rows: [[sigCell('เจ้าหน้าที่พัสดุ', supOfficer(r).name, ts) + '\n\n' + sigCell('หัวหน้าเจ้าหน้าที่พัสดุ', USERS.su.name, ts), 'ทราบ\n\n..................................\n( ' + SIGN.dir() + ' )\nผู้อำนวยการ' + t('school_name') + '\n' + sdh(ts)]] },
     NP('* กรณีการจัดซื้อคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.20 ของราคาสิ่งของที่ยังไม่ได้รับมอบ', { sp: 6 }), NP('กรณีการจัดจ้างคิดค่าปรับเป็นรายวันในอัตราร้อยละ 0.10 ของวงเงินทั้งหมด'), NP([{ x: 'หมายเหตุ', b: 1 }, { x: '   ใช้กับการจัดซื้อหรือจัดจ้างพัสดุ (ที่มิใช่งานก่อสร้าง)' }]));
-  var p2 = [NP([{ x: 'รายการพัสดุที่ตรวจรับ', b: 1, sz: 20 }], { al: 'c' }), NP(t('school_name'), { al: 'c' }), NP('เลขที่ชุด ' + no), NP('วันที่ ' + D, { al: 'r' })];
-  var rows = [[hC('ลำดับที่', { rs: 2 }), hC('รายการ', { rs: 2 }), hC('จำนวน', { rs: 2 }), hC('หน่วย', { rs: 2 }), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })], [hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
-  L.forEach(function (x, i) { rows.push([{ x: String(i + 1), al: 'c' }, { x: x.name, al: 'l' }, { x: String(x.qty), al: 'c' }, { x: x.unit, al: 'c' }].concat(moneyCellsDoc(x.price), moneyCellsDoc(x.amt))); });
-  if (r.vat) rows.push([{ x: 'มูลค่าสินค้า', cs: 6, al: 'r' }].concat(moneyCellsDoc(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 6, al: 'r' }].concat(moneyCellsDoc(V.vat)));
-  rows.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + bahtText(tot) + ' )', cs: 6, al: 'l', b: 1 }].concat(moneyCellsDoc(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
-  p2.push({ k: 'tbl', sp: 6, w: [1.6, 5.4, 1.6, 1.8, 1.6, 1.0, 2.4, 1.1], rows: rows.reduce(function (o, rw) { if (Array.isArray(rw[0])) rw.forEach(function (z) { o.push(z); }); else o.push(rw); return o; }, []) });
-  return { v: 'sup', ln: 18.5, name: '3_ใบตรวจรับพัสดุ_' + r.id + '_' + r.title, st: 'ngp', pages: [p1, p2] };
+  if (h) return { v: 'sup', ln: 18.5, name: '4_ใบตรวจรับพัสดุจ้าง_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
+  var p2 = [NP([{ x: 'รายการพัสดุที่ตรวจรับ', b: 1, sz: 20 }], { al: 'c' }), NP(t('school_name'), { al: 'c' }), NP('เลขที่ชุด ' + supNoB(r)), NP('วันที่ ' + D, { al: 'r' })];
+  var hdr = [[hC('ลำดับที่', { rs: 2 }), hC('รายการ', { rs: 2 }), hC('จำนวน', { rs: 2 }), hC('หน่วย', { rs: 2 }), hC('หน่วยละ', { cs: 2 }), hC('จำนวนเงิน', { cs: 2 })], [hC('บาท'), hC('สต.'), hC('บาท'), hC('สต.')]];
+  var dr = L.map(function (x, i) { return [{ x: String(i + 1), al: 'c' }, { x: BL(x.name), al: 'l' }, { x: BL(String(x.qty)), al: 'c' }, { x: BL(x.unit), al: 'c' }].concat(moneyB(x.price), moneyB(x.amt)); });
+  padRows(dr, PADN.insp - (r.vat ? 2 : 0), 8);
+  if (r.vat) dr.push([{ x: 'มูลค่าสินค้า', cs: 6, al: 'r' }].concat(moneyB(V.pre)), [{ x: 'ภาษีมูลค่าเพิ่ม', cs: 6, al: 'r' }].concat(moneyB(V.vat)));
+  dr.push([{ x: 'รวมเป็นเงินทั้งสิ้น    ( ' + BL(bahtText(tot)) + ' )', cs: 6, al: 'l', b: 1 }].concat(moneyB(tot).map(function (c) { return Object.assign({ b: 1 }, c); })));
+  p2.push({ k: 'tbl', sp: 6, w: [1.6, 5.4, 1.6, 1.8, 1.6, 1.0, 2.4, 1.1], rows: hdr.concat(dr) });
+  return { v: 'sup', ln: 18.5, name: (supTotal(r) > 5000 ? '4_' : '3_') + 'ใบตรวจรับพัสดุ_' + r.id + '_' + r.title, st: 'ngp', pages: [p1, p2] };
 }
 function ofIssue(r) {
-  var L = supLines(r), ts = supTs(r, 'insp'), o = USERS[r.owner], rows = L.map(function (x, i) { return [String(i + 1), x.name, String(x.qty), x.unit]; });
-  while (rows.length < 14) rows.push(['\u00A0', '', '', '']);
+  var L = supLines(r), ts = supTs(r, 'insp'), o = USERS[r.owner], rows = L.map(function (x, i) { return [String(i + 1), BL(x.name), BL(String(x.qty)), BL(x.unit)]; });
+  padRows(rows, PADN.issue, 4);
   var p1 = [{ k: 'code', x: '', plain: 1 }, NP([{ x: 'ใบเบิก', b: 1, sz: 20 }], { al: 'c' }),
-    { k: 'tbl', nb: 1, w: [8.25, 8.25], al: ['l', 'r'], rows: [['เลขที่ ' + supNo(r), t('school_name') + ' สพม. กท 1']] }, NP('วันที่ ' + sdl(ts)),
-    NP('ข้าพเจ้าขอเบิกสิ่งของต่อไปนี้เพื่อ' + supPurp(r), { sp: 3 }),
+    { k: 'tbl', nb: 1, w: [8.25, 8.25], al: ['l', 'r'], rows: [['เลขที่ ' + supNoB(r), t('school_name') + ' สพม. กท 1']] }, NP('วันที่ ' + sdlB(ts)),
+    NP('ข้าพเจ้าขอเบิกสิ่งของต่อไปนี้เพื่อ' + BL(supPurp(r)), { sp: 3 }),
     { k: 'tbl', sp: 4, w: [1.5, 10.0, 2.5, 2.5], al: ['c', 'l', 'c', 'c'], head: ['ลำดับที่', 'รายการ', 'จำนวน', 'หน่วย'], rows: rows },
     NP('ได้รับของครบถ้วนถูกต้องแล้ว', { ind: 36, sp: 8 })];
   p1.push({ k: 'tbl', nb: 1, sp: 6, w: [8.25, 8.25], al: ['c', 'c'], rows: [['ลงชื่อ .................................\n( ' + o.name + ' )\nผู้เบิกพัสดุ\n' + sdh(ts), 'ลงชื่อ .................................\n( ' + USERS.su.name + ' )\nหัวหน้าเจ้าหน้าที่พัสดุ\n' + sdh(ts)]] });
-  return { v: 'sup', ln: 18.5, name: '4_ใบเบิก_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
+  return { v: 'sup', ln: 18.5, name: (supTotal(r) > 5000 ? '5_' : '4_') + 'ใบเบิก_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
 }
 function ofAckPay(r) {
-  var s = sup(r), tot = supTotal(r), V = supVat(r), ts = supTs(r, 'pay'), wht = whtOf(r), fine = 0, net = r2(tot - wht - fine), po = supPoTxt(r), a = function (v) { return v ? bahtD(v) : '-'; };
-  var p1 = supTop(r, supNo(r), ts, 'ทราบผลการตรวจรับและอนุมัติจ่ายเงิน');
-  p1.push(NP('ตามที่ได้อนุมัติให้จัดซื้อ ' + supWhat(r) + ' จำนวน ' + supLines(r).length + ' รายการ จำนวน ' + mtext(tot) + ' ตามสัญญา/ใบสั่งซื้อ เลขที่ ' + po + ' ลงวันที่ ' + sdl(supTs(r, 'order')) + ' กำหนดสัญญาวันที่ ' + sdl(supDue(r)), { ind: 36, j: 1 }),
-    NP('บัดนี้ผู้รับขายได้จัดส่งพัสดุแล้ว ตามหนังสือส่งมอบของผู้ขาย เลขที่ ' + (s.dn || '..............') + ' และคณะกรรมการตรวจรับพัสดุ ได้ทำการตรวจรับไว้เป็นการถูกต้องครบถ้วนแล้วเมื่อวันที่ ' + sdl(supTs(r, 'insp')) + ' ดังหลักฐานใบตรวจรับที่แนบ', { ind: 36, j: 1 }),
-    NP('จึงเรียนมาเพื่อโปรดทราบ', { ind: 36, sp: 3 }), NP('1. ทราบผลการตรวจรับ', { left: 36 }), NP('2. อนุมัติจ่ายเงิน จำนวน ' + bahtD(tot) + ' บาท', { left: 36 }),
-    { k: 'tbl', nb: 1, w: [1.5, 6.4, 3.4, 1.4], al: ['l', 'l', 'r', 'l'], rows: [['3.', 'มูลค่าสินค้าหรือบริการ', bahtD(V.pre), 'บาท'], ['', 'บวกภาษีมูลค่าเพิ่ม', a(V.vat), 'บาท'], ['', 'จำนวนเงินที่ขอเบิกทั้งสิ้น', bahtD(tot), 'บาท'], ['', 'ภาษีเงินได้', a(wht), 'บาท'], ['', 'ค่าปรับ', a(fine), 'บาท'], ['', 'คงเหลือจ่ายจริง เป็นเงิน', bahtD(net), 'บาท']] },
-    NP('รวมเป็นเงินทั้งสิ้น ( ' + bahtText(net) + ' )', { left: 62 }),
+  var h = supIsHire(r), s = sup(r), tot = supTotal(r), V = supVat(r), ts = supTs(r, 'pay'), wht = whtOf(r), fine = 0, net = r2(tot - wht - fine), po = supPoB(r), a = function (v) { return v ? BL(bahtD(v)) : '-'; }, hd = handTs(r), vn = s.vendor ? BL(s.vendor) : '................................', what = BL(supWhat(r)), mt = BL(mtext(tot));
+  var p1 = supTop(r, supNoB(r), ts, 'ทราบผลการตรวจรับและอนุมัติจ่ายเงิน');
+  p1.push(NP(h ? 'ตามที่ได้อนุมัติให้ ' + vn + ' เป็นผู้ดำเนินการ ' + what + ' จำนวน ' + mt + ' ตามสัญญา/ใบสั่งจ้าง เลขที่ ' + po + ' ลงวันที่ ' + sdlB(supTs(r, 'order')) + ' กำหนดสัญญาวันที่ ' + sdlB(supDue(r))
+      : 'ตามที่ได้อนุมัติให้จัดซื้อ ' + what + ' จำนวน ' + BL(String(supLines(r).length)) + ' รายการ จำนวน ' + mt + ' ตามสัญญา/ใบสั่งซื้อ เลขที่ ' + po + ' ลงวันที่ ' + sdlB(supTs(r, 'order')) + ' กำหนดสัญญาวันที่ ' + sdlB(supDue(r)), { ind: 36, j: 1 }),
+    NP(h ? 'บัดนี้ผู้รับจ้างได้ทำงานเสร็จแล้ว ตามใบส่งมอบงานของผู้รับจ้าง ลงวันที่ ' + (hd ? BL(dlong(hd)) : '..............') + ' และคณะกรรมการตรวจรับพัสดุได้ทำการตรวจรับไว้เป็นการถูกต้องครบถ้วนแล้ว เมื่อวันที่ ' + sdlB(supTs(r, 'insp')) + ' ดังหลักฐานใบตรวจรับที่แนบ'
+      : 'บัดนี้ผู้รับขายได้จัดส่งพัสดุแล้ว ตามหนังสือส่งมอบของผู้ขาย เลขที่ ' + dB(s.dn, 14) + ' และคณะกรรมการตรวจรับพัสดุ ได้ทำการตรวจรับไว้เป็นการถูกต้องครบถ้วนแล้วเมื่อวันที่ ' + sdlB(supTs(r, 'insp')) + ' ดังหลักฐานใบตรวจรับที่แนบ', { ind: 36, j: 1 }),
+    NP('จึงเรียนมาเพื่อโปรดทราบ', { ind: 36, sp: 3 }), NP('1. ทราบผลการตรวจรับ', { left: 36 }), NP('2. อนุมัติจ่ายเงิน จำนวน ' + BL(bahtD(tot)) + ' บาท', { left: 36 }),
+    { k: 'tbl', nb: 1, w: [1.5, 6.4, 3.4, 1.4], al: ['l', 'l', 'r', 'l'], rows: [['3.', 'มูลค่าสินค้าหรือบริการ', BL(bahtD(V.pre)), 'บาท'], ['', 'บวกภาษีมูลค่าเพิ่ม', a(V.vat), 'บาท'], ['', 'จำนวนเงินที่ขอเบิกทั้งสิ้น', BL(bahtD(tot)), 'บาท'], ['', 'ภาษีเงินได้', a(wht), 'บาท'], ['', 'ค่าปรับ', a(fine), 'บาท'], ['', 'คงเหลือจ่ายจริง เป็นเงิน', BL(bahtD(net)), 'บาท']] },
+    NP('รวมเป็นเงินทั้งสิ้น ( ' + BL(bahtText(net)) + ' )', { left: 62 }),
     NP('ลงชื่อ .................................. หัวหน้างานการเงิน', { al: 'c', sp: 14 }), NP('( ' + SIGN.fin() + ' )', { al: 'c' }),
     NP('ลงชื่อ .................................. หัวหน้ากลุ่มบริหารงบประมาณ', { al: 'c', sp: 10 }), NP('( ' + SIGN.head() + ' )', { al: 'c' }));
   dirBlock(ts, 'ทราบ / อนุมัติ').forEach(function (b) { p1.push(b); });
-  return { v: 'sup', ln: 18.5, name: '5_ทราบผลตรวจรับและอนุมัติจ่าย_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
+  return { v: 'sup', ln: 18.5, name: (supTotal(r) > 5000 ? '6_' : '5_') + 'ทราบผลตรวจรับและอนุมัติจ่าย_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
 }
+/* ใบส่งมอบงาน — เอกสารของเจ้าของโครงการ (ชุดจัดจ้าง): ผู้รับจ้างลงนาม กรรมการตรวจรับรับรอง · ไม่บังคับลงวันที่ */
+function ofHandover(r) {
+  var s = sup(r), L = supLines(r), tot = supTotal(r), ins = supIns(r), vd = VENDORS[s.vendor] || {}, hd = handTs(r), vn = s.vendor || '', what = supWhat(r);
+  var addr = s.vAddr || vd.payAddr || '', tax = s.vTax || vd.payTax || '', tel = vd.payTel || '';
+  var p1 = [{ k: 'code', x: '', plain: 1 }, NP([{ x: 'ใบส่งมอบงาน', b: 1, sz: 20 }], { al: 'c', sp: 14 }),
+    NP('วันที่ ' + (hd ? BL(dlong(hd)) : '..............................................................'), { al: 'r', sp: 16 }),
+    { k: 'tbl', nb: 1, sp: 14, w: [1.7, 14.8], al: ['l', 'l'], rows: [['เรื่อง', 'ส่งมอบงาน' + BL(what)], ['เรียน', 'ผู้อำนวยการ' + t('school_name')], ['ที่อยู่', '94 ถนนบางพรม แขวงบางพรม เขตตลิ่งชัน กรุงเทพมหานคร 10170']] },
+    NP('ข้าพเจ้า' + dB(vn, 24) + ' ที่อยู่ ' + dB(addr, 30) + ' เลขประจำตัวผู้เสียภาษี ' + dB(tax, 16) + ' โทร. ' + dB(tel, 12), { ind: 36, j: 1, sp: 10 })];
+  var rows = L.map(function (x, i) { return [String(i + 1), BL(x.name), BL(String(x.qty)), BL(x.unit), BL(bahtD(x.price)), BL(bahtD(x.amt))]; });
+  padRows(rows, PADN.hand, 6);
+  rows.push([{ x: '( ' + BL(bahtText(tot)) + ' )', cs: 4, al: 'c' }, { x: 'รวมเป็นเงิน', al: 'r' }, { x: BL(bahtD(tot)), al: 'r', b: 1 }]);
+  p1.push({ k: 'tbl', sp: 8, w: [1.4, 6.8, 1.7, 1.7, 2.5, 2.4], al: ['c', 'l', 'c', 'c', 'r', 'r'], head: ['ลำดับ', 'รายการ', 'จำนวน', 'หน่วย', 'ราคาต่อหน่วย', 'รวมเป็นเงิน (บาท)'], rows: rows });
+  p1.push(NP('ลงชื่อ ................................................ ผู้รับจ้าง', { al: 'c', sp: 30 }), NP('( ' + (vn || '................................................') + ' )', { al: 'c' }),
+    NP('วันที่ ' + (hd ? BL(dlong(hd)) : '........../............../..........'), { al: 'c' }),
+    NP('พัสดุดังกล่าวกรรมการได้ตรวจรับเมื่อวันที่ ............................................', { left: 70, sp: 30 }),
+    NP('ปรากฏว่าพัสดุดังกล่าวถูกต้องครบถ้วนตามที่โรงเรียนได้สั่งไว้แล้ว', { left: 70 }),
+    NP('ลงชื่อ ................................................ ประธานกรรมการตรวจรับ', { left: 70, sp: 10 }),
+    NP('( ' + (ins[0] && USERS[ins[0]] ? USERS[ins[0]].name : '................................................') + ' )', { left: 100 }));
+  return { v: 'sup', ln: 18.5, name: 'ใบส่งมอบงาน_' + r.id + '_' + r.title, st: 'ngp', pages: [p1] };
+}
+/* รูปภาพตรวจรับ — เจ้าของโครงการแนบรูปตอนตรวจรับ · 1 รูปครึ่งหน้า · หลายรูปจัดตารางให้พอดี (หน้าละไม่เกิน 6 รูป) */
+function ofPhotos(r) {
+  var ph = insPhotoList(r), ts = supTs(r, 'insp'), pj = proj(act(r.act).project), chunks = [], pages = [];
+  for (var i = 0; i < ph.length; i += 6) chunks.push(ph.slice(i, i + 6)); if (!chunks.length) chunks.push([]);
+  chunks.forEach(function (c) {
+    var n = c.length, lay = n <= 1 ? [1, 12] : n === 2 ? [1, 10] : n <= 4 ? [2, 9] : [2, 7.2];
+    var p = [{ k: 'code', x: '', plain: 1 }, NP([{ x: 'รูปภาพการตรวจรับ' + (supIsHire(r) ? 'งานจ้าง' : 'พัสดุ'), b: 1, sz: 20 }], { al: 'c' }), NP(t('school_name'), { al: 'c' }),
+      NP(BL(supWhat(r)), { al: 'c' }), NP('เลขที่ชุด ' + supNoB(r) + ' · วันที่ตรวจรับ ' + sdlB(ts), { al: 'c' })];
+    if (n) p.push({ k: 'photos', imgs: c, cols: lay[0], h: lay[1] }); else p.push(NP('(ยังไม่ได้แนบรูปภาพการตรวจรับ — เจ้าของโครงการแนบรูปได้ในขั้นตอนซื้อ/จ้างของระบบ)', { al: 'c', sp: 24 }));
+    pages.push(p);
+  });
+  return { v: 'sup', ln: 18.5, name: 'รูปภาพตรวจรับ_' + r.id + '_' + r.title, st: 'ngp', pages: pages };
+}
+
 
 var SUP_ORDER = ['buyrpt', 'ordrpt', 'insprpt', 'issue', 'ackpay'];
 
 var PAYTYPES = [['vendor', 'จ่ายให้ร้านค้า/ผู้รับจ้าง'], ['refund', 'จ่ายคืนผู้สำรองจ่าย']];
 /* ===== งานการเงิน: real memo wording from the school's finance memo book (ปี 2568–2569), one memo per payment, signed by the finance officer only ===== */
 var BANK = 'ธนาคารกรุงไทย สาขาบางขุนนนท์';
-var SD_REAL = { buyrpt: 1, ordrpt: 1, insprpt: 1, issue: 1, ackpay: 1, pg01: 1, paymemo: 1, loanpaymemo: 1, recurmemo: 1, voucher: 1, rcptform: 1 };
+var SD_REAL = { hirehand: 1, insphoto: 1, hirerpt: 1, hireord: 1, pohire: 1, pobuy: 1, hireinsp: 1, hireack: 1, taxmemo: 1, buyrpt: 1, ordrpt: 1, insprpt: 1, issue: 1, ackpay: 1, pg01: 1, paymemo: 1, loanpaymemo: 1, recurmemo: 1, voucher: 1, rcptform: 1 };
 var VENDORS = {};
 function vendorOf(n) { n = String(n || '').replace(/\s+/g, ''); if (!n) return null; var ks = Object.keys(VENDORS); for (var i = 0; i < ks.length; i++) if (ks[i].replace(/\s+/g, '') === n) return VENDORS[ks[i]]; return null; }
 /* the fund as the finance memos name it, e.g. "เงินอุดหนุนทั่วไป (อุดหนุนรายหัว)", "เงินรายได้สถานศึกษา (ค่าเช่าตึก)" */
@@ -2478,7 +2748,7 @@ function finMe(r) { return (r && r.finBy && USERS[r.finBy]) || (S.u && S.u.role 
 function finI(u) { return 'ข้าพเจ้า ' + u.name + ' ตำแหน่ง ' + u.pos + ' ' + (u.fdept || u.dept) + ' กลุ่มบริหารงบประมาณ'; }
 function finTop(subj) { return [{ k: 'code', x: '', plain: 1 }, { k: 'fmh', no: 'งป       /' + beYear(NOW), date: dlong(NOW).replace(/ /g, '  '), subj: subj }]; }
 function finSign(u) { return { k: 'fsign', name: u.name.replace(' ', '  '), pos: u.fdept || u.dept }; }
-function finEnd(p, u) { p.push(NP('จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ', { left: 72, sp: 7.8 }), finSign(u)); return p; }
+function finEnd(p, u) { var f0 = p.filter(function (b) { return b.k === 'np'; })[0]; if (f0 && !f0.sp) f0.sp = 7.8; p.push(NP('จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ', { left: 72, sp: 7.8 }), finSign(u)); return p; }
 function mtext(x) { return bahtD(x) + ' บาท (' + bahtText(x) + ')'; }
 function dots(v, n) { return v ? v : new Array((n || 20) + 1).join('.'); }
 function whoOf(r) { var o = USERS[r.owner], pj = proj(act(r.act).project); return o.name + ' ตำแหน่ง ' + o.pos + ' ผู้รับผิดชอบโครงการ' + pj.name; }
@@ -2645,12 +2915,12 @@ function ofRcptForm(r) {
   var rows = [[{ x: 'ลำดับที่', b: 1, al: 'c', rs: 2, va: 'c' }, { x: 'รายการ', b: 1, al: 'c', rs: 2, va: 'c' }, { x: 'จำนวนเงิน', b: 1, al: 'c', cs: 2 }], [{ x: 'บาท', b: 1, al: 'c' }, { x: 'สต.', b: 1, al: 'c' }], { h: 0.75, c: ['1', v.item, sp[0], sp[1]] }];
   for (var i = 0; i < 12; i++) rows.push(blank());
   rows.push([{ x: 'รวมจำนวนเงิน (บาท)', b: 1, al: 'r', cs: 2 }, { x: sp[0], b: 1 }, { x: sp[1], b: 1 }]);
+  var rcvTail = [{ x: ' ' }, { x: 'ได้รับเงินจาก' + t('school_name'), b: 1 }, { x: ' ตามรายการดังต่อไปนี้' }];
   var pg = [{ k: 'title', x: 'ใบสำคัญรับเงิน', sz: 20 },
     { k: 'p', al: 'r', sp: 10, runs: [{ x: 'ที่ ' + t('school_name'), b: 1 }] },
     { k: 'p', al: 'r', sp: 10, runs: [{ x: 'วันที่', b: 1 }, { x: '..............' }, { x: 'เดือน', b: 1 }, { x: '..............................' }, { x: 'พ.ศ.', b: 1 }, { x: '....................' }] },
-    { k: 'p', ind: 1, runs: [{ x: 'ข้าพเจ้า', b: 1 }, { x: '....' + dots(v.payee, 40) + '....' }, { x: 'อยู่บ้านเลขที่', b: 1 }, { x: dots(r.payAddr, 24) }] },
-    r.payAddr ? null : { k: 'p', runs: [{ x: 'แขวง', b: 1 }, { x: '..............................' }, { x: 'เขต', b: 1 }, { x: '..............................' }, { x: 'จังหวัด', b: 1 }, { x: '..............................' }] },
-    { k: 'p', runs: [{ x: 'ได้รับเงินจาก' + t('school_name'), b: 1 }, { x: ' ตามรายการดังต่อไปนี้' }] },
+    { k: 'p', ind: 1, runs: [{ x: 'ข้าพเจ้า', b: 1 }, { x: '....' + dots(v.payee, 40) + '....' }, { x: 'อยู่บ้านเลขที่', b: 1 }, { x: dots(r.payAddr, 24) }].concat(r.payAddr ? rcvTail : []) },
+    r.payAddr ? null : { k: 'p', runs: [{ x: 'แขวง', b: 1 }, { x: '..............................' }, { x: 'เขต', b: 1 }, { x: '..............................' }, { x: 'จังหวัด', b: 1 }, { x: '..............................' }].concat(rcvTail) },
     { k: 'tbl', sp: 10, w: [2, 9.5, 2.6, 1.4], al: ['c', 'l', 'r', 'c'], rows: rows },
     { k: 'p', sp: 12, runs: [{ x: 'จำนวนเงิน', b: 1 }, { x: ' (' + bahtText(v.amt) + ')' }] },
     { k: 'sign', sp: 30, lines: ['ลงชื่อ..................................................ผู้รับเงิน', '(..................................................)'] },
@@ -2662,6 +2932,7 @@ function needRcpt(r) { return r.noRcpt === undefined ? r.kind === 'svc' : !!r.no
 function sdTypes(r, k) {
   var ds = (STAFFDOCS[k] || []).slice();
   if (k === 'plan_check' && (r.type !== 'use' || r.recur)) ds = [];
+  if (k === 'inspect_doc') { var po5 = supNeedPo(r); ds = supIsHire(r) ? ['hirerpt', 'hireord'].concat(po5 ? ['pohire'] : [], ['hirehand', 'hireinsp', 'hireack', 'insphoto']) : ['buyrpt', 'ordrpt'].concat(po5 ? ['pobuy'] : [], ['insprpt', 'issue', 'ackpay', 'insphoto']); }
   if (k === 'pay' && r.track === 'loan') ds = ['paymemo'];
   if (k === 'rpay' && recurType(r) === 'wage') ds = ['recurmemo'];
   if (k === 'pay' && r.track !== 'loan' && needRcpt(r)) ds.push('rcptform');
@@ -2823,10 +3094,48 @@ function gridHtml(b) {
       }).join('') + '</tr>';
     }).join('') + '</table>';
 }
-var SD_BUILD = { pg01: ofPg01, recurmemo: ofRecurMemo, buyrpt: ofBuyRpt, ordrpt: ofOrdRpt, insprpt: ofInspRpt, issue: ofIssue, ackpay: ofAckPay, loanpaymemo: ofLoanPayMemo, paymemo: ofPayMemo, voucher: ofVoucher, rcptform: ofRcptForm };
+var SD_BUILD = { hirehand: ofHandover, insphoto: ofPhotos, hirerpt: ofBuyRpt, hireord: ofOrdRpt, pohire: ofPo, pobuy: ofPo, hireinsp: ofInspRpt, hireack: ofAckPay, pg01: ofPg01, recurmemo: ofRecurMemo, buyrpt: ofBuyRpt, ordrpt: ofOrdRpt, insprpt: ofInspRpt, issue: ofIssue, ackpay: ofAckPay, loanpaymemo: ofLoanPayMemo, paymemo: ofPayMemo, voucher: ofVoucher, rcptform: ofRcptForm };
 /* staff documents that exist for a request so far (its step has been reached) */
 function staffDocsOf(r) { var out = []; Object.keys(STAFFDOCS).forEach(function (k) { var i = idx(r, k); if (i < 0 || r.step < i) return; sdTypes(r, k).forEach(function (d) { if (out.indexOf(d) < 0) out.push(d); }); }); return out; }
-function sdLink(type, r) { return '<span><button type="button" class="link" data-doc="' + type + '" data-id="' + r.id + '">' + esc(sdName(type, r)) + '</button> ' + (SD_REAL[type] ? '<span class="chip c-ok" style="font-size:11px">แบบจริง</span>' : '<span class="chip c-wait" style="font-size:11px">ร่าง</span>') + docIcons(type, r.id) + '</span>'; }
+var OFF_C = { 'ครู': '#2F6FE0', 'งานแผน': '#E08A1E', 'งานพัสดุ': '#7C5CF0', 'งานการเงิน': '#1F9254' };
+var OFF_ROLE = { teacher: 'ครู', plan: 'งานแผน', supply: 'งานพัสดุ', finance: 'งานการเงิน' };
+var DOC_OWN = { hirehand: 1, insphoto: 1 };
+var SD_GRP = { plan_check: 'ตรวจแผน', rpay: 'จ่ายรายจ่ายประจำ', dir2: '', loan_pay: 'จ่ายเงินยืม', pay: 'จ่ายเงิน' };
+function docOffice(type) { return DOC_OWN[type] || !SD_OFFICE[type] ? 'ครู' : SD_OFFICE[type]; }
+/* รายการเอกสารของคำขอ เรียงตามขั้นตอนจริง · เจ้าหน้าที่เห็นครบทั้งชุด · เจ้าของโครงการเห็นเฉพาะส่วนที่เป็นของตน */
+function docEntries(r, u, p) {
+  var E = [], locked = !canPrint(r) && r.owner === u.id, g0 = 'เริ่มเรื่อง · เจ้าของโครงการ';
+  var add = function (type, id, grp, live, note) { E.push({ type: type, id: id, grp: grp, live: live, note: note || '' }); };
+  if (!r.recur) { add('memo', r.id, g0, !locked, locked ? T_('doc_locked') : ''); add('project', bookId(p.id, r.act), g0, true, 'แนบไปกับบันทึกข้อความ'); }
+  if (r.track === 'loan') { add('loan', r.id, g0, !locked, locked ? T_('doc_locked') : ''); add('contract', r.id, g0, !locked); }
+  var ks = Object.keys(STAFFDOCS).concat(['loan_ret']).filter(function (k) { return idx(r, k) >= 0; }).sort(function (x, y) { return idx(r, x) - idx(r, y); });
+  ks.forEach(function (k) {
+    var i = idx(r, k);
+    if (k === 'loan_ret') return add('loanret', r.id, 'ส่งใช้เงินยืม', r.step >= i);
+    var grp = k === 'inspect_doc' ? 'ชุดพัสดุ (' + (supIsHire(r) ? 'จัดจ้าง' : r.kind === 'svc' ? 'อื่นๆ' : 'จัดซื้อ') + ') · เลขที่ ' + supNo(r) : SD_GRP[k];
+    sdTypes(r, k).forEach(function (d) {
+      var j = i; if (DOC_OWN[d]) { var jb = idx(r, 'buy') >= 0 ? idx(r, 'buy') : idx(r, 'evid'); if (jb >= 0) j = jb; }
+      add(d, r.id, grp, r.step >= j, d === 'pohire' || d === 'pobuy' ? 'ออกเมื่อวงเงินเกิน 5,000 บาท' : d === 'hirehand' ? 'พิมพ์ให้ผู้รับจ้างลงนาม · กรรมการตรวจรับรับรอง' : d === 'insphoto' ? 'แนบรูปตอนตรวจรับในขั้นตอนซื้อ/จ้าง · ' + (r.insPhotos || []).filter(Boolean).length + ' รูป' : '');
+    });
+  });
+  return E;
+}
+function docName(e, r, p) { return e.type === 'memo' ? T_('doc_memo') : e.type === 'project' ? T_('btn_project_page') + ' (' + esc(p.code) + ')' : e.type === 'loan' ? T_('doc_loan') : e.type === 'contract' ? T_('doc_contract') : e.type === 'loanret' ? T_('doc_loanret') : esc(sdName(e.type, r)); }
+function docsCard(r, u, p, own) {
+  var mine = OFF_ROLE[u.role] || '', staff = u.role !== 'teacher', E = docEntries(r, u, p);
+  if (!staff) E = E.filter(function (e) { return docOffice(e.type) === 'ครู' && (e.type !== 'loanret' || own); });
+  var out = '', gl = null, n = 0, live = 0;
+  E.forEach(function (e) {
+    if (e.grp !== gl) { if (gl !== null) out += '</ul>'; out += '<div class="dgrp">' + esc(e.grp) + '</div><ul class="dl">'; gl = e.grp; }
+    var off = docOffice(e.type); n++; if (e.live) live++;
+    out += '<li class="' + (off === mine ? 'mine' : '') + (e.live ? '' : ' fut') + '" style="--c:' + OFF_C[off] + '"><span class="dno">' + n + '</span><span class="dnm">' +
+      (e.live ? '<button type="button" class="link" data-doc="' + e.type + '" data-id="' + e.id + '">' + docName(e, r, p) + '</button>' + docIcons(e.type, e.id) : docName(e, r, p)) + (e.note ? '<small>' + (/^</.test(e.note) ? e.note : esc(e.note)) + '</small>' : '') + '</span><span class="rt"><span class="down">' + off + '</span></span></li>';
+  });
+  if (gl !== null) out += '</ul>';
+  return '<section class="card"><h3>' + T('docs_title') + '</h3>' + (staff ? '<div class="small muted" style="margin:2px 0 4px">ครบชุด ' + n + ' ใบ · ถึงขั้นแล้ว ' + live + ' ใบ (ที่ยังไม่ถึงแสดงจาง)</div>' : '') + out +
+    (staff ? '<div class="dlegend">' + Object.keys(OFF_C).map(function (k) { return '<span style="--c:' + OFF_C[k] + '"><i></i>' + k + '</span>'; }).join('') + '</div>' : '') + '</section>';
+}
+function sdLink(type, r) { return '<span><button type="button" class="link" data-doc="' + type + '" data-id="' + r.id + '">' + esc(sdName(type, r)) + '</button> ' + docIcons(type, r.id) + '</span>'; }
 function sdList(r, k) {
   var ds = sdTypes(r, k); if (!ds.length) return '';
   return '<div class="sdocs"><div class="small" style="font-weight:600">เอกสารของขั้นนี้ (ระบบจัดทำให้)</div><div class="stack small" style="gap:4px;margin:4px 0 6px">' + ds.map(function (d) { return sdLink(d, r); }).join('') + '</div><div class="small muted">กดชื่อเอกสารเพื่อดูบนหน้าจอ แก้ไขข้อความ แล้วพิมพ์หรือดาวน์โหลด</div></div>';
@@ -2862,7 +3171,7 @@ document.addEventListener('change', function (e) {
 });
 /* edit the text of a generated document before printing; the PDF and Word files use the edited text */
 function docKey() { return S.doc.type + ':' + S.doc.id; }
-function canEditDoc() { var ty = S.doc.type; if (ty === 'project' || ty === 'blank') return false; var r = req(S.doc.id); return !!r && (S.u.role !== 'teacher' || isTeam(r, S.u)); }
+function canEditDoc() { var ty = S.doc.type; if (ty === 'taxmemo') return !!S.u && (S.u.role === 'finance' || S.u.role === 'admin'); if (ty === 'project' || ty === 'blank') return false; var r = req(S.doc.id); return !!r && (S.u.role !== 'teacher' || isTeam(r, S.u)); }
 
 /* ===== ขั้นตอนการทำงาน: the whole route of one request, each office's screen and the documents it makes ===== */
 var ROLE_COL = { teacher: '#2F6FE0', plan: '#E08A1E', supply: '#7C5CF0', finance: '#1F9254', director: '#C2410C' };
@@ -3199,8 +3508,8 @@ function loanStyle(m) {
   return m;
 }
 function ofModel(type, id) {
-  var r = type === 'project' || type === 'blank' ? null : req(id);
-  var m = type === 'blank' ? (id === 'contract' ? ofContract(null) : id === 'loanret' ? ofLoanRetBlank() : id === 'ngp01' ? ofUseBlank('01') : id === 'ngp02' ? ofUseBlank('02') : id === 'ngp03' ? ofCarryBlank() : ofLoanBlank()) : type === 'contract' ? ofContract(r) : type === 'project' ? ofProject(proj(id)) : type === 'loan' ? ofLoan(r) : type === 'loanret' ? ofLoanRet(r) : SD_BUILD[type] ? SD_BUILD[type](r) : r.type === 'carry' ? ofCarry(r) : r.type === 'change' ? ofChange(r) : ofUse(r);
+  var r = type === 'project' || type === 'blank' || type === 'taxmemo' ? null : req(id);
+  var m = type === 'blank' ? (id === 'contract' ? ofContract(null) : id === 'loanret' ? ofLoanRetBlank() : id === 'ngp01' ? ofUseBlank('01') : id === 'ngp02' ? ofUseBlank('02') : id === 'ngp03' ? ofCarryBlank() : ofLoanBlank()) : type === 'contract' ? ofContract(r) : type === 'project' ? ofProject(proj(id)) : type === 'loan' ? ofLoan(r) : type === 'loanret' ? ofLoanRet(r) : type === 'taxmemo' ? ofTaxMemo(id) : SD_BUILD[type] ? SD_BUILD[type](r) : r.type === 'carry' ? ofCarry(r) : r.type === 'change' ? ofChange(r) : ofUse(r);
   if (type === 'loan' || type === 'loanret' || (type === 'blank' && (id === 'loanmemo' || id === 'loanret'))) loanStyle(m);
   var ed = DOCEDITS[type + ':' + id] || {};
   m.pages.forEach(function (pg, pi) { pg.forEach(function (b, bi) { b.bi = pi + '.' + bi; if (ed[b.bi] != null && (b.k === 'p' || b.k === 'np')) b.runs = [{ x: ed[b.bi] }]; }); });
@@ -3212,10 +3521,10 @@ function ofModel(type, id) {
 /* ===== กั้นหน้ากั้นหลัง: body paragraphs are set line by line, as Thai official documents are typed —
    lines break only between Thai words (the browser's Thai dictionary), never inside a name, the school name,
    an amount with its บาท or a พ.ศ. date; an amount written in words is a compound, so when it has to be cut
-   the line ends with a hyphen (-); every full line is stretched to both margins and the last line is left as is. ===== */
+   the line ends with a hyphen (-); every full line is stretched to both margins between its letters (spaces stay one space wide) and the last line is left as is. ===== */
 var JX_SEG = window.Intl && Intl.Segmenter ? new Intl.Segmenter('th', { granularity: 'word' }) : null;
 var JX_CV = null;
-var JX_WORDS = ['ผู้เรียน', 'ผู้อำนวยการ', 'ผู้รับผิดชอบ', 'ผู้ยืม', 'ผู้รับเงิน', 'ผู้จ่ายเงิน', 'ผู้ขาย', 'ผู้ตรวจรับ', 'ผู้ประกอบการ', 'ผู้ปกครอง', 'ขออนุมัติ', 'อนุมัติ', 'ดำเนินการ', 'รายละเอียด', 'ค่าใช้จ่าย', 'เจ้าหน้าที่', 'ครูผู้สอน', 'ปีการศึกษา', 'ปีงบประมาณ', 'คณะกรรมการ', 'ประธานกรรมการ', 'หัวหน้างาน', 'หัวหน้ากลุ่ม', 'ตรวจรับพัสดุ', 'ใบสำคัญจ่าย', 'ใบสำคัญรับเงิน', 'สัญญายืมเงิน', 'เงินอุดหนุน', 'รายได้สถานศึกษา', 'แผนปฏิบัติการ', 'ผู้ใช้เงินยืม', 'ในนาม', 'จึงเห็นควร', 'ลงวันที่', 'ใบตรวจรับ', 'ใบสั่งซื้อ', 'ใบสั่งจ้าง', 'ส่งมอบ', 'ดังแนบ', 'ตามที่', 'ขอเสนอ'];
+var JX_WORDS = ['ผู้เรียน', 'ผู้อำนวยการ', 'ผู้รับผิดชอบ', 'ผู้ยืม', 'ผู้รับเงิน', 'ผู้จ่ายเงิน', 'ผู้ขาย', 'ผู้ตรวจรับ', 'ผู้ประกอบการ', 'ผู้ปกครอง', 'ขออนุมัติ', 'อนุมัติ', 'ดำเนินการ', 'รายละเอียด', 'ค่าใช้จ่าย', 'เจ้าหน้าที่', 'ครูผู้สอน', 'ปีการศึกษา', 'ปีงบประมาณ', 'คณะกรรมการ', 'ประธานกรรมการ', 'หัวหน้างาน', 'หัวหน้ากลุ่ม', 'ตรวจรับพัสดุ', 'ใบสำคัญจ่าย', 'ใบสำคัญรับเงิน', 'สัญญายืมเงิน', 'เงินอุดหนุน', 'รายได้สถานศึกษา', 'แผนปฏิบัติการ', 'ผู้ใช้เงินยืม', 'ในนาม', 'จึงเห็นควร', 'ลงวันที่', 'ใบตรวจรับ', 'ใบสั่งซื้อ', 'ใบสั่งจ้าง', 'ส่งมอบ', 'ดังแนบ', 'ตามที่', 'ขอเสนอ', 'ภาษีหัก ณ ที่จ่าย', 'หัก ณ ที่จ่าย', 'ภ.ง.ด.53', 'ภ.ง.ด.3', 'ใบแนบ', 'กรมสรรพากร', 'คู่ค้า', 'เงินรายได้สถานศึกษา', 'เงินอุดหนุนทั่วไป', 'ลูกจ้างชั่วคราว', 'ค่าจ้างเหมาบริการ', 'จัดซื้อ-จัดจ้าง', 'ทั้งสิ้น', 'ครูผู้ช่วย', 'เอกสารดังแนบ', 'ประเภทเงิน'];
 function jxKeeps() {
   var ks = [t('school_name'), BANK].concat(SUPPLY_LIST, JX_WORDS);
   try { REQS.forEach(function (q) { if (q.vendor) ks.push(String(q.vendor).trim()); }); Object.keys(VENDORS).forEach(function (k) { ks.push(k); }); } catch (e) { /* vendor lists not ready */ }
@@ -3249,6 +3558,8 @@ function jxPara(el, keeps) {
     else pieces = null;
   });
   if (!pieces || !pieces.length) return false;
+  /* a gap between words or sentences is one space, however many were typed */
+  pieces.forEach(function (p) { if (!p.atom) p.x = p.x.replace(/[ \t]{2,}/g, ' '); });
   var S = pieces.map(function (p) { return p.x; }).join(''), owner = [];
   pieces.forEach(function (p, i) { for (var k = 0; k < p.x.length; k++) owner.push(i); });
   /* 2. where a line may end: 0 never, 1 yes, 2 only with a hyphen */
@@ -3324,7 +3635,14 @@ function jxPara(el, keeps) {
     if (ln.hy) row.appendChild(mk(pieces[ln.b[ln.b.length - 1].p].atom ? pieces[0] : pieces[ln.b[ln.b.length - 1].p], '-'));
     if (!ln.last) {
       var avail = (li === 0 && ind) ? full - ind : full, lw = ln.b.reduce(function (s3, x) { return s3 + x.w; }, 0) + (ln.hy ? hy : 0);
-      if (lw > avail * 1.0005 && row.children.length > 1) { var nu = 0; [].forEach.call(row.children, function (c0) { nu += Array.from(GR.segment(c0.textContent)).length; }); row.style.letterSpacing = ((avail - lw) / nu) + 'px'; row.style.justifyContent = 'flex-start'; }
+      /* the extra (or the squeeze) goes between letters only: the gap after a word stays one space wide */
+      var gl = [].filter.call(row.children, function (c0) { return !/^\s+$/.test(c0.textContent) && !c0.classList.contains('cb'); }), nch = 0;
+      gl.forEach(function (c0) { c0._n = Array.from(GR.segment(c0.textContent)).length; nch += c0._n; });
+      if (Math.abs(avail - lw) > 0.3 && nch > 1) {
+        var ex = (avail - lw) / (nch - 1);
+        gl.forEach(function (c0) { c0.style.letterSpacing = ex + 'px'; });
+        gl[gl.length - 1].style.marginRight = (-ex) + 'px'; row.style.justifyContent = 'flex-start';
+      }
     }
     el.appendChild(row);
   });
@@ -3359,14 +3677,14 @@ function paginate(root) {
   }
 }
 /* ---- on screen / PDF (same HTML) ---- */
-function ofRuns(runs) { return runs.map(function (u) { var st = (u.b ? 'font-weight:700;' : '') + (u.sz ? 'font-size:' + u.sz + 'pt;' : ''); return st ? '<span style="' + st + '">' + esc(u.x) + '</span>' : esc(u.x); }).join(''); }
+function ofRuns(runs) { return runs.map(function (u) { var st = (u.b ? 'font-weight:700;' : '') + (u.sz ? 'font-size:' + u.sz + 'pt;' : ''); return st ? '<span style="' + st + '">' + escI(u.x) + '</span>' : escI(u.x); }).join(''); }
 function ofPara(p) { var st = 'text-align:' + ({ c: 'center', r: 'right' }[p.al] || 'left') + ';' + (p.sp ? 'margin-top:' + p.sp + 'pt;' : '') + (p.ind ? 'text-indent:' + p.ind + 'cm;' : '') + (p.left ? 'margin-left:' + p.left + 'cm;' : '');
   return '<div style="' + st + '">' + ofRuns(p.runs || [{ x: p.x, b: p.b, sz: p.sz }]) + '</div>'; }
 function ofCell(c, al, tag) {
   c = typeof c === 'object' && c ? c : { x: c };
   if (c.ps) return '<' + tag + (c.rs ? ' rowspan="' + c.rs + '"' : '') + (c.cs ? ' colspan="' + c.cs + '"' : '') + ' class="ops">' + c.ps.map(ofPara).join('') + '</' + tag + '>';
   var st = 'text-align:' + ({ l: 'left', c: 'center', r: 'right' }[c.al || al || 'l']) + ';' + (c.va === 'c' ? 'vertical-align:middle;' : '') + (c.b ? 'font-weight:700;' : '') + (c.sz ? 'font-size:' + c.sz + 'pt;' : '');
-  return '<' + tag + (c.rs ? ' rowspan="' + c.rs + '"' : '') + (c.cs ? ' colspan="' + c.cs + '"' : '') + ' style="' + st + '">' + esc(c.x).replace(/\n/g, '<br>') + '</' + tag + '>';
+  return '<' + tag + (c.rs ? ' rowspan="' + c.rs + '"' : '') + (c.cs ? ' colspan="' + c.cs + '"' : '') + ' style="' + st + '">' + escI(c.x).replace(/\n/g, '<br>') + '</' + tag + '>';
 }
 function ofBlock(b) {
   if (NGPH[b.k]) return NGPH[b.k](b);
@@ -3437,12 +3755,12 @@ function ofPdf(m) {
   });
 }
 function ofDocx(m) {
-  return loadLib('lib/docx.iife.js').then(function () {
+  return loadLib('lib/docx.iife.js').then(function () { return photoDims(m); }).then(function () {
     var LN = m.lh ? Math.round(320 * m.lh) : 400, D = window.docx, EX = window.docx.LineRuleType.EXACT, F = 'TH SarabunPSK', tw = function (cm) { return Math.round(cm * 567); };
-    var run = function (u, extra) { var o = Object.assign({ text: nbWord(u.x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }, extra || {}); if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return new D.TextRun(o); };
+    var run = function (u, extra) { var o = Object.assign({ text: nbWord(u.x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }, extra || {}); if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; if (u.blue) o.color = '0070C0'; return new D.TextRun(o); };
     var TICK = (function () { var b = atob('iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAIAAAAErfB6AAAIxElEQVR4Xu3dz2sTzxsH8N1sBFuIfLKh0RwLikXoQWiKxZPYm4IIRQUvVSg9CT14EEHof1DwVHuQ4kUKFQ8etOYqFFLwUBBiDwWlCglJVEppmh87Xz59+53vflNt0+xMdrN5v06iUJM8nZln55l5YhhERERERERERERERERERERERERERERERERERERERNQtzG55oWFimv/72IUQWt8aA9w5pmlaliWEaDQa8n+1LMs0TWefjpfCAHeIZVkyrpZlxWIxwzD29vZ2d3fxCizLchxH+YBmgLXDhCyESCaT165du379+tDQUCqVMgxje3s7l8tlMpk3b958/vzZMIxIJKJpKJMWkUgEP/fJkyf5fF78RaVSef78eSKRwFDW8lJIOUTXtu13794hsrVarV6vNxoNLLqNRqNer9dqNfzrxsZGOp1mjLuDuS+RSGSzWSFEtVrFEvtHjuNUq1UhRLlcRozl0KeAwkybyWQQ3b+F1q1erwsh8vn8mTNnTNNkjIPrxIkThmHMzs62Hl05hwshVlZWOIiDKxqNGoYxPj4uxO9BeSwYx1euXOFiHESYmYeHh4vFIpKpY0UXiZjjOC9evGCAAyeyL5FIrK+vtzd8hfg34RJCbG1t9fX1Gcb/7WuSn0zTxOSMxEo+/LTBcZxKpXLhwgWuxAGCyXl+ft5jdLFZLYQYHx/nLB0UGLvT09Ntz8xuCPDVq1cZ4EBwp81IkdqYlt0cx6nVatzVCgRsRwwODiJtxuDzAr8fxWLx1KlTTLJ8hv2meDy+trYm106P6vW64zhv375FTu7zO+xlpmlix2p5edl7YiVho+Pu3buG8XvyJ39g6Z2bmzvufuQhEN2NjY2TJ0+iXOHPeyNEd2pqSuHYRQHRcZxLly7xCdhPeOQdGxuTIfG47mIDCwna1NQUn478JNPmUqmkJG1215EQXUwP5AOsizJtxpLpHQrGc3NzhvG71Ej+0JE2Y9d6eXkZ0WVi5Zu2y/hHps1ra2vxeDwSiTC6vsG6ODk5qTBtxhJeKpUGBweZNvsJafPo6OjOzg4ORHpfd2UGPjY2xrTZT0ibk8lkoVBQtR8pi05Mm32GtLm/vx+nX3WkzXwo8hM+/cXFRYVLL9LmTCaDR14mVr7Rlzavr68nEgmmzX7SlzYXi8Xh4WEmVn5C2jwyMqI2bcbkjMNWXHp9g0q7bdubm5vK0+bp6WlG1084pGGa5urqqsK0GWN3fn6eM7PPMHMuLCwwbQ4hpM0zMzMKo4tHZ5k285iVbzB2JyYmjrzO2zrsR5bLZabNPpNpc7lcbu/S2EHyWvfExETIEyts+AX2FJmmtBmJ1czMTGjL+LiP1dRVxLKsaDQanKUI7as0pc0LCwuhHbvuuFqW9c8+XIkEfKw+T83/7Wrz7Nkz5YnV6uqqfOjy/W2qJKfiZDJ57969V69effr0qbzvy5cvKysrDx8+PH/+PP5Lf4ey+9KYlwufB6+ObW5u2rYdwtsJXdQZSvmlMXn6tVwuj4yMhHBPo4s6QzX1WvB+aQzRxfnIcKbNHjtDdXLzXUmvhYMQ3dCmzZZlRSKRNjpDFQqF06dPdyzbVNhrwQ1L+OLiYsfeSEdhxnv8+PFxb2JhbpRd/DowjhX2Wmi6EpjNZvv7+0NYxsfkPDAwgNscxz10iBjLLn5aY6y21wLg9RcKhWQy6ftzgRb41O7fv992fQ078rpjrCltdhxnZ2dndHQ0hGmz3LIwDOP169doLtH6XvzBx8dyuXz58mUdy5jyXgvuS2OTk5M6XnMgYH7u6+vL5XIezz9grqvVaspPC+votSCzjdnZ2dDuNssuIbZt//z5UzZqa5tcwhFjFGg90tRrIeRps4T9ZNu2f/z44T3A+AlYkuVVaI9b1jp6LWCyQdoc2CqZGvj0Y7HY169flQTYfd0dmwZeHjx09FrANJPP50ObNjdB/vL+/Xs5+LyTPwoVt/ZKT/p6LThOL10awyh59OiRwoobYPNPxvhYpacO9FrolS/QwEd59uzZSqXSxkbH4ZDLIMatbyN0oNeC1g2ZwMHvMi5ptfgVBa1DjJeWluLxeIsxZq8FxfCgmUgkcBtA1TVLCTHOZrOI8eFzo75LYz3dawET9cjIvwcTlS/GcmI4Msb6Lo2x18LvgZVOp79//651HNu2/cdxzF4L2uEjTqVSHz580DGOZTdHtFN2ZzrstdAhiHE0GlV7w6ep+NpUemKvhY6Se0+IsfK8uqm8eGIfey10FA6Uy5t66HPd+qPRkeQxAZQX2/umsUM0XRrzuB8eTvIL+NBUWfkeiCwv3rlz5/bt2wqXfLQoY6+Fo8lxjNbKmsaxPK+qZJKQxxbYa6FVWCBljJUcQpaUBNUNkzN7LRyPu2zn8eDHQaraC8pJnr0W2oEY37p1C1tdasexEmxR5hVinE6nEWPlW9ZesNeCGliPgxZj9lpQSY7jUqkUhHEc8ktjvsAeyLlz59DFte3T1EqEv9eCLxDjeDzub4zdJ0Z665BGB/geYyRWoe21EASo8cXjcU3lxUPgOS20vRaCAzHWV178I5k2h7PXQtDoLi82YdrsA93lRbeQ91oILN3lReiVS2PBpLu8iLQ5tL0WuoWm8mL4ey10EeXlRZQUQ95robuoLS9i6Q1zr4VupKq8iLQ55L0WupT38iLT5qDzUl50p80h77XQ1ZrKiy2epMfYLRQKAwMDLd47Jd80lZ6q1eoh5ynl0Vd5w6VXbuN3NQTJtu2lpSVsS9X34Ug96gf1el0eH/j48ePFixePvE9MASLbdDx48GBra+tv1cBfv349ffo0Fov1eHS78rsEcE1ICBGLxW7evHnjxo2hoaFUKmUYxvb2di6Xy2QyL1++/PbtG9Zdx3EC9BvaWV0ZYLAsq9FoyD9jsO7t7e3u7sq/xCLd2Y80WLo4wOiiiBlbRlp21MKSHKwP2w/dHWDJfbezx4csERERERERERERERERERERERERERERERERERER9bj/AA45x0ijsE6TAAAAAElFTkSuQmCC'), u = new Uint8Array(b.length); for (var q = 0; q < b.length; q++) u[q] = b.charCodeAt(q); return u; })();
     var bxRuns = function (ch, szh) { var px = Math.round(szh / 2 * 0.6 * 4 / 3); if (ch === '☑') return [new D.ImageRun({ type: 'png', data: TICK, transformation: { width: px, height: px } }), new D.TextRun({ text: '\u00A0', font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: Math.round(szh * 0.3), sizeComplexScript: Math.round(szh * 0.3) })]; var cm = { ascii: 'Cambria Math', hAnsi: 'Cambria Math', cs: 'Cambria Math', eastAsia: 'Cambria Math' }; return [new D.TextRun({ text: '\u00A0', font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: szh, sizeComplexScript: szh }), new D.TextRun({ text: '\u20DE', font: cm, size: szh, sizeComplexScript: szh })]; };
-    var rrb = function (u) { return [].concat.apply([], String(u.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { return /^[☐☑]$/.test(x) ? bxRuns(x, (u.sz || 16) * 2) : [run({ x: x, b: u.b, sz: u.sz })]; })); };
+    var rrb = function (u) { return [].concat.apply([], inkSplit(u.x).map(function (sg) { return [].concat.apply([], String(sg.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { return /^[☐☑]$/.test(x) ? bxRuns(x, (u.sz || 16) * 2) : [run({ x: x, b: u.b, sz: u.sz, blue: sg.blue })]; })); })); };
     var para = function (runs, o) { return new D.Paragraph(Object.assign({ children: runs }, o || {})); };
     var AL = { l: D.AlignmentType.LEFT, c: D.AlignmentType.CENTER, r: D.AlignmentType.RIGHT };
     var none = { style: D.BorderStyle.NONE, size: 0, color: 'FFFFFF' }, line = { style: D.BorderStyle.SINGLE, size: 6, color: '000000' };
@@ -3456,7 +3774,7 @@ function ofDocx(m) {
       var sp = b.sp ? b.sp * 20 : 0, first = brk ? { pageBreakBefore: true } : {};
       if (m.st === 'ngp') {
         var LNN = Math.round((m.ln || (m.v === 'fin' ? 20.75 : 21)) * 20), pt = function (v) { return Math.round(v * 20); }, thin = { style: D.BorderStyle.SINGLE, size: 6, color: '000000' };
-        var rr = function (u) { return [].concat.apply([], String(u.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, (u.sz || 16) * 2); var o = { text: nbWord(x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }; if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; return [new D.TextRun(o)]; })); };
+        var rr = function (u) { return [].concat.apply([], inkSplit(u.x).map(function (sg) { return [].concat.apply([], String(sg.x).split(/([☐☑])/).filter(function (x) { return x !== ''; }).map(function (x) { if (/^[☐☑]$/.test(x)) return bxRuns(x, (u.sz || 16) * 2); var o = { text: nbWord(x), font: { ascii: F, hAnsi: F, cs: F, eastAsia: F }, size: (u.sz || 16) * 2, sizeComplexScript: (u.sz || 16) * 2 }; if (u.b) { o.bold = true; o.boldComplexScript = true; } if (u.red) o.color = 'FF0000'; if (sg.blue) o.color = '0070C0'; return [new D.TextRun(o)]; })); })); };
         var rx = function (us) { return [].concat.apply([], nbRuns(us).map(rr)); };
         var np = function (us, o) { return new D.Paragraph(Object.assign({ children: rx(us), spacing: { before: 0, after: 0, line: LNN, lineRule: EX } }, o || {})); };
         var fixed = function (us, o) { return new D.Paragraph(Object.assign({ children: rx(us), spacing: { before: 0, after: 0, line: 420, lineRule: EX } }, o || {})); };
@@ -3464,6 +3782,19 @@ function ofDocx(m) {
         var cellM = { left: 108, right: 108, top: m.v === 'sup' ? 40 : 0, bottom: m.v === 'sup' ? 24 : 0 };
         var spacer = function (v) { return v ? [new D.Paragraph(Object.assign({ children: [new D.TextRun({ text: '', size: 2 })], spacing: { before: 0, after: 0, line: Math.max(20, pt(v)), lineRule: EX } }, first))] : []; };
         if (b.k === 'code') { head = fixed([{ x: b.x, red: b.red }], { alignment: AL.r }); return []; }
+        if (b.k === 'krut') return [new D.Paragraph(Object.assign({ alignment: AL.c, spacing: { before: 0, after: 0, line: 240, lineRule: D.LineRuleType.AUTO }, children: [new D.ImageRun({ data: krut, transformation: { width: Math.round(b.h * 37.8 * 0.907), height: Math.round(b.h * 37.8) } })] }, first))];
+        if (b.k === 'photos') {
+          var cwp = (16.5 / b.cols - 0.3) * 37.8, chp = (b.h - 0.2) * 37.8, rowsP = [];
+          for (var q0 = 0; q0 < b.imgs.length; q0 += b.cols) {
+            var cellsP = b.imgs.slice(q0, q0 + b.cols).map(function (s, j) {
+              var d = (b.dims && b.dims[q0 + j]) || [4, 3], kk = Math.min(cwp / d[0], chp / d[1]);
+              return new D.TableCell({ width: cm(Math.round(9350 / b.cols)), verticalAlign: D.VerticalAlign.CENTER, children: [new D.Paragraph({ alignment: AL.c, spacing: { before: 0, after: 0, line: 240, lineRule: D.LineRuleType.AUTO }, children: [new D.ImageRun({ type: 'jpg', data: Uint8Array.from(atob(String(s.split(',')[1] || '')), function (c2) { return c2.charCodeAt(0); }), transformation: { width: Math.max(1, Math.round(d[0] * kk)), height: Math.max(1, Math.round(d[1] * kk)) } })] })] });
+            });
+            while (cellsP.length < b.cols) cellsP.push(new D.TableCell({ width: cm(Math.round(9350 / b.cols)), children: [new D.Paragraph({ children: [] })] }));
+            rowsP.push(new D.TableRow({ cantSplit: true, height: { value: Math.round(b.h * 567), rule: D.HeightRule.EXACT }, children: cellsP }));
+          }
+          return spacer(8).concat([new D.Table({ width: cm(9350), columnWidths: b.imgs.length ? new Array(b.cols).fill(Math.round(9350 / b.cols)) : [9350], layout: D.TableLayoutType.FIXED, borders: { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none }, rows: rowsP })]);
+        }
         if (b.k === 'nmh') {
           var LINE = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNgAAAAAgABSK+kcQAAAABJRU5ErkJggg==';
           var ln1 = Uint8Array.from(atob(LINE), function (ch) { return ch.charCodeAt(0); });

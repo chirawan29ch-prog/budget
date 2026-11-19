@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   var CFG = window.BUDGET_CONFIG || {};
-  var TOKEN = null, ME = null, FY = 2570, COUNTERS = {}, VER = {}, SNAP = {}, ATT = new Map(), RES = {}, SRV_TAX = {}, TAX_OPEN = 0;
+  var TOKEN = null, ME = null, FY = 2570, COUNTERS = {}, VER = {}, SNAP = {}, ATT = new Map(), RES = {}, SRV_TAX = {}, TAX_OPEN = 0, SRV_OLD = {};
   var SAVING = false, WANT = false, SAVE_T = 0, POLL_T = 0, LASTPIN = '', ONLINE = true, BUSY_FILES = {};
   var SESS = 'budget_sess';
 
@@ -173,7 +173,7 @@
     call('loadAll').then(go, function (e) { say('โหลดข้อมูลไม่ได้: ' + failMsg(e), 20000); });
   }
   function onSession() { if (!TOKEN) return; TOKEN = null; stopPoll(); try { sessionStorage.removeItem(SESS); } catch (e) {} wipe(); S.u = null; S.view = 'login'; call('loginList').then(function (l) { setUsers(l); render(); say('หมดเวลาใช้งาน กรุณาเข้าสู่ระบบใหม่'); }, function () { render(); }); }
-  function wipe() { REQS.length = 0; VER = {}; SNAP = {}; TAXB.rows = []; TAXB.open = 0; SRV_TAX = {}; window.LEGACY = {}; }
+  function wipe() { REQS.length = 0; VER = {}; SNAP = {}; TAXB.rows = []; TAXB.open = 0; SRV_TAX = {}; OLDLOANS = []; SRV_OLD = {}; window.LEGACY = {}; }
   function doLogout(silent) {
     var t = TOKEN; TOKEN = null; stopPoll(); try { sessionStorage.removeItem(SESS); } catch (e) {}
     if (t) { try { fetch(CFG.API_URL, { method: 'POST', body: JSON.stringify({ token: t, method: 'logout', args: {} }) }); } catch (e) {} }
@@ -196,7 +196,7 @@
     FY = d.fy; COUNTERS = d.counters || {}; if (d.vendors) VENDORS = d.vendors; if (d.planItems && window.buildPlanItems) buildPlanItems(d.planItems);
     setUsers(d.users || []);
     REQS.length = 0; var seenId = {}; (d.requests || []).forEach(function (r) { var o = ingestReq(r), k = String(o.id); if (seenId[k] != null) REQS[seenId[k]] = o; else { seenId[k] = REQS.length; REQS.push(o); } });   // แถวซ้ำในชีท: เอาแถวล่างสุด
-    TAX_OPEN = d.tax ? d.tax.open : 0; setTax(d.tax);
+    TAX_OPEN = d.tax ? d.tax.open : 0; setTax(d.tax); setOld(d.oldLoans);
     var st = d.settings || {};
     (st.supplyList || []).forEach(function (p) { if (p[1]) PG_SUPPLY[p[0]] = p[1]; });
     SUPPLY_X.length = 0; (st.supplyExtra || []).forEach(function (n) { if (n && SUPPLY_X.indexOf(n) < 0) SUPPLY_X.push(n); });
@@ -217,6 +217,10 @@
   function setTax(t) {
     if (!t) return; TAXB.open = t.open || 0; TAX_OPEN = TAXB.open;
     TAXB.rows = (t.rows || []).map(function (x) { x.srv = 1; return x; }); SRV_TAX = {}; TAXB.rows.forEach(function (x) { SRV_TAX[x.id] = 1; });
+  }
+  function setOld(a) {
+    if (!Array.isArray(a)) return;
+    OLDLOANS = a.map(function (x) { x.srv = 1; return x; }); SRV_OLD = {}; OLDLOANS.forEach(function (x) { SRV_OLD[x.id] = x.st + '|' + (x.closed || ''); });
   }
   function norm(s) { return String(s || '').replace(/[.\s]/g, ''); }
   function buildLegacy(rows) {
@@ -301,12 +305,14 @@
         ingestReq(nr); if (cur) REQS[REQS.indexOf(cur)] = nr; else REQS.push(nr); changed = true;
       });
       COUNTERS = d.counters || COUNTERS;
+      if (d.oldLoans && OLD_CLEAN()) { var osig = JSON.stringify(d.oldLoans); if (osig !== poll.oldSig) { poll.oldSig = osig; setOld(d.oldLoans); changed = true; } }
       if (d.tax && !(S.view === null && S.tab === 'tax' && document.activeElement && /INPUT|SELECT/.test(document.activeElement.tagName))) { var sig = JSON.stringify(d.tax); if (sig !== poll.taxSig) { poll.taxSig = sig; if (TAX_LOCAL_CLEAN()) { setTax(d.tax); changed = true; } } }
       if (changed && !editingNow()) _render();
     }, function () {});
   }
   function editingNow() { var a = document.activeElement; return a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && $('view') && $('view').contains(a) && a.value !== ''; }
-  function TAX_LOCAL_CLEAN() { return TAXB.rows.every(function (x) { return x.srv; }); }
+  function OLD_CLEAN() { return OLDLOANS.every(function (x) { return x.srv === 1 && !x.dirty; }); }
+  function TAX_LOCAL_CLEAN() { return TAXB.rows.every(function (x) { return x.srv && !x.dirty; }); }
 
   /* ---------------------------------------------------------- เปิดดูคำขอ: ดึงไฟล์แนบจาก Drive */
   var _openReq = openReq;
@@ -341,6 +347,31 @@
     }, function (e) { put(''); say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' กรุณากดขอใหม่', 10000); _render(); });
     return v;
   };
+
+  /* ---------------------------------------------------------- เลขที่ของงานพัสดุ (ซ/จ/อื่นๆ · ใบสั่งซื้อ · ใบสั่งจ้าง) ออกที่เซิร์ฟเวอร์ ไม่ซ้ำ */
+  supYear = function () { return FY; };
+  supNextN = function (kind) { return (COUNTERS[SUPK[kind][1] + '|' + FY] || 0) + 1; };
+  var _claimSup0 = claimSup, supNum = function (v) { return parseInt(String(v).replace(/^\D+/, ''), 10) || 0; };
+  claimSup = function (r, which) {
+    var s0 = sup(r); if (s0[which]) return s0[which];
+    var k = which === 'po' ? supPoKind(r) : supKind(r), key = SUPK[k][1] + '|' + FY;
+    var v = _claimSup0(r, which);                          /* เลขชั่วคราวทันที ไม่รอเซิร์ฟเวอร์ */
+    COUNTERS[key] = Math.max(COUNTERS[key] || 0, supNum(v));
+    call('claimNumber', { kind: k, ref: r.id + ':' + which }).then(function (d) {
+      if (d.no !== v) { sup(r)[which] = d.no; say('เลขที่ที่ได้รับจริงคือ ' + d.no, 6000); _render(); }
+      COUNTERS[key] = Math.max(COUNTERS[key] || 0, supNum(d.no)); schedSave();
+    }, function (e) { sup(r)[which] = ''; say('ขอเลขที่ไม่สำเร็จ: ' + failMsg(e) + ' กรุณากดขอใหม่', 10000); _render(); });
+    return v;
+  };
+  /* พัสดุพิมพ์เลขเองตามกระดาษ (เช่น ซ12/2570) → ให้ตัวนับฝั่งเซิร์ฟเวอร์เดินต่อจากเลขนั้น */
+  document.addEventListener('change', function (e) {
+    var el = e.target, f = el && el.dataset && el.dataset.sp; if (f !== 'no' && f !== 'po') return;
+    var r = S.open && req(S.open); if (!r) return;
+    var k = f === 'po' ? supPoKind(r) : supKind(r), m = /^(\D*)(\d+)\/(\d{4})$/.exec(String(el.value).replace(/\s/g, '')), key = SUPK[k][1] + '|' + FY;
+    if (!m || m[1] !== SUPK[k][0] || +m[3] !== FY || +m[2] <= (COUNTERS[key] || 0)) return;
+    COUNTERS[key] = +m[2];
+    call('bumpCounter', { kind: k, n: +m[2] }).catch(function () { say('ตั้งตัวนับเลขไม่สำเร็จ', 8000); });
+  });
 
   window.legDone = function (r) {   /* เลขสัญญายืมเดิม: ให้ตัวนับฝั่งเซิร์ฟเวอร์เดินต่อจากเลขในกระดาษ */
     var m = /^(\d+)\/(\d+)$/.exec((r.loan && r.loan.no) || ''); if (!m) return;
@@ -404,10 +435,26 @@
     var curIds = {}; TAXB.rows.forEach(function (x) { curIds[x.id] = 1; });
     Object.keys(SRV_TAX).forEach(function (id) { if (!curIds[id]) { delete SRV_TAX[id]; call('taxDelete', { id: id }).catch(function (e) { say('ลบรายการภาษีไม่สำเร็จ: ' + failMsg(e), 8000); }); } });
     TAXB.rows.filter(function (x) { return !x.srv; }).forEach(function (x) {
-      x.srv = 2; call('taxAdd', { d: x.d, k: x.k, who: x.who, amt: x.amt }).then(function (res) { x.id = res.id; x.no = res.no; x.srv = 1; SRV_TAX[x.id] = 1; if (S.tab === 'tax') vTax(); },
+      x.srv = 2; call('taxAdd', { d: x.d, k: x.k, who: x.who, amt: x.amt, form: x.form, fund: x.fund, cat: x.cat }).then(function (res) { x.id = res.id; x.no = res.no; x.srv = 1; SRV_TAX[x.id] = 1; if (S.tab === 'tax') vTax(); },
         function (e) { TAXB.rows = TAXB.rows.filter(function (y) { return y !== x; }); say('บันทึกรายการภาษีไม่สำเร็จ: ' + failMsg(e), 9000); if (S.tab === 'tax') vTax(); });
     });
+    TAXB.rows.filter(function (x) { return x.srv === 1 && x.dirty && x.k === 'in'; }).forEach(function (x) { x.dirty = 0; call('taxTag', { id: x.id, form: x.form, fund: x.fund, cat: x.cat }).catch(function (e) { say('บันทึกการติ๊กภาษีไม่สำเร็จ: ' + failMsg(e), 8000); }); });
     if (TAXB.open !== TAX_OPEN) { TAX_OPEN = TAXB.open; call('taxOpen', { open: TAXB.open }).catch(function (e) { say('บันทึกยอดยกมาไม่สำเร็จ: ' + failMsg(e), 8000); }); }
+  };
+
+  /* ---------------------------------------------------------- สัญญายืมเงินที่ทำก่อนใช้ระบบ (การเงินคีย์เอง) */
+  saveOldLoans = function () {
+    var cur = {}; OLDLOANS.forEach(function (x) { cur[x.id] = 1; });
+    Object.keys(SRV_OLD).forEach(function (id) { if (!cur[id]) { delete SRV_OLD[id]; call('loanOldDelete', { id: id }).catch(function (e) { say('ลบสัญญายืมเงินไม่สำเร็จ: ' + failMsg(e), 8000); }); } });
+    OLDLOANS.forEach(function (x) {
+      if (!x.srv) {
+        x.srv = 2; var m = /^(\d+)\/(\d+)$/.exec(x.no); if (m && +m[2] === FY % 100) COUNTERS['สัญญายืมเงิน|' + FY] = Math.max(COUNTERS['สัญญายืมเงิน|' + FY] || 0, +m[1]);
+        call('loanOldAdd', { no: x.no, title: x.title, who: x.who, fund: x.fund, paid: x.paid, d: x.d, st: x.st, closed: x.closed }).then(function (res) { x.id = res.id; x.due = res.due || x.due; x.srv = 1; x.dirty = 0; SRV_OLD[x.id] = x.st + '|' + (x.closed || ''); if (S.tab === 'loans') vLoans(); },
+          function (e) { OLDLOANS = OLDLOANS.filter(function (y) { return y !== x; }); say('บันทึกสัญญายืมเงินไม่สำเร็จ: ' + failMsg(e), 9000); if (S.tab === 'loans') vLoans(); });
+      } else if (x.srv === 1 && x.dirty) {
+        x.dirty = 0; call('loanOldClose', { id: x.id, st: x.st, closed: x.closed }).then(function () { SRV_OLD[x.id] = x.st + '|' + (x.closed || ''); }, function (e) { say('บันทึกสถานะสัญญาไม่สำเร็จ: ' + failMsg(e), 9000); });
+      }
+    });
   };
 
   /* ---------------------------------------------------------- เจ้าหน้าที่พัสดุที่เพิ่มเอง */
@@ -483,6 +530,39 @@
   /* ---------------------------------------------------------- หน้า "รายการยกมา" (DATABASE เดิมที่ยังรอตัดยอด) */
   DEF.menu_carryin = 'รายการยกมา'; L.menu_carryin = 'รายการยกมา'; TABKEY.carryin = 'menu_carryin';
   TABS.plan = TABS.plan.concat(['carryin']);
+  function carryForm() {
+    var lab = 'display:flex;flex-direction:column;font-size:13px;gap:3px;white-space:nowrap', g = {}, opts = '';
+    PROJECTS.forEach(function (pj) { g[pj.id] = ACTS.filter(function (a) { return a.project === pj.id; }); });
+    PROJECTS.forEach(function (pj) { if (g[pj.id].length) opts += '<optgroup label="' + esc(pj.code + ' ' + pj.name) + '">' + g[pj.id].map(function (a) { return '<option value="' + a.id + '">' + esc(a.fund) + '</option>'; }).join('') + '</optgroup>'; });
+    return '<section class="card" style="margin-top:16px"><h3 style="margin:0 0 4px">เพิ่มรายการเดิมที่ทำก่อนใช้ระบบ</h3><div class="muted small" style="margin-bottom:10px">ใช้คีย์เรื่องที่แผนออกชุดไว้ในโปรแกรมเดิมแล้ว (รอตัดยอดหรือตัดแล้ว) ยอดจะนับรวมในงบคงเหลือของกิจกรรมทันที และลงเป็นแถวใหม่ใน DATABASE เลขที่เว้นว่างได้ ระบบออกเลขถัดไปให้ ถ้าใส่เลขเอง เลขที่ระบบออกต่อไปจะนับต่อจากเลขนั้น</div>' +
+      '<div id="cfErr" class="err small" style="margin-bottom:6px"></div><div style="display:flex;flex-wrap:wrap;gap:10px;align-items:end">' +
+      '<label style="' + lab + '">เลขที่ (DATABASE)<input id="cfNo" placeholder="ว่าง = เลขถัดไป" style="width:130px"></label>' +
+      '<label style="' + lab + '">เลข ผง. 01- (ตามเลขบันทึกขอใช้งบ)<input id="cfB" placeholder="เช่น 1123" style="width:150px"></label>' +
+      '<label style="' + lab + '">งาน<select id="cfC"><option>ขออนุมัติจัดซื้อ</option><option>ขออนุมัติจัดจ้าง</option><option>ขออนุมัติจัดจ้างวิทยากร</option><option>ขออนุมัติค่าเดินทางไปราชการ</option></select></label>' +
+      '<label style="' + lab + ';flex:1 1 280px;min-width:0">โครงการ · งบ<select id="cfAct">' + opts + '</select></label>' +
+      '<label style="' + lab + ';flex:1 1 240px;min-width:0">กิจกรรม<select id="cfAc"></select></label>' +
+      '<label style="' + lab + '">วันที่ออกชุด<input id="cfD" type="date" value="' + new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10) + '"></label>' +
+      '<label style="' + lab + '">รวมเป็นเงิน<input id="cfAmt" type="number" min="0.01" step="0.01" style="width:130px"></label>' +
+      '<label style="' + lab + '">เงินที่ใช้จริง (ตัดงบ)<input id="cfUsed" type="number" min="0" step="0.01" placeholder="ว่าง = รอตัดยอด" style="width:150px"></label>' +
+      '<button type="button" class="primary" id="cfAdd">เพิ่มรายการ</button></div></section>';
+  }
+  function carryWire() {
+    if (!$('cfAdd')) return;
+    var fill = function () { var a = ACTS.filter(function (x) { return x.id === $('cfAct').value; })[0], pj = a && proj(a.project); $('cfAc').innerHTML = pj ? pj.acts.map(function (x) { return '<option value="' + x.no + '">กิจกรรมที่ ' + x.no + ' ' + esc(x.name) + '</option>'; }).join('') : ''; };
+    fill(); $('cfAct').onchange = fill;
+    $('cfAdd').onclick = function () {
+      var err = function (m) { $('cfErr').textContent = m; }, a = ACTS.filter(function (x) { return x.id === $('cfAct').value; })[0]; if (!a) return err('เลือกโครงการและงบ');
+      var pj = proj(a.project), amt = Math.round(Number($('cfAmt').value) * 100) / 100, usedS = $('cfUsed').value.trim(), used = usedS === '' ? null : Math.round(Number(usedS) * 100) / 100, d = $('cfD').value, no = $('cfNo').value.trim().replace(/\s/g, '');
+      if (!(amt > 0)) return err('ใส่จำนวนเงินรวม'); if (used != null && !(used >= 0)) return err('เงินที่ใช้จริงไม่ถูกต้อง'); if (!d) return err('เลือกวันที่ออกชุด');
+      var ac = pj.acts.filter(function (x) { return String(x.no) === $('cfAc').value; })[0] || pj.acts[0], dt = new Date(d + 'T00:00:00'), grp = (PLAN_SHORT[pj.plan] || '').replace(/\s*\(.*\)\s*$/, '');
+      var row = { b: $('cfB').value.trim().replace(/^(\d{1,3}(,\d{3})+)$/, function (m) { return m.replace(/,/g, ''); }), c: $('cfC').value, d: String(pj.code).replace(/\./g, ''), e: grp, f: pj.name, g: amt, h: a.fund, i: 'ตรงตามแผน', j: 0, k: '-', l: 'กิจกรรมที่ ' + ac.no + ' ' + ac.name, m: '', n: dt.getDate() + ' ' + TH_M[dt.getMonth()] + ' พ.ศ. ' + (dt.getFullYear() + 543), o: used };
+      $('cfAdd').disabled = true; err('');
+      call('dbLegacyAdd', { no: no, row: row }).then(function (res) {
+        (window.LEGACY_ROWS = window.LEGACY_ROWS || []).push({ keyed: 1, no: res.no, work: row.c, code: row.d, dept: row.e, proj: row.f, amt: amt, fund: row.h, lane: row.i, act: row.l, date: row.n, used: used });
+        buildLegacy(window.LEGACY_ROWS); vCarryin(); say('เพิ่มรายการ ' + res.no + ' แล้ว ' + (used == null ? 'รอตัดยอด' : 'ตัดแล้ว'));
+      }, function (e) { $('cfAdd').disabled = false; err(failMsg(e)); });
+    };
+  }
   window.vCarryin = function () {
     var rows = (window.LEGACY_ROWS || []), pend = rows.filter(function (x) { return x.used == null; }), un = window.LEGACY_UNMATCHED || [];
     var canCut = S.u && (S.u.role === 'plan' || S.u.admin);
@@ -490,15 +570,19 @@
       '<div class="stats" style="margin:0 0 14px"><div><small>รายการที่นำเข้า</small><b class="num">' + rows.length + '</b></div><div><small>รอตัดยอด</small><b class="num" style="color:var(--wait)">' + pend.length + '</b></div><div><small>จับคู่กับกิจกรรมไม่ได้</small><b class="num" style="color:' + (un.length ? 'var(--bad)' : 'var(--ok)') + '">' + un.length + '</b></div></div>' +
       '<div class="table"><table class="lntab" style="min-width:760px"><thead><tr><th>เลขที่</th><th>งาน</th><th>โครงการ</th><th>งบ</th><th class="n">รวมเป็นเงิน</th><th class="n">เงินที่ใช้จริง</th><th></th></tr></thead><tbody>' +
       (rows.length ? rows.slice().sort(function (a, b) { return (a.used == null ? 0 : 1) - (b.used == null ? 0 : 1); }).map(function (x) {
-        return '<tr><td class="num">' + esc(x.no) + '</td><td>' + esc(x.work) + '</td><td class="small">' + esc(x.code) + ' ' + esc(x.proj) + '</td><td class="small">' + esc(x.fund) + '</td><td class="n">' + baht(x.amt) + '</td>' +
+        return '<tr><td class="num">' + esc(x.no) + (x.keyed ? ' <span class="chip c-mute" style="font-size:11px">คีย์เอง</span>' : '') + '</td><td>' + esc(x.work) + '</td><td class="small">' + esc(x.code) + ' ' + esc(x.proj) + '</td><td class="small">' + esc(x.fund) + '</td><td class="n">' + baht(x.amt) + '</td>' +
           '<td class="n">' + (x.used != null ? baht(x.used) : (canCut ? '<input type="number" min="0" step="0.01" style="width:120px" data-cin="' + esc(x.no) + '" value="' + x.amt + '">' : '<span class="muted">รอตัดยอด</span>')) + '</td>' +
-          '<td>' + (x.used == null && canCut ? '<button type="button" class="sm primary" data-cok="' + esc(x.no) + '">ตัดยอด</button>' : '') + '</td></tr>';
-      }).join('') : '<tr><td colspan="7" class="muted" style="text-align:center;padding:18px">ยังไม่มีรายการที่นำเข้า (นำเข้าได้จากเมนูในชีท: ระบบงบประมาณ > นำเข้า DATABASE ล่าสุด)</td></tr>') + '</tbody></table></div>' +
+          '<td style="white-space:nowrap">' + (x.used == null && canCut ? '<button type="button" class="sm primary" data-cok="' + esc(x.no) + '">ตัดยอด</button> ' : '') + (x.keyed && canCut ? '<button type="button" class="sm" data-cdel="' + esc(x.no) + '">ลบ</button>' : '') + '</td></tr>';
+      }).join('') : '<tr><td colspan="7" class="muted" style="text-align:center;padding:18px">ยังไม่มีรายการที่นำเข้า (นำเข้าได้จากเมนูในชีท: ระบบงบประมาณ > นำเข้า DATABASE ล่าสุด หรือคีย์เพิ่มในช่องด้านล่าง)</td></tr>') + '</tbody></table></div>' + (canCut ? carryForm() : '') +
       (un.length ? '<div class="note" style="margin-top:12px"><b>จับคู่กับกิจกรรมในระบบไม่ได้ ' + un.length + ' รายการ</b> (ยอดยังอยู่ใน DATABASE แต่ยังไม่นับในงบคงเหลือของหน้านี้): ' + un.map(function (x) { return esc(x.no); }).join(', ') + '</div>' : '');
     [].forEach.call(document.querySelectorAll('[data-cok]'), function (b) {
       b.onclick = function () { var no = b.dataset.cok, v = Number(document.querySelector('[data-cin="' + no + '"]').value); if (!(v >= 0)) return say('ใส่จำนวนเงินให้ถูกต้อง');
         b.disabled = true; call('dbSetUsed', { dbNo: no, used: v }).then(function () { rows.forEach(function (x) { if (x.no === no) x.used = v; }); buildLegacy(rows); vCarryin(); say('ตัดยอดแล้ว'); }, function (e) { b.disabled = false; say(failMsg(e), 7000); }); };
     });
+    [].forEach.call(document.querySelectorAll('[data-cdel]'), function (b) { b.onclick = function () {
+      if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = 'แน่ใจลบ?'; b.className = 'sm danger'; return; }
+      b.disabled = true; call('dbLegacyDelete', { no: b.dataset.cdel }).then(function () { window.LEGACY_ROWS = (window.LEGACY_ROWS || []).filter(function (x) { return x.no !== b.dataset.cdel; }); buildLegacy(window.LEGACY_ROWS); vCarryin(); say('ลบรายการแล้ว'); }, function (e) { b.disabled = false; say(failMsg(e), 7000); }); }; });
+    carryWire();
   };
 
   boot();
