@@ -3151,7 +3151,7 @@ var OFF_C = { 'ครู': '#2F6FE0', 'งานแผน': '#E08A1E', 'งา�
 var OFF_ROLE = { teacher: 'ครู', plan: 'งานแผน', supply: 'งานพัสดุ', finance: 'งานการเงิน' };
 var DOC_OWN = { hirehand: 1, insphoto: 1 };
 var SD_GRP = { plan_check: 'ตรวจแผน', rpay: 'จ่ายรายจ่ายประจำ', dir2: '', loan_pay: 'จ่ายเงินยืม', pay: 'จ่ายเงิน' };
-function docOffice(type) { return DOC_OWN[type] || !SD_OFFICE[type] ? 'ครู' : SD_OFFICE[type]; }
+function docOffice(type) { var o = DOC_OWN[type] || !SD_OFFICE[type] ? 'ครู' : SD_OFFICE[type]; return o === 'งานแผนงาน' ? 'งานแผน' : o; }
 /* รายการเอกสารของคำขอ เรียงตามขั้นตอนจริง · เจ้าหน้าที่เห็นครบทั้งชุด · เจ้าของโครงการเห็นเฉพาะส่วนที่เป็นของตน */
 function docEntries(r, u, p) {
   var E = [], locked = !canPrint(r) && r.owner === u.id, g0 = 'เริ่มเรื่อง · เจ้าของโครงการ';
