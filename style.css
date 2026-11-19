@@ -62,7 +62,7 @@ label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
 .site{background:var(--surface);color:var(--head-ink);border-bottom:1px solid var(--line)}
 .siteRow{display:flex;align-items:center;gap:16px;padding-block:14px;flex-wrap:wrap}
 .logo{position:relative;width:64px;height:64px;flex:none;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.logo img{width:100%;height:100%;object-fit:contain}
+.logo img{width:100%;height:100%;object-fit:contain;padding:14%;box-sizing:border-box}
 .logo svg{width:100%;height:100%}
 .brandbtn{display:flex;align-items:center;gap:14px;flex:1 1 280px;min-width:0;border:0;background:none;padding:0;text-align:left;color:inherit;border-radius:12px}
 .brandbtn:hover{background:none}
@@ -716,6 +716,23 @@ body{zoom:var(--z)}
 .a4 .ocode.ocp{top:35.4pt;right:46pt;line-height:21pt;font-weight:400}
 .a4 .ob{font-weight:700}
 .a4 .ored{color:#FF0000}
+.a4 .ink{color:#0070C0}
+.a4 .okr{text-align:center;line-height:0;margin-top:2pt}
+.a4 .opho{display:grid;gap:.3cm;margin-top:10pt}
+.a4 .opho>div{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.a4 .opho img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.dgrp{font-size:13.5px;font-weight:700;color:var(--muted);margin:10px 0 3px;display:flex;gap:8px;align-items:center}
+.dgrp:after{content:"";flex:1;border-top:1px dashed var(--line2)}
+.dl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.dl li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:9px;padding:6px 10px;background:var(--surface)}
+.dl .dno{width:26px;height:26px;border-radius:50%;background:var(--c);color:#fff;font-weight:700;font-size:14px;display:grid;place-items:center}
+.dl .dnm{min-width:0;line-height:1.3}
+.dl .dnm small{display:block;color:var(--muted);font-size:13px}
+.dl .down{font-size:12.5px;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);padding:1px 9px;border-radius:20px;white-space:nowrap}
+.dl li.mine{background:color-mix(in srgb,var(--c) 8%,var(--surface));box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent)}
+.dl li.fut{opacity:.5}.dl li.fut .dno{background:var(--line2)}
+.dlegend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+.dlegend i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c);margin-right:5px}
 .a4 .ntt{position:relative;height:45.8pt;text-align:center;font-size:25pt;font-weight:700;line-height:28pt}
 .a4 .ntt img{position:absolute;left:2.95pt;top:3.7pt;width:38.55pt;height:42.5pt}
 .a4 .nl{position:relative;height:21pt;line-height:21pt;white-space:nowrap}
@@ -922,6 +939,18 @@ body.editing .ftitem>.fdet{display:block!important}
 @media(max-width:640px){.itn>summary,.itr{grid-template-columns:repeat(3,minmax(0,1fr));padding-left:32px;row-gap:4px}.itn>summary .t,.itr .t{grid-column:1/-1}.itn>summary .mbar,.itr .mbar{grid-column:1/-1}.itr.hd{display:none}
 .itn .n[data-l]::before,.itr .n[data-l]::before{content:attr(data-l);display:block;font-size:11px;color:var(--muted);font-weight:400}
 .pt table{min-width:0}.pt th:nth-child(3),.pt th:nth-child(4),.pt th:nth-child(5),.pt tr:not(.xr):not(.ad) td:nth-child(3),.pt tr:not(.xr):not(.ad) td:nth-child(4),.pt tr:not(.xr):not(.ad) td:nth-child(5){display:none}.pt .pm{display:block}.pt tr.xr td[colspan]{display:none}.pt input.pa{width:96px}.pt input.px{min-width:0}.pt td.ck{width:30px}}
+
+/* ตราใหญ่ขึ้น + ชื่อโรงเรียน/สังกัดสมดุลกับหน้า */
+.lgbrand{gap:22px}
+.lgbrand .logo{width:120px;height:120px;box-shadow:0 6px 22px rgba(0,0,0,.28)}
+.lgbrand .bn{font-size:32px;line-height:1.25}
+.lgbrand .bs{font-size:17px;margin-top:4px;line-height:1.4;text-wrap:balance}
+.hmbrand{gap:18px}
+.hmbrand .logo{width:92px;height:92px}
+.hmbrand b{font-size:clamp(24px,2.8vw,34px)}
+.hmbrand small{font-size:17px}
+@media (max-width:640px){.lgbrand{gap:12px}.lgbrand .logo{width:72px;height:72px}.lgbrand .bn{font-size:clamp(14px,5vw,22px)}.lgbrand .bs{font-size:14px}.hmbrand .logo{width:64px;height:64px}.hmbrand b{font-size:21px}.hmbrand small{font-size:14px}}
+
 
 /* ขั้นตอนการทำงาน: ตัวอักษรใหญ่ขึ้น ตำแหน่งกรอบคงเดิม */
 .ftchip b{font-size:16px;line-height:1.3}.ftchip small{font-size:13.5px}.ftno{font-size:14px}.ftsg{font-size:14px}.ftho{font-size:13.5px}.fthead b{font-size:18.5px}.fthead small{font-size:14.5px}.ftroot h4{font-size:19px}.ftroot p{font-size:15px}.ftli{font-size:16px}.ftli small{font-size:14px}.ftli>span:first-child{font-size:14.5px}.frole{font-size:14px}.fdet b{font-size:17px}.fdet .small{font-size:15px}.fdocs{font-size:15px}
