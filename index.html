@@ -1,5 +1,12 @@
 <!doctype html>
 <html lang="th"><head>
+<script>
+/* ปิดจอตั้งแต่เฟรมแรก (เฉพาะรอบแรกของเซสชัน) กันหน้าเข้าสู่ระบบกะพริบก่อนหน้าโหลดขึ้น · สคริปต์หน้าโหลดท้ายหน้าเป็นผู้ถอด */
+(function(){try{if(sessionStorage.getItem('sbl'))return}catch(e){return}
+var v=document.createElement('div');v.id='sblv';v.style.cssText='position:fixed;inset:0;z-index:99998;background:#0a0a1a';
+document.documentElement.appendChild(v);window.SBLV=v;setTimeout(function(){if(v.parentNode)v.remove()},7000)})();
+</script>
+
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ระบบบริหารงบประมาณ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@500;600&family=Prompt:wght@500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -321,13 +328,14 @@ window.SB=(function(){
 (function(){
 var OK={castle:1,xmas:1,anime:1,avatar:1};
 function pick(t){if(t==='off')return 'off';if(OK[t])return t;return new Date().getMonth()===11?'xmas':'castle'}
-function show(t,preview){
-  t=pick(t);if(t==='off')return;
+function show(t,preview,veil){
+  t=pick(t);if(t==='off'){if(veil)veil.remove();return}
   var f=document.createElement('iframe'),x=null;f.src='loader/'+t+'.html';f.setAttribute('aria-hidden','true');f.title='กำลังโหลด';f.allowTransparency=true;
   f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:99999;background:transparent;color-scheme:normal';
-  function rm(){if(f.parentNode)f.remove();if(x&&x.parentNode)x.remove();window.removeEventListener('message',on)}
+  function rm(){if(veil&&veil.parentNode)veil.remove();if(f.parentNode)f.remove();if(x&&x.parentNode)x.remove();window.removeEventListener('message',on)}
   function on(e){if(e.source===f.contentWindow&&e.data==='sbl-done')rm()}
-  f.addEventListener('load',function(){try{if(!f.contentWindow.gsap)rm()}catch(e){}});
+  function lift(){if(!veil||!veil.parentNode)return;veil.style.transition='opacity .25s';veil.style.opacity='0';setTimeout(function(){veil.remove()},280)}
+  f.addEventListener('load',function(){try{if(!f.contentWindow.gsap)rm()}catch(e){}setTimeout(lift,120)});setTimeout(lift,3500);
   document.body.appendChild(f);window.addEventListener('message',on);setTimeout(rm,25000);
   if(preview){x=document.createElement('button');x.type='button';x.textContent='ปิดตัวอย่าง';x.setAttribute('data-sb','off');
     x.style.cssText='position:fixed;top:12px;right:12px;z-index:100000;padding:8px 14px;border:0;border-radius:10px;background:rgba(0,0,0,.6);color:#fff;font:600 16px Sarabun,sans-serif;cursor:pointer';
@@ -337,8 +345,8 @@ window.SBL={show:show,pick:pick};
 try{
   if(sessionStorage.getItem('sbl'))return;sessionStorage.setItem('sbl','1');
   var cached=null;try{cached=localStorage.getItem('sbTheme')}catch(e){}
-  var veil=document.createElement('div');veil.style.cssText='position:fixed;inset:0;z-index:99998;background:#0a0a1a';document.body.appendChild(veil);
-  var done=false;function go(t){if(done)return;done=true;veil.remove();show(t||cached||'auto')}
+  var veil=window.SBLV||null;
+  var done=false;function go(t){if(done)return;done=true;show(t||cached||'auto',false,veil)}
   var p=window.loaderGet?window.loaderGet():Promise.resolve(null);
   p.then(go,function(){go()});setTimeout(go,1200);
 }catch(e){}

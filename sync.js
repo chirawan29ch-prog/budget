@@ -29,15 +29,40 @@
     var st = document.createElement('style');
     st.textContent = '@keyframes c7bar{from{background-position:0 0}to{background-position:-200% 0}}@keyframes c7spin{to{transform:rotate(360deg)}}' +
       '#c7bar{position:fixed;left:0;right:0;top:0;height:3px;z-index:9997;background:linear-gradient(90deg,#2a5bd7,#9b7cf5,#2a5bd7,#9b7cf5);background-size:200% 100%;animation:c7bar 1s linear infinite}' +
-      '#c7busy{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:9998;background:#1b2b4b;color:#fff;border-radius:999px;padding:10px 20px;font-size:16px;display:flex;gap:10px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3)}' +
-      '#c7busy i{width:18px;height:18px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:c7spin .8s linear infinite}' +
+      '#c7busy{position:fixed;left:50%;top:84px;transform:translateX(-50%);z-index:9998}' +
+      '.wt{display:flex;flex-direction:column;gap:9px;width:min(84vw,300px)}' +
+      '.wtt{position:relative;height:16px;border-radius:999px;border:2px solid transparent;overflow:hidden;isolation:isolate;background:linear-gradient(#e4e9ff,#e4e9ff) padding-box,linear-gradient(160deg,#fff 0%,#b9b9b9 25%,#f2f2f2 45%,#8a8a8a 70%,#d9d9d9 100%) border-box;box-shadow:0 6px 18px rgba(30,60,160,.28),inset 0 2px 4px rgba(20,20,60,.18)}' +
+      '.wtt::after{content:"";position:absolute;left:8%;right:8%;top:2px;height:4px;border-radius:999px;background:rgba(255,255,255,.55);z-index:3;pointer-events:none}' +
+      '.wtf{position:absolute;inset:0 auto 0 0;width:calc(var(--p,0)*1%);background:linear-gradient(180deg,#1ea7ff 0%,#1ea7ff 70%,#0a72d1 100%);transition:width .2s linear;z-index:1}' +
+      '.wtf::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);background-size:60px 100%;animation:wtshine 1.1s linear infinite}' +
+      '.wtf::after{content:"";position:absolute;top:-12px;bottom:-12px;right:-7px;width:8px;background:#1ea7ff;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'12\'%3E%3Cpath d=\'M0 0H3Q8 3 3 6Q-1 9 3 12H0Z\'/%3E%3C/svg%3E") 0 0/8px 12px repeat-y;mask:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'8\' height=\'12\'%3E%3Cpath d=\'M0 0H3Q8 3 3 6Q-1 9 3 12H0Z\'/%3E%3C/svg%3E") 0 0/8px 12px repeat-y;animation:wtwave .5s linear infinite}' +
+      '.wtf i{position:absolute;bottom:-4px;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.7);animation:wtbub 1.5s ease-in infinite;z-index:2}.wtf i:nth-child(1){left:20%}.wtf i:nth-child(2){left:50%;animation-delay:.5s}.wtf i:nth-child(3){left:78%;animation-delay:1s}' +
+      '.wtc{font:500 15px/1.2 Sarabun,system-ui,sans-serif;text-align:center;color:#1d2140;text-shadow:0 0 6px #fff,0 0 10px #fff}' +
+      '@keyframes wtshine{to{background-position:60px 0}}@keyframes wtwave{to{-webkit-mask-position:0 12px;mask-position:0 12px}}@keyframes wtbub{0%{transform:translateY(0);opacity:0}25%{opacity:1}100%{transform:translateY(-14px);opacity:0}}' +
+      '@media (prefers-reduced-motion:reduce){.wtf::before,.wtf::after,.wtf i{animation:none}}' +
       'button.c7wait{opacity:.65;pointer-events:none}';
     document.head.appendChild(st);
     var b = document.createElement('div'); b.id = 'c7bar'; b.hidden = true; document.body.appendChild(b);
-    var y = document.createElement('div'); y.id = 'c7busy'; y.hidden = true; y.setAttribute('role', 'status'); y.innerHTML = '<i></i><span></span>'; document.body.appendChild(y);
+    var y = document.createElement('div'); y.id = 'c7busy'; y.hidden = true; y.setAttribute('role', 'status'); y.innerHTML = wtHtml(''); document.body.appendChild(y);
+  }
+  /* หลอดน้ำรอโหลด (แบบ A5): น้ำเติมช้าลงเรื่อยๆ ถึง 92% ข้อความใต้หลอดเปลี่ยนตามช่วง รอเกิน 6 วิบอกว่าเซิร์ฟเวอร์กำลังตื่น */
+  var WT_MSG = [[0, 'กำลังดึงข้อมูลงบประมาณ…'], [50, 'กำลังเตรียมหน้าจอ…'], [82, 'ใกล้เสร็จแล้ว…']];
+  function wtHtml(cap) { return '<div class="wt" role="status" aria-live="polite"><div class="wtt"><div class="wtf"><i></i><i></i><i></i></div></div><div class="wtc">' + (cap || '') + '</div></div>'; }
+  function wtRun(root, fixed) {
+    if (root._iv) clearInterval(root._iv);
+    var f = root.querySelector('.wtf'), c = root.querySelector('.wtc'), p = 0, t0 = Date.now();
+    function tick() {
+      if (!document.body.contains(root) || root.hidden) { clearInterval(root._iv); root._iv = 0; return; }
+      var el = (Date.now() - t0) / 1000, t = WT_MSG[0][1]; p = Math.min(92, p + (92 - p) * 0.05); f.style.setProperty('--p', p.toFixed(1));
+      WT_MSG.forEach(function (x) { if (p >= x[0]) t = x[1]; });
+      c.textContent = fixed || (el > 6 ? 'เซิร์ฟเวอร์กำลังตื่น ใกล้เสร็จแล้ว…' : t);
+    }
+    f.style.setProperty('--p', 0); tick(); root._iv = setInterval(tick, 60);
   }
   function busy(on, text) {
-    barUi(); BUSY = on ? 1 : 0; var y = document.getElementById('c7busy'); y.hidden = !on; if (text) y.lastChild.textContent = text; pill();
+    barUi(); BUSY = on ? 1 : 0; var y = document.getElementById('c7busy');
+    if (on) { y.hidden = false; wtRun(y, text); } else if (!y.hidden) { var f = y.querySelector('.wtf'); if (y._iv) clearInterval(y._iv); y._iv = 0; f.style.setProperty('--p', 100); setTimeout(function () { if (!BUSY) y.hidden = true; }, 220); }
+    pill();
   }
   function pill() {
     barUi(); var tb = document.getElementById('c7bar'); if (tb) tb.hidden = PENDING <= 0 && !BUSY;
@@ -184,8 +209,9 @@
   var SLOW = false, SLOW_T = 0;
   function paintLoading(err) {
     var v = document.getElementById('view'); if (!v) return;
-    v.innerHTML = '<div style="max-width:520px;margin:12vh auto;text-align:center;padding:0 16px"><div class="ldspin" style="width:34px;height:34px;margin:0 auto 14px;border:4px solid #cfd8ea;border-top-color:#2a5bd7;border-radius:50%;animation:ldspin .8s linear infinite"></div>' +
-      (err ? '<p style="color:#B3261E;margin:0 0 10px">' + err + '</p><button class="btn" id="ldRetry">ลองใหม่</button>' : '<p style="font-size:1.1em;margin:0">' + (SLOW ? 'ใช้เวลานานกว่าปกติ ระบบกำลังดึงข้อมูลจาก Google Sheet อย่าเพิ่งปิดหน้านี้' : 'กำลังเตรียมข้อมูลของคุณ…') + '</p>') + '</div>';
+    barUi();
+    if (err) v.innerHTML = '<div style="max-width:520px;margin:12vh auto;text-align:center;padding:0 16px"><p style="color:#B3261E;margin:0 0 10px">' + err + '</p><button class="btn" id="ldRetry">ลองใหม่</button></div>';
+    else { v.innerHTML = '<div style="margin:14vh auto;display:flex;justify-content:center;padding:0 16px">' + wtHtml('') + '</div>'; wtRun(v.querySelector('.wt'), SLOW ? 'ใช้เวลานานกว่าปกติ ระบบกำลังดึงข้อมูลจาก Google Sheet อย่าเพิ่งปิดหน้านี้' : ''); }
     var b = document.getElementById('ldRetry'); if (b) b.onclick = function () { loadFull(); };
   }
   function loadFull() {
