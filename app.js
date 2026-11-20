@@ -964,6 +964,26 @@ function vUsers() {
   }
 }
 /* ===================== back office: website settings (admin only) ===================== */
+
+var LTHEMES = [['auto', 'อัตโนมัติตามเทศกาล', 'ธ.ค. เป็นคริสต์มาส เดือนอื่นเป็นปราสาท'], ['castle', 'ปราสาท', 'เบาที่สุด 141 KB'], ['xmas', 'คริสต์มาส', 'ประมาณ 0.9 MB'], ['anime', 'อนิเมะ', 'ประมาณ 0.8 MB'], ['avatar', 'อวตาร', 'หนักสุด ประมาณ 1.5 MB'], ['off', 'ปิดหน้าโหลด', 'เข้าเว็บแล้วเห็นหน้าระบบทันที']];
+var LTSEL = '';
+function ltCur() { var c = window.LOADER_THEME; if (!c) { try { c = localStorage.getItem('sbTheme'); } catch (e) {} } return c || 'auto'; }
+function ltCard() {
+  if (!LTSEL) LTSEL = ltCur();
+  return '<section class="card" style="margin-top:18px"><h3>ธีมหน้าโหลด</h3><div class="small muted" style="margin-top:4px">เลือกแบบหน้าโหลดที่ขึ้นตอนเปิดเว็บ (แสดงครั้งแรกที่เปิดเว็บต่อ 1 รอบ) บันทึกแล้วทุกคนจะเห็นธีมใหม่เมื่อเปิดเว็บครั้งถัดไป ไม่ต้องอัปโหลดโค้ด</div>' +
+    '<div class="ltg">' + LTHEMES.map(function (x) { return '<label class="ltc' + (LTSEL === x[0] ? ' on' : '') + '"><input type="radio" name="ltheme" value="' + x[0] + '"' + (LTSEL === x[0] ? ' checked' : '') + '><span><b>' + x[1] + '</b><small>' + x[2] + '</small></span></label>'; }).join('') + '</div>' +
+    '<div class="row" style="margin-top:12px;align-items:center"><button type="button" class="primary" id="ltSave">บันทึกธีมหน้าโหลด</button><button type="button" class="sm" id="ltPrev">ดูตัวอย่าง</button><span class="small" id="ltMsg" role="status" aria-live="polite"></span></div></section>';
+}
+function ltBind() {
+  var q = function (sel, fn) { [].forEach.call(document.querySelectorAll(sel), fn); };
+  q('[name=ltheme]', function (r) { r.onchange = function () { LTSEL = r.value; q('.ltc', function (l) { l.classList.toggle('on', l.querySelector('input').checked); }); $('ltMsg').textContent = ''; }; });
+  $('ltPrev').onclick = function () { if (window.SBL) window.SBL.show(LTSEL, true); };
+  $('ltSave').onclick = function () {
+    var b = $('ltSave'), m = $('ltMsg'); if (!window.loaderSave) { m.textContent = 'บันทึกไม่ได้ในโหมดนี้'; return; }
+    b.disabled = true; m.textContent = 'กำลังบันทึก…';
+    window.loaderSave(LTSEL).then(function () { b.disabled = false; m.textContent = '✓ บันทึกแล้ว ผู้ใช้จะเห็นธีมใหม่เมื่อเปิดเว็บครั้งถัดไป'; }, function (e) { b.disabled = false; m.textContent = 'บันทึกไม่สำเร็จ: ' + (e && e.message || e) + ' (ถ้าขึ้นว่าไม่รู้จักคำสั่ง ให้ Deploy Apps Script เป็นเวอร์ชันใหม่)'; });
+  };
+}
 function vSite() {
   var sl = SITE.slides;
   $('view').innerHTML = '<div class="row between"><div><h2>' + T('menu_site') + '</h2><div class="muted small" style="margin-top:4px">' + T('sa_sub') + '</div></div><div class="row"><button type="button" data-home>' + T('sa_view_home') + '</button><button type="button" id="saLogin">' + T('sa_view_login') + '</button></div></div>' +
@@ -990,6 +1010,7 @@ function vSite() {
     '<section class="card"><h3>' + T('sa_news') + '</h3><div class="small muted" style="margin-top:4px">' + T('sa_news_hint') + '</div>' +
     SITE.news.map(function (x, i) { return '<div class="newsrow"><input data-nd="' + i + '" value="' + esc(x.date) + '" aria-label="' + esc(t('sa_date')) + '" placeholder="' + esc(t('sa_date')) + '"><input data-nt="' + i + '" value="' + esc(x.title) + '" aria-label="' + esc(t('sa_news_title')) + '" placeholder="' + esc(t('sa_news_title')) + '"><button type="button" class="sm danger" data-ndel="' + i + '">' + T('sa_del') + '</button></div>'; }).join('') +
     '<button type="button" class="sm" id="newsAdd" style="margin-top:10px">' + T('sa_news_add') + '</button></section></div></div>' +
+    ltCard() +
     '<section class="card" style="margin-top:18px"><h3>' + T('sa_forms') + '</h3><div class="small muted" style="margin-top:4px">' + T('sa_forms_hint') + '</div>' +
     SITE.forms.map(function (f, i) { return '<div class="formrow"><input class="fname" data-ft="' + i + '" value="' + esc(f.title) + '" aria-label="' + esc(t('sa_form_name')) + '" placeholder="' + esc(t('sa_form_name')) + '">' +
       '<input data-fl="' + i + '" value="' + esc(f.link || '') + '" placeholder="' + esc(t('sa_form_link')) + '" aria-label="' + esc(t('sa_form_link')) + '">' +
@@ -1003,6 +1024,7 @@ function vSite() {
       (d.file || d.link ? '<button type="button" class="sm danger" data-nclr="' + i + '">' + T('sa_del') + '</button>' : '<span></span>') + '</div>'; }).join('') + '</section>';
   var q = function (sel, fn) { [].forEach.call(document.querySelectorAll(sel), fn); };
   $('saLogin').onclick = function () { S.view = 'login'; render(); window.scrollTo(0, 0); };
+  ltBind();
   q('[data-mv]', function (b) { b.onclick = function () { var p = b.dataset.mv.split(':'), i = +p[0], j = i + +p[1], x = sl[i]; sl[i] = sl[j]; sl[j] = x; saveSite(); vSite(); }; });
   q('[data-sdel]', function (b) { b.onclick = function () { if (sl.length < 2) return toast('sa_min'); sl.splice(+b.dataset.sdel, 1); saveSite(); vSite(); }; });
   if ($('lbgReset')) $('lbgReset').onclick = function () { SITE.loginBg = ''; saveSite(); render(); };

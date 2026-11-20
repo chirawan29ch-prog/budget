@@ -46,8 +46,8 @@
     el.hidden = PENDING <= 0;
   }
   function call(method, args) {
-    if (method !== 'loginList' && method !== 'ping' && method !== 'login') { PENDING++; pill(); }
-    var done = function () { if (method !== 'loginList' && method !== 'ping' && method !== 'login') { PENDING--; pill(); } };
+    if (method !== 'loginList' && method !== 'ping' && method !== 'login' && method !== 'loaderGet') { PENDING++; pill(); }
+    var done = function () { if (method !== 'loginList' && method !== 'ping' && method !== 'login' && method !== 'loaderGet') { PENDING--; pill(); } };
     return call0(method, args).then(function (x) { done(); return x; }, function (e) { done(); throw e; });
   }
   function call0(method, args) {
@@ -103,6 +103,7 @@
   function boot() {
     if (!ready()) { say('ยังไม่ได้ตั้งค่าที่อยู่เว็บแอปในไฟล์ config.js', 60000); return; }
     var saved = null; try { saved = sessionStorage.getItem(SESS); } catch (e) {}
+    window.loaderGet();
     var showLogin = function () {
       call('loginList').then(function (list) { loginCacheSave(list); setUsers(list || []); S.view = 'login'; render(); },
         function (e) { say('เปิดรายชื่อไม่ได้: ' + failMsg(e), 20000); });
@@ -535,6 +536,12 @@
   function wordsSig() { return JSON.stringify(wordsObj()); }
   var WORDS_T = 0;
   function schedWords() { if (!TOKEN || !ME || !USERS[ME.id] || !USERS[ME.id].admin) return; clearTimeout(WORDS_T); WORDS_T = setTimeout(function () { var s = wordsSig(); if (s === WORDSIG) return; call('siteSave', { words: wordsObj() }).then(function () { WORDSIG = s; }, function (e) { say('บันทึกข้อความไม่สำเร็จ: ' + failMsg(e), 6000); }); }, 1500); }
+  var LTP = null;
+  window.loaderGet = function () {                            // ถามธีมหน้าโหลดจากเซิร์ฟเวอร์ (ใช้ร่วมกับสคริปต์หน้าโหลดใน index.html) คืนชื่อธีม หรือ null ถ้าถามไม่ได้
+    if (!LTP) LTP = (ready() ? call('loaderGet') : Promise.reject()).then(function (r) { if (r && r.theme) { window.LOADER_THEME = r.theme; try { localStorage.setItem('sbTheme', r.theme); } catch (e) {} return r.theme; } return null; }, function () { return null; });
+    return LTP;
+  };
+  window.loaderSave = function (t) { return call('loaderSet', { theme: t }).then(function (r) { window.LOADER_THEME = r.theme; try { localStorage.setItem('sbTheme', r.theme); } catch (e) {} return r; }); };
   var SITESIG = '', SITE_T = 0;
   function siteSig() { return JSON.stringify(SITE, function (k, v) { return typeof v === 'string' && v.length > 3000 && v.slice(0, 5) === 'data:' ? (ATT.get(v) || '@@P') : v; }); }
   saveSite = function () { clearTimeout(SITE_T); SITE_T = setTimeout(pushSite, 1200); return true; };

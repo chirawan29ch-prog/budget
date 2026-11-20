@@ -317,9 +317,31 @@ window.SB=(function(){
 <script src="sync.js"></script>
 <script src="fx.js"></script>
 <script>
-(function(){try{if(sessionStorage.getItem('sbl'))return;sessionStorage.setItem('sbl','1')}catch(e){}
-var f=document.createElement('iframe');f.src='loader/castle.html';f.setAttribute('aria-hidden','true');f.title='กำลังโหลด';f.allowTransparency=true;
-f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:99999;background:transparent;color-scheme:normal';
-f.addEventListener('load',function(){try{if(!f.contentWindow.gsap)rm()}catch(e){}});document.body.appendChild(f);function rm(){if(f.parentNode)f.remove();window.removeEventListener('message',on)}
-function on(e){if(e.data==='sbl-done')rm()}window.addEventListener('message',on);setTimeout(rm,25000);})();
-</script></body></html>
+/* หน้าโหลด: ถามธีมจาก Apps Script ก่อน (รอไม่เกิน 1.2 วิ ถ้าไม่ทันใช้ธีมที่จำไว้ใน localStorage.sbTheme) ผู้ดูแลเปลี่ยนได้ที่หน้า "ตั้งค่าหน้าเว็บ" */
+(function(){
+var OK={castle:1,xmas:1,anime:1,avatar:1};
+function pick(t){if(t==='off')return 'off';if(OK[t])return t;return new Date().getMonth()===11?'xmas':'castle'}
+function show(t,preview){
+  t=pick(t);if(t==='off')return;
+  var f=document.createElement('iframe'),x=null;f.src='loader/'+t+'.html';f.setAttribute('aria-hidden','true');f.title='กำลังโหลด';f.allowTransparency=true;
+  f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:99999;background:transparent;color-scheme:normal';
+  function rm(){if(f.parentNode)f.remove();if(x&&x.parentNode)x.remove();window.removeEventListener('message',on)}
+  function on(e){if(e.source===f.contentWindow&&e.data==='sbl-done')rm()}
+  f.addEventListener('load',function(){try{if(!f.contentWindow.gsap)rm()}catch(e){}});
+  document.body.appendChild(f);window.addEventListener('message',on);setTimeout(rm,25000);
+  if(preview){x=document.createElement('button');x.type='button';x.textContent='ปิดตัวอย่าง';x.setAttribute('data-sb','off');
+    x.style.cssText='position:fixed;top:12px;right:12px;z-index:100000;padding:8px 14px;border:0;border-radius:10px;background:rgba(0,0,0,.6);color:#fff;font:600 16px Sarabun,sans-serif;cursor:pointer';
+    x.onclick=rm;document.body.appendChild(x)}
+}
+window.SBL={show:show,pick:pick};
+try{
+  if(sessionStorage.getItem('sbl'))return;sessionStorage.setItem('sbl','1');
+  var cached=null;try{cached=localStorage.getItem('sbTheme')}catch(e){}
+  var veil=document.createElement('div');veil.style.cssText='position:fixed;inset:0;z-index:99998;background:#0a0a1a';document.body.appendChild(veil);
+  var done=false;function go(t){if(done)return;done=true;veil.remove();show(t||cached||'auto')}
+  var p=window.loaderGet?window.loaderGet():Promise.resolve(null);
+  p.then(go,function(){go()});setTimeout(go,1200);
+}catch(e){}
+})();
+</script>
+</body></html>
