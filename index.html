@@ -28,8 +28,298 @@
 
 
 
+<!-- ===== ชุดปุ่มระบบ กลุ่มบริหารงบประมาณ (ไฟล์นี้ไม่ต้องแก้ · ปุ่มเดิมในระบบเปลี่ยนเป็นแบบใหม่ให้อัตโนมัติ) ===== -->
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Kanit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+.sb-btn.sb-btn{
+  --c:#5b5bff;--c2:#3a2fd6;--txt:#fff;
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  min-height:50px;padding:.5em 1.6em;margin:2px 0 4px;max-width:100%;cursor:pointer;
+  border:3px solid transparent;border-radius:18px;
+  font:500 16.5px/1.3 "Mitr","Kanit",sans-serif;text-align:center;letter-spacing:.3px;color:var(--txt);
+  text-shadow:0 1px 2px rgba(0,0,0,.25);
+  /* ตัวปุ่มสีสด + ขอบเงินเมทัลลิก */
+  background:
+    linear-gradient(180deg,var(--c) 0%,var(--c) 78%,var(--c2) 100%) padding-box,
+    linear-gradient(160deg,#ffffff 0%,#b9b9b9 25%,#f2f2f2 45%,#8a8a8a 70%,#d9d9d9 100%) border-box;
+  box-shadow:0 4px 10px -3px rgba(0,0,0,.35),inset 0 -3px 0 rgba(0,0,0,.12);
+  overflow:hidden;isolation:isolate;-webkit-tap-highlight-color:transparent;user-select:none;
+  transition:transform .12s ease,box-shadow .12s ease,filter .2s;
+}
+/* แถบเงาวาวด้านบน */
+.sb-btn.sb-btn::after{content:"";position:absolute;left:9%;right:9%;top:3px;height:min(34%,16px);border-radius:999px;z-index:1;
+  background:rgba(255,255,255,.45);pointer-events:none}
+@media (hover:hover){.sb-btn.sb-btn:hover{filter:brightness(1.08) saturate(1.05);transform:translateY(-1px)}}
+.sb-btn.sb-btn:active{transform:translateY(2px) scale(.985);box-shadow:0 1px 4px -1px rgba(0,0,0,.35),inset 0 2px 4px rgba(0,0,0,.2)}
+.sb-btn.sb-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--c) 50%,transparent);outline-offset:3px}
+.sb-btn.sb-btn svg{width:1.2em;height:1.2em;flex:none;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
+.sb-btn.sb-btn .sb-lbl,.sb-btn.sb-btn .sb-state{position:relative;z-index:2}
+
+/* สีตามหน้าที่ */
+.sb-btn.sb-primary{} /* ยืนยัน / บันทึก */
+.sb-btn.sb-sky    {--c:#1ea7ff;--c2:#0a72d1}                         /* ฟ้า */
+.sb-btn.sb-success{--c:#14c97e;--c2:#079158}                         /* อนุมัติ / ส่ง */
+.sb-btn.sb-danger {--c:#ff1f3a;--c2:#c40019}                         /* ลบ */
+.sb-btn.sb-gold   {--c:#ffc414;--c2:#e08f00;--txt:#5a2d00}           /* พิมพ์เอกสาร */
+.sb-btn.sb-orange {--c:#ff8a1f;--c2:#d95f00}                         /* ส่งคืน / แจ้งปัญหา / รีเซ็ต */
+.sb-btn.sb-pink   {--c:#e541ff;--c2:#a316c7}                         /* ปุ่มพิเศษ */
+.sb-btn.sb-ghost  {--c:#cbbdff;--c2:#9f89ef;--txt:#3a2bb0}           /* ยกเลิก / ย้อนกลับ */
+.sb-btn.sb-ghost{text-shadow:0 1px 0 rgba(255,255,255,.5)}.sb-btn.sb-ghost::after{background:rgba(255,255,255,.55)}
+
+/* ขนาด */
+.sb-btn.sb-sm{min-height:40px;padding:0 1.1em;font-size:14.5px;border-radius:14px;border-width:2.5px}
+.sb-btn.sb-lg{min-height:60px;padding:0 2em;font-size:19px;border-radius:22px}
+.sb-btn.sb-block{display:flex;width:100%}
+.sb-btn.sb-icon{width:50px;padding:0}
+.sb-row{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:480px){.sb-row.sb-stack{flex-direction:column-reverse}.sb-row.sb-stack .sb-btn.sb-btn{width:100%}}
+
+/* ===== กำลังโหลด: สีไหลเติมเหมือนน้ำ ===== */
+.sb-liquid{position:absolute;inset:0;border-radius:inherit;overflow:hidden;z-index:0;pointer-events:none;opacity:0;transition:opacity .25s}
+.sb-liquid .fill{position:absolute;top:0;bottom:0;left:0;width:calc(var(--p,0) * 1%);
+  background:linear-gradient(180deg,var(--c) 0%,var(--c) 78%,var(--c2) 100%);transition:width .25s linear}
+/* คลื่นที่ขอบหน้าของน้ำ */
+.sb-liquid .fill::after{content:"";position:absolute;top:-24px;bottom:-24px;right:-13px;width:14px;
+  background:var(--c);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24'%3E%3Cpath d='M0 0 H6 Q14 6 6 12 Q-2 18 6 24 H0Z'/%3E%3C/svg%3E") 0 0/14px 24px repeat-y;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24'%3E%3Cpath d='M0 0 H6 Q14 6 6 12 Q-2 18 6 24 H0Z'/%3E%3C/svg%3E") 0 0/14px 24px repeat-y;
+  animation:sbwave .55s linear infinite}
+@keyframes sbwave{to{-webkit-mask-position:0 24px;mask-position:0 24px}}
+/* ฟองอากาศในน้ำ */
+.sb-liquid .fill i{position:absolute;bottom:-8px;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);animation:sbbub 1.6s ease-in infinite}
+.sb-liquid .fill i:nth-child(1){left:12%;animation-delay:0s}
+.sb-liquid .fill i:nth-child(2){left:38%;width:4px;height:4px;animation-delay:.5s}
+.sb-liquid .fill i:nth-child(3){left:63%;animation-delay:.9s}
+.sb-liquid .fill i:nth-child(4){left:85%;width:4px;height:4px;animation-delay:1.3s}
+@keyframes sbbub{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-60px);opacity:0}}
+/* ระหว่างโหลด ตัวปุ่มกลายเป็นแก้วใสรอเติมสี */
+.sb-btn.sb-btn.is-loading,.sb-btn.sb-btn.is-done{pointer-events:none;
+  background:
+    linear-gradient(180deg,color-mix(in srgb,var(--c) 22%,#fff),color-mix(in srgb,var(--c) 38%,#fff)) padding-box,
+    linear-gradient(160deg,#ffffff 0%,#b9b9b9 25%,#f2f2f2 45%,#8a8a8a 70%,#d9d9d9 100%) border-box}
+.sb-btn.sb-btn.is-loading .sb-liquid,.sb-btn.sb-btn.is-done .sb-liquid{opacity:1}
+.sb-btn.sb-btn.is-done .sb-liquid .fill::after{opacity:0}
+.sb-btn.sb-btn.is-loading{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+.sb-btn.sb-gold.is-loading{color:#5a2d00;text-shadow:0 0 4px #fff}
+.sb-btn.sb-ghost .sb-liquid .fill{background:linear-gradient(180deg,#d9d0ff,#b6a6ff)}
+
+/* สถานะอื่น */
+.sb-btn.sb-btn:disabled,.sb-btn.sb-btn[aria-disabled=true]{filter:grayscale(.85) brightness(1.08);opacity:.6;cursor:not-allowed;transform:none}
+.sb-btn.sb-btn .sb-lbl{display:inline-flex;align-items:center;gap:.5em;transition:opacity .2s,transform .2s}
+.sb-btn.sb-btn.is-loading .sb-lbl,.sb-btn.sb-btn.is-done .sb-lbl{opacity:0;transform:translateY(6px)}
+.sb-btn.sb-btn .sb-state{position:absolute;inset:0;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:.5em;opacity:0;transition:opacity .2s}
+.sb-btn.sb-btn.is-loading .sb-state,.sb-btn.sb-btn.is-done .sb-state{opacity:1}
+.sb-btn.sb-btn.is-done{animation:sbboing .5s cubic-bezier(.3,1.8,.5,1)}
+@keyframes sbboing{40%{transform:scale(1.06)}}
+.sb-pct{font-variant-numeric:tabular-nums;opacity:.9}
+.sb-check{width:1.3em!important;height:1.3em!important;stroke-width:3.2!important}
+.sb-check path{stroke-dasharray:24;stroke-dashoffset:24;animation:sbdraw .45s .05s ease forwards}
+@keyframes sbdraw{to{stroke-dashoffset:0}}
+
+
+/* ช่องติ๊ก */
+.sb-tick{display:inline-flex;align-items:center;gap:.6em;cursor:pointer;font:500 16px/1.3 "Mitr","Kanit",sans-serif;color:#2a2160;user-select:none}
+.sb-tick input{position:absolute;opacity:0;pointer-events:none}
+.sb-tick .box{position:relative;width:28px;height:28px;border-radius:9px;flex:none;border:2.5px solid transparent;
+  background:linear-gradient(180deg,#f3f0ff,#d6ccfb) padding-box,linear-gradient(160deg,#fff,#b9b9b9 25%,#f2f2f2 45%,#8a8a8a 70%,#d9d9d9) border-box;
+  box-shadow:0 2px 5px -1px rgba(0,0,0,.3);transition:background .2s}
+.sb-tick .box::after{content:"";position:absolute;left:8px;top:3px;width:7px;height:13px;border:solid #fff;border-width:0 3.5px 3.5px 0;transform:rotate(45deg) scale(0);transition:transform .25s cubic-bezier(.3,1.8,.5,1)}
+.sb-tick input:checked+.box{background:linear-gradient(180deg,#5b5bff,#3a2fd6) padding-box,linear-gradient(160deg,#fff,#b9b9b9 25%,#f2f2f2 45%,#8a8a8a 70%,#d9d9d9) border-box}
+.sb-tick input:checked+.box::after{transform:rotate(45deg) scale(1)}
+.sb-tick input:focus-visible+.box{outline:3px solid rgba(91,91,255,.4);outline-offset:3px}
+
+/* แจ้งเตือน */
+#sb-toasts{position:fixed;z-index:99990;left:50%;bottom:24px;transform:translateX(-50%);display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:none;width:min(92vw,420px)}
+.sb-toast{--edge:#8b6dff;display:flex;align-items:center;gap:10px;width:100%;padding:11px 16px;border-radius:999px;font:500 15px/1.35 "Mitr","Kanit",sans-serif;color:#3b2a85;
+  background:#fff;border:0;box-shadow:0 5px 0 var(--edge),0 12px 24px -8px rgba(60,30,170,.4);
+  animation:sbin .45s cubic-bezier(.3,1.7,.5,1)}
+.sb-toast i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:15px;color:#fff;box-shadow:0 2px 0 var(--edge);background:linear-gradient(180deg,#6fe0ff,#8b6dff)}
+.sb-toast.ok{--edge:#18c896}.sb-toast.ok i{background:linear-gradient(180deg,#7dffcf,#18cf9b)}
+.sb-toast.err{--edge:#ff4f86}.sb-toast.err i{background:linear-gradient(180deg,#ffa1c4,#ff4f86)}
+.sb-toast.out{animation:sbout .3s ease forwards}
+@keyframes sbin{from{opacity:0;transform:translateY(20px) scale(.85)}}
+@keyframes sbout{to{opacity:0;transform:translateY(12px) scale(.95)}}
+
+/* กล่องยืนยัน */
+.sb-modal{position:fixed;inset:0;z-index:99995;display:grid;place-items:center;padding:20px;background:rgba(60,40,140,.35);backdrop-filter:blur(4px);animation:sbfade .2s}
+.sb-modal .box{--edge:#8b6dff;position:relative;width:min(100%,380px);padding:30px 22px 22px;border-radius:28px;text-align:center;font-family:"Mitr","Kanit",sans-serif;
+  background:radial-gradient(circle at 15% 10%,#e9f9ff,transparent 45%),radial-gradient(circle at 90% 95%,#f5e9ff,transparent 50%),#fff;
+  border:0;box-shadow:0 8px 0 var(--edge),0 30px 50px -15px rgba(60,30,170,.5);
+  animation:sbpop .45s cubic-bezier(.3,1.7,.5,1)}
+.sb-modal .box::before,.sb-modal .box::after{content:"✦";position:absolute;color:#ffd54a;text-shadow:0 0 6px #fff;animation:sbtw 1.6s ease-in-out infinite}
+.sb-modal .box::before{left:18px;top:14px;font-size:18px}.sb-modal .box::after{right:22px;top:26px;font-size:12px;animation-delay:.5s}
+.sb-modal .ic{width:64px;height:64px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:600;color:#fff;
+  box-shadow:0 5px 0 var(--edge),inset 0 2px 0 rgba(255,255,255,.5);background:linear-gradient(180deg,#6fe0ff,#8b6dff);text-shadow:0 2px 0 rgba(60,30,170,.5)}
+.sb-modal.danger .box{--edge:#ff4f86}
+.sb-modal.danger .ic{background:linear-gradient(180deg,#ffa1c4,#ff4f86);text-shadow:0 2px 0 rgba(160,20,70,.5)}
+.sb-modal h3{margin:4px 0 6px;font-size:21px;font-weight:600;color:#3b2a85}
+.sb-modal p{margin:0 0 22px;font-size:15px;line-height:1.5;color:#7a72a8;font-weight:400}
+.sb-modal .sb-row{justify-content:center}.sb-modal .sb-row .sb-btn{flex:1;padding:0 .8em}
+.sb-modal.out{animation:sbfade .2s reverse forwards}
+@keyframes sbfade{from{opacity:0}}
+@keyframes sbpop{from{opacity:0;transform:scale(.8) translateY(14px)}}
+@media (prefers-reduced-motion:reduce){.sb-btn,.sb-btn::before,.sb-toast,.sb-modal .box{transition:none;animation:none}}
+</style>
+<script>
+/* ===== ตัวช่วย =====
+   SB.save(ปุ่ม, 'ชื่อฟังก์ชันใน .gs', ข้อมูล, {ok:'ข้อความเมื่อสำเร็จ'})  → หมุนรอ ✓ แล้วแจ้งเตือนให้เอง
+   SB.confirm({title, text, ok, danger})  → กล่องยืนยันสวยๆ คืนค่า true/false
+   SB.toast('ข้อความ', 'ok' | 'err' | '')
+*/
+window.SB=(function(){
+  function wrap(btn){
+    if(btn.querySelector('.sb-lbl'))return;
+    var l=document.createElement('span');l.className='sb-lbl';
+    while(btn.firstChild)l.appendChild(btn.firstChild);
+    var q=document.createElement('span');q.className='sb-liquid';q.innerHTML='<span class="fill"><i></i><i></i><i></i><i></i></span>';
+    var s=document.createElement('span');s.className='sb-state';
+    btn.appendChild(q);btn.appendChild(l);btn.appendChild(s);
+  }
+  function setP(btn,p){btn.style.setProperty('--p',p.toFixed(1));var e=btn.querySelector('.sb-pct');if(e)e.textContent=Math.round(p)+'%'}
+  /* น้ำไหลเติม: ประมาณ 5 วิ ได้ ~85% แล้วค่อยๆ ช้าลงรอผลจริง */
+  function loading(btn,text){
+    wrap(btn);reset(btn);btn.classList.add('is-loading');
+    btn.querySelector('.sb-state').innerHTML=(btn.offsetWidth<190?'':(text||'กำลังบันทึก…')+' ')+'<span class="sb-pct">0%</span>';
+    var t0=performance.now();
+    (function tick(){
+      if(!btn.classList.contains('is-loading'))return;
+      var t=(performance.now()-t0)/1000;
+      setP(btn,95*(1-Math.exp(-t/2.6)));
+      btn._sbRaf=requestAnimationFrame(tick);
+    })();
+  }
+  function done(btn,text){
+    cancelAnimationFrame(btn._sbRaf);setP(btn,100);
+    setTimeout(function(){
+      btn.classList.remove('is-loading');btn.classList.add('is-done');
+      btn.querySelector('.sb-state').innerHTML='<svg class="sb-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'+(text||'สำเร็จ');
+      setTimeout(function(){reset(btn)},1500);
+    },300);
+  }
+  function reset(btn){cancelAnimationFrame(btn._sbRaf);btn.classList.remove('is-loading','is-done');btn.style.setProperty('--p',0)}
+  function toast(msg,type){
+    var box=document.getElementById('sb-toasts');
+    if(!box){box=document.createElement('div');box.id='sb-toasts';document.body.appendChild(box)}
+    var t=document.createElement('div');t.className='sb-toast '+(type||'');
+    t.innerHTML='<i>'+(type==='err'?'!':type==='ok'?'✓':'i')+'</i><span></span>';
+    t.querySelector('span').textContent=msg;box.appendChild(t);
+    setTimeout(function(){t.classList.add('out');setTimeout(function(){t.remove()},300)},type==='err'?4500:2600);
+  }
+  function confirm(o){
+    o=o||{};
+    return new Promise(function(res){
+      var m=document.createElement('div');m.className='sb-modal'+(o.danger?' danger':'');
+      m.innerHTML='<div class="box" role="dialog" aria-modal="true"><div class="ic">'+(o.danger?'!':'?')+'</div><h3></h3><p></p>'+
+        '<div class="sb-row"><button class="sb-btn sb-ghost" data-v="0"></button><button class="sb-btn '+(o.danger?'sb-danger':'sb-primary')+'" data-v="1"></button></div></div>';
+      m.querySelector('h3').textContent=o.title||'ยืนยันการทำรายการ?';
+      m.querySelector('p').textContent=o.text||'';
+      m.querySelector('[data-v="0"]').textContent=o.cancel||'ยกเลิก';
+      m.querySelector('[data-v="1"]').textContent=o.ok||'ยืนยัน';
+      function close(v){m.classList.add('out');setTimeout(function(){m.remove()},200);document.removeEventListener('keydown',key);res(v)}
+      function key(e){if(e.key==='Escape')close(false)}
+      m.addEventListener('click',function(e){var b=e.target.closest('[data-v]');if(b)close(b.dataset.v==='1');else if(e.target===m)close(false)});
+      document.addEventListener('keydown',key);
+      document.body.appendChild(m);m.querySelector('[data-v="1"]').focus();
+    });
+  }
+  function save(btn,fn,data,o){
+    o=o||{};
+    return new Promise(function(res,rej){
+      loading(btn,o.loading);
+      var r=google.script.run
+        .withSuccessHandler(function(out){done(btn,o.done);toast(o.ok||'บันทึกข้อมูลเรียบร้อย','ok');res(out)})
+        .withFailureHandler(function(e){reset(btn);toast((o.fail||'บันทึกไม่สำเร็จ')+': '+(e&&e.message||e),'err');rej(e)});
+      data===undefined?r[fn]():r[fn](data);
+    });
+  }
+  return {save:save,confirm:confirm,toast:toast,loading:loading,done:done,reset:reset};
+})();
+</script>
+<script>
+/* ===== ปรับปุ่มเดิมในระบบให้เป็นแบบใหม่อัตโนมัติ (จับจากข้อความบนปุ่ม) =====
+   ไม่อยากให้ปุ่มไหนเปลี่ยน ใส่ data-sb="off" ที่ปุ่มนั้น
+   อยากกำหนดสีเอง ใส่ data-sb="primary|sky|success|gold|pink|orange|danger|ghost" */
+(function(){
+  var MAP={"เข้าสู่ระบบ": ["primary", "login"], "ติดตามคำขอ": ["sky", "search"], "ล้างผลการค้นหา": ["ghost", "x"], "ดูสรุปงบประมาณ": ["sky", "chart"], "หน้าแรก": ["ghost", "home"], "กลับหน้าแรก": ["ghost", "back"], "บันทึก PIN ใหม่": ["primary", "key"], "บันทึก PIN และเข้าสู่ระบบ": ["primary", "key"], "ยกเลิก": ["ghost", "x"], "ออกจากระบบ": ["danger", "logout"], "เปลี่ยนบทบาท": ["pink", "swap"], "คำขอทั้งหมด": ["sky", "list"], "สรุปงบประมาณ": ["sky", "chart"], "สรุปงบประมาณ (กราฟ)": ["sky", "chart"], "รายการคำขอของฉัน": ["sky", "mylist"], "งบประมาณโครงการของฉัน": ["sky", "folder"], "จัดทำคำขอ": ["primary", "fileplus"], "รายการรอดำเนินการ": ["sky", "clock"], "เพิ่มคำขอจากใบกระดาษ": ["primary", "paper"], "รายจ่ายประจำ": ["sky", "repeat"], "ทะเบียนคำขอทั้งหมด": ["sky", "book"], "ทะเบียนรับ-ส่งเอกสาร": ["sky", "inbox"], "สรุปภาพรวมงบประมาณ": ["sky", "pie"], "สรุปยืมเงิน": ["sky", "coins"], "เล่มคุมภาษี": ["sky", "receipt"], "ผู้ใช้งาน": ["sky", "users"], "จัดการหน้าเว็บ": ["sky", "web"], "แก้ไขข้อความ": ["primary", "edit"], "เสร็จสิ้น ออกจากโหมดแก้ไข": ["success", "done"], "คืนข้อความเดิม": ["orange", "undo"], "คืนค่าเดิม": ["orange", "undo"], "ลบข้อความนี้": ["danger", "trash"], "ดูหน้าแรก": ["sky", "eye"], "ดูหน้าเข้าสู่ระบบ": ["sky", "eye"], "เพิ่มรูป": ["pink", "image"], "เปลี่ยนรูป": ["pink", "image"], "ลบ": ["danger", "trash"], "อัปโหลดตรา": ["pink", "upload"], "ใช้ตราตัวอย่าง": ["ghost", "shield"], "อัปโหลดพื้นหลัง": ["pink", "upload"], "ใช้รูปหน้าปกรูปแรก": ["ghost", "image"], "เพิ่มประกาศ": ["primary", "mega"], "เพิ่มแบบฟอร์ม": ["primary", "form"], "อัปโหลดไฟล์": ["pink", "upload"], "บันทึกข้อมูล": ["primary", "save"], "แก้ไข": ["sky", "edit"], "รีเซ็ต PIN": ["orange", "lock"], "บันทึก": ["primary", "save"], "ขออนุมัติใช้งบ": ["primary", "send"], "เพิ่มรายการ": ["sky", "plus"], "เพิ่มรายการนอกแผน": ["sky", "plusc"], "ลบรายการ": ["danger", "trash"], "เพิ่มกิจกรรมต้นทาง": ["sky", "link"], "ผู้ขายวางบิลได้": ["sky", "store"], "วางบิลไม่ได้ ขอยืมเงิน": ["orange", "hand"], "อัปโหลดไฟล์ใบเสนอราคา": ["pink", "upload"], "ลบไฟล์": ["danger", "trash"], "เพิ่มชื่อนี้ในรายการ": ["sky", "userplus"], "บันทึกและจัดทำบันทึกขออนุมัติ": ["primary", "save"], "ย้อนกลับ": ["ghost", "back"], "กลับ": ["ghost", "back"], "ตรวจสอบผ่าน แจ้งให้พิมพ์เอกสาร": ["success", "check"], "ส่งคืนผู้รับผิดชอบโครงการ": ["orange", "return"], "แก้ไขคำขอ (ครู)": ["sky", "edit"], "แก้ไขคำขอ": ["sky", "edit"], "บันทึกการแก้ไขและส่งตรวจอีกครั้ง": ["primary", "send"], "บันทึกการแก้ไขและส่งตรวจอีกครั้ง (ครู)": ["primary", "send"], "หน้าโครงการจากเล่มแผน": ["gold", "book"], "บันทึกข้อความขออนุมัติ": ["gold", "print"], "ดาวน์โหลด PDF": ["gold", "pdf"], "ดาวน์โหลด Word": ["gold", "pdf"], "นำส่งงานแผนงานแล้ว": ["success", "send"], "สแกน QR บนบันทึกข้อความ": ["pink", "qr"], "ยืนยันการรับเอกสาร": ["primary", "check"], "ได้รับครบ ยืนยันรับ": ["success", "checks"], "เอกสารยังไม่ครบ": ["orange", "alert"], "ยืนยันรับ และแจ้งว่าเอกสารยังไม่ครบ": ["orange", "alert"], "ได้รับเอกสารครบแล้ว": ["success", "checks"], "บันทึกว่าได้รับเอกสารจากครูแล้ว": ["primary", "save"], "ผู้อำนวยการลงนามอนุมัติแล้ว": ["success", "sign"], "ผู้อำนวยการไม่อนุมัติ": ["danger", "xc"], "กดรับเลขที่": ["gold", "hash"], "เพิ่มรูป (ถ่ายภาพใบส่งของ)": ["pink", "camera"], "ลบรูป": ["danger", "x"], "ส่งเอกสารถึงงานพัสดุ": ["success", "send"], "ใช้ตามเดิม": ["ghost", "undo"], "จัดทำเอกสารแล้ว แจ้งผู้รับผิดชอบโครงการมารับ": ["success", "box"], "คณะกรรมการลงนามครบแล้ว ส่งคืนงานพัสดุ": ["success", "sign"], "ผู้อำนวยการอนุมัติแล้ว ส่งงานแผนงาน": ["success", "stamp"], "ตัดยอดแล้ว ส่งงานการเงิน": ["success", "cut"], "เบิกจ่ายเรียบร้อย ปิดเรื่อง": ["success", "wallet"], "จ่ายเงินยืมแล้ว ส่งเอกสารถึงผู้รับผิดชอบโครงการ": ["success", "send"], "บันทึกข้อความขออนุมัติยืมเงิน": ["gold", "print"], "สัญญาการยืมเงิน (แบบ 8500)": ["gold", "contract"], "สัญญาการยืมเงิน": ["gold", "contract"], "ส่งบันทึกและเอกสารถึงงานการเงินแล้ว": ["success", "send"], "บันทึกส่งใช้เงินยืม": ["primary", "save"], "ตัดจ่ายเงินยืมเรียบร้อย ปิดเรื่อง": ["success", "wallet"], "ยกเลิกคืนแล้ว": ["orange", "return"], "จ่ายเงินแล้ว ส่งเอกสารให้งานแผน": ["success", "send"], "ส่งหลักฐานถึงงานแผนแล้ว": ["success", "send"], "ยินยอม": ["success", "thumb"], "ไม่ยินยอม": ["danger", "thumbd"], "ปรับงบแล้ว ปิดเรื่อง": ["success", "sliders"], "บันทึกกันเงินแล้ว ปิดเรื่อง": ["success", "lock"], "เพิ่ม": ["sky", "userplus"], "นำออก": ["ghost", "minus"], "เปลี่ยนครู": ["sky", "swap"], "ดูใบที่สแกน": ["sky", "scan"], "ดูหน้าโครงการ": ["sky", "eye"], "ดูรายการ": ["sky", "list"], "เปิด": ["sky", "open"], "ลองใหม่": ["orange", "refresh"], "ติดตาม": ["sky", "search"]}, RULES=[["ไม่อนุมัติ", "danger", "xc"], ["ไม่ยินยอม", "danger", "thumbd"], ["ออกจากระบบ", "danger", "logout"], ["ลบ", "danger", "trash"], ["ส่งคืน", "orange", "return"], ["ไม่ครบ", "orange", "alert"], ["รีเซ็ต", "orange", "lock"], ["คืนค่า", "orange", "undo"], ["ลองใหม่", "orange", "refresh"], ["ปิดเรื่อง", "success", "wallet"], ["ยกเลิก", "ghost", "x"], ["ย้อนกลับ", "ghost", "back"], ["กลับ", "ghost", "back"], ["ปิด", "ghost", "x"], ["ดาวน์โหลด", "gold", "pdf"], ["พิมพ์", "gold", "print"], ["บันทึกข้อความ", "gold", "print"], ["เลขที่", "gold", "hash"], ["อัปโหลด", "pink", "upload"], ["รูป", "pink", "image"], ["สแกน", "pink", "qr"], ["อนุมัติ", "success", "check"], ["ผ่าน", "success", "check"], ["ส่ง", "success", "send"], ["ยืนยัน", "primary", "check"], ["บันทึก", "primary", "save"], ["เข้าสู่ระบบ", "primary", "login"], ["จัดทำ", "primary", "fileplus"], ["เพิ่ม", "sky", "plus"], ["ดู", "sky", "eye"], ["ค้นหา", "sky", "search"], ["สรุป", "sky", "chart"], ["ทะเบียน", "sky", "book"], ["แก้ไข", "sky", "edit"]], ICONS={"alert": "<path d=\"M12 3l10 18H2z\"/><path d=\"M12 10v5M12 18v.5\"/>", "back": "<path d=\"M15 5l-7 7 7 7\"/>", "book": "<path d=\"M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z\"/><path d=\"M4 21.5A2.5 2.5 0 0 1 6.5 19H20v3H6.5\"/>", "box": "<path d=\"M21 8l-9-5-9 5v8l9 5 9-5z\"/><path d=\"M3 8l9 5 9-5M12 13v8\"/>", "camera": "<path d=\"M3 8a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/>", "chart": "<path d=\"M3 3v18h18\"/><path d=\"M7 16v-5M12 16V8M17 16v-8\"/>", "check": "<path d=\"M5 12.5l4.5 4.5L19 7.5\"/>", "checks": "<path d=\"M2 12.5l4.5 4.5L16 7.5\"/><path d=\"M12 16l1 1 9.5-9.5\"/>", "clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "coins": "<ellipse cx=\"9\" cy=\"7\" rx=\"6\" ry=\"3\"/><path d=\"M3 7v5c0 1.7 2.7 3 6 3s6-1.3 6-3V7\"/><path d=\"M9 15v2c0 1.7 2.7 3 6 3s6-1.3 6-3v-5c0-1.7-2.7-3-6-3\"/>", "contract": "<path d=\"M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z\"/><path d=\"M14 3v6h6\"/><path d=\"M8 17c1.5-2 2.5-3 3-3s0 2 1 2 1.5-1 2-1 1 1 2 1\"/>", "cut": "<circle cx=\"6\" cy=\"6\" r=\"3\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><path d=\"M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12\"/>", "done": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 12.5l3 3 5-6\"/>", "edit": "<path d=\"M4 20h4L19 9l-4-4L4 16z\"/><path d=\"M13.5 6.5l4 4\"/>", "eye": "<path d=\"M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "fileplus": "<path d=\"M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z\"/><path d=\"M14 3v6h6\"/><path d=\"M12 12v6M9 15h6\"/>", "folder": "<path d=\"M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>", "form": "<rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h3M8 12h3M8 16h3\"/><path d=\"M14 8h2M14 12h2M14 16h2\"/>", "hand": "<path d=\"M11 14h2a2 2 0 0 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16\"/><path d=\"M7 20l1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.8-2.8L14.4 13\"/><circle cx=\"16\" cy=\"6\" r=\"3\"/>", "hash": "<path d=\"M5 9h15M4 15h15M10 3L8 21M16 3l-2 18\"/>", "home": "<path d=\"M3 11l9-8 9 8\"/><path d=\"M5 10v10h14V10\"/><path d=\"M10 20v-6h4v6\"/>", "image": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"M21 15l-5-5L5 21\"/>", "inbox": "<path d=\"M22 12h-6l-2 3h-4l-2-3H2\"/><path d=\"M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z\"/>", "key": "<circle cx=\"8\" cy=\"15\" r=\"4\"/><path d=\"M11 12l9-9M17 6l3 3M15 8l2 2\"/>", "link": "<path d=\"M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1\"/><path d=\"M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1\"/>", "list": "<path d=\"M8 6h13M8 12h13M8 18h13\"/><circle cx=\"3.5\" cy=\"6\" r=\"1\"/><circle cx=\"3.5\" cy=\"12\" r=\"1\"/><circle cx=\"3.5\" cy=\"18\" r=\"1\"/>", "lock": "<rect x=\"4\" y=\"11\" width=\"16\" height=\"10\" rx=\"2\"/><path d=\"M8 11V7a4 4 0 0 1 8 0v4\"/>", "login": "<path d=\"M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4\"/><path d=\"M10 17l5-5-5-5\"/><path d=\"M15 12H3\"/>", "logout": "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><path d=\"M16 17l5-5-5-5\"/><path d=\"M21 12H9\"/>", "mega": "<path d=\"M3 11v2a1 1 0 0 0 1 1h3l7 4V6L7 10H4a1 1 0 0 0-1 1z\"/><path d=\"M18 9a3 3 0 0 1 0 6\"/>", "minus": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 12h8\"/>", "mylist": "<rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8M8 12h8M8 16h5\"/>", "open": "<path d=\"M15 3h6v6\"/><path d=\"M10 14L21 3\"/><path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"/>", "paper": "<path d=\"M6 2h9l5 5v15H6z\"/><path d=\"M15 2v5h5\"/><path d=\"M9 13h6M9 17h4\"/>", "pdf": "<path d=\"M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z\"/><path d=\"M14 3v6h6\"/><path d=\"M12 11v6M9.5 14.5L12 17l2.5-2.5\"/>", "pie": "<path d=\"M21 12A9 9 0 1 1 12 3v9z\"/><path d=\"M15 3.5A9 9 0 0 1 20.5 9H15z\"/>", "plus": "<path d=\"M12 5v14M5 12h14\"/>", "plusc": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 8v8M8 12h8\"/>", "print": "<path d=\"M7 9V3h10v6\"/><rect x=\"3\" y=\"9\" width=\"18\" height=\"8\" rx=\"2\"/><path d=\"M7 14h10v7H7z\"/>", "qr": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><path d=\"M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3\"/>", "receipt": "<path d=\"M5 2v20l3-2 2 2 2-2 2 2 2-2 3 2V2l-3 2-2-2-2 2-2-2-2 2z\"/><path d=\"M9 9h6M9 13h6\"/>", "refresh": "<path d=\"M21 12a9 9 0 1 1-3-6.7L21 8\"/><path d=\"M21 3v5h-5\"/>", "repeat": "<path d=\"M17 2l4 4-4 4\"/><path d=\"M3 11V9a3 3 0 0 1 3-3h15\"/><path d=\"M7 22l-4-4 4-4\"/><path d=\"M21 13v2a3 3 0 0 1-3 3H3\"/>", "return": "<path d=\"M9 10L4 15l5 5\"/><path d=\"M20 4v7a4 4 0 0 1-4 4H4\"/>", "save": "<path d=\"M5 3h11l3 3v15H5z\"/><path d=\"M8 3v6h8V3\"/><path d=\"M8 21v-7h8v7\"/>", "scan": "<path d=\"M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2\"/><path d=\"M7 12h10\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M21 21l-4.3-4.3\"/>", "send": "<path d=\"M22 2L11 13\"/><path d=\"M22 2l-7 20-4-9-9-4z\"/>", "shield": "<path d=\"M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z\"/>", "sign": "<path d=\"M3 17c3-4 5-9 7-9s-1 9 1 9 3-4 4-4 1 3 3 3 3-2 3-2\"/><path d=\"M3 21h18\"/>", "sliders": "<path d=\"M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3\"/><path d=\"M1 14h6M9 8h6M17 16h6\"/>", "stamp": "<path d=\"M9 3h6l-1 8h-4z\"/><path d=\"M4 15a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3H4z\"/><path d=\"M4 21h16\"/>", "store": "<path d=\"M3 9l2-5h14l2 5\"/><path d=\"M4 9v11h16V9\"/><path d=\"M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0\"/>", "swap": "<path d=\"M7 4L3 8l4 4\"/><path d=\"M3 8h14\"/><path d=\"M17 20l4-4-4-4\"/><path d=\"M21 16H7\"/>", "thumb": "<path d=\"M7 10v11H3V10z\"/><path d=\"M7 10l4-8a3 3 0 0 1 3 3v4h6a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.6 21H7\"/>", "thumbd": "<path d=\"M17 14V3h4v11z\"/><path d=\"M17 14l-4 8a3 3 0 0 1-3-3v-4H4a2 2 0 0 1-2-2.3l1.4-8A2 2 0 0 1 5.4 3H17\"/>", "trash": "<path d=\"M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13\"/><path d=\"M10 11v6M14 11v6\"/>", "undo": "<path d=\"M9 14L4 9l5-5\"/><path d=\"M4 9h11a5 5 0 0 1 0 10h-3\"/>", "upload": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"M17 8l-5-5-5 5\"/><path d=\"M12 3v12\"/>", "userplus": "<circle cx=\"9\" cy=\"8\" r=\"4\"/><path d=\"M2 21a7 7 0 0 1 14 0\"/><path d=\"M19 8v6M16 11h6\"/>", "users": "<circle cx=\"9\" cy=\"8\" r=\"4\"/><path d=\"M2 21a7 7 0 0 1 14 0\"/><path d=\"M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3\"/>", "wallet": "<path d=\"M20 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15v13H5a2 2 0 0 1-2-2V5\"/><circle cx=\"16\" cy=\"13\" r=\"1.3\"/>", "web": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18\"/><circle cx=\"6.5\" cy=\"6.5\" r=\".6\"/><circle cx=\"9\" cy=\"6.5\" r=\".6\"/>", "x": "<path d=\"M18 6L6 18M6 6l12 12\"/>", "xc": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M15 9l-6 6M9 9l6 6\"/>"};
+  var SEL='button.primary,button.sm,button.hbtn,button.hmlogin,button.lgbtn,button.btn,button.back,button.backhat,button.dlb,button.slideadd,button.hmgo,input[type=submit]';
+  var VARS=['primary','sky','success','gold','pink','orange','danger','ghost'];
+  function norm(t){return (t||'').replace(/×/g,'').replace(/\s+/g,' ').trim()}
+  function pick(t){
+    if(MAP[t])return MAP[t];
+    var t2=norm(t.replace(/\(.*?\)/g,''));if(MAP[t2])return MAP[t2];
+    for(var i=0;i<RULES.length;i++)if(t.indexOf(RULES[i][0])>-1)return [RULES[i][1],RULES[i][2]];
+    return ['primary',null];
+  }
+  function style(b){
+    if(b.dataset.sbDone||b.dataset.sb==='off'||b.closest('.sb-modal,#loader,[data-sb-skip]'))return;
+    var isInput=b.tagName==='INPUT',t=norm(isInput?b.value:b.textContent);
+    if(!t)return;
+    b.dataset.sbDone=1;
+    if(b.classList.contains('sb-btn'))return;
+    var p=pick(t),v=VARS.indexOf(b.dataset.sb)>-1?b.dataset.sb:p[0];
+    ['background','backgroundColor','backgroundImage','color','border','borderRadius','boxShadow'].forEach(function(k){b.style[k]=''});
+    b.classList.add('sb-btn','sb-'+v);
+    if(!isInput&&p[1]&&!b.querySelector('svg,img,i')){
+      b.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 24 24">'+ICONS[p[1]]+'</svg>');
+    }
+  }
+  function scan(root){(root.querySelectorAll?root:document).querySelectorAll(SEL).forEach(style);if(root.matches&&root.matches(SEL))style(root)}
+
+  /* ---- สีไหลตอนรอระบบ: ผูกกับ google.script.run อัตโนมัติ ---- */
+  var lastBtn=null,lastAt=0,busy=new Set();
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('.sb-btn');
+    if(b&&!b.closest('.sb-modal')&&b.tagName!=='INPUT'){lastBtn=b;lastAt=Date.now()}
+  },true);
+  function finish(b,ok){busy.delete(b);if(!b.isConnected)return;ok?SB.done(b):SB.reset(b)}
+  function wrapRunner(r,b,st){
+    st=st||{ok:false,fail:false};
+    return new Proxy(r,{get:function(t,k){
+      var v=t[k];
+      if(typeof v!=='function')return v;
+      if(k==='withSuccessHandler')return function(f){st.ok=true;return wrapRunner(t.withSuccessHandler(function(a,u){finish(b,1);return f&&f(a,u)}),b,st)};
+      if(k==='withFailureHandler')return function(f){st.fail=true;return wrapRunner(t.withFailureHandler(function(a,u){finish(b,0);return f&&f(a,u)}),b,st)};
+      if(k==='withUserObject')return function(o){return wrapRunner(t.withUserObject(o),b,st)};
+      return function(){
+        var x=t;
+        if(!st.ok)x=x.withSuccessHandler(function(){finish(b,1)});
+        if(!st.fail)x=x.withFailureHandler(function(){finish(b,0)});
+        if(!busy.has(b)){busy.add(b);SB.loading(b,'กำลังดำเนินการ…')}
+        return x[k].apply(x,arguments);
+      };
+    }});
+  }
+  function hook(){
+    try{
+      var gs=window.google&&google.script;if(!gs||gs.__sb)return !!gs;
+      var d=Object.getOwnPropertyDescriptor(gs,'run');if(!d)return false;
+      var get=d.get?function(){return d.get.call(gs)}:function(){return d.value};
+      Object.defineProperty(gs,'run',{configurable:true,get:function(){
+        var r=get(),b=lastBtn;
+        return (b&&Date.now()-lastAt<1500&&b.isConnected&&!b.classList.contains('is-loading'))?wrapRunner(r,b):r;
+      }});
+      gs.__sb=1;return true;
+    }catch(e){return false}
+  }
+  function init(){
+    scan(document);hook();
+    new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType===1)scan(n)})})})
+      .observe(document.body,{childList:true,subtree:true});
+  }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+  window.SB.style=scan;
+})();
+</script>
+<!-- ===== สิ้นสุดชุดปุ่ม ===== -->
+
 <script src="config.js"></script>
 <script src="app.js"></script>
 <script src="sync.js"></script>
 <script src="fx.js"></script>
-</body></html>
+<script>
+(function(){try{if(sessionStorage.getItem('sbl'))return;sessionStorage.setItem('sbl','1')}catch(e){}
+var f=document.createElement('iframe');f.src='loader/castle.html';f.setAttribute('aria-hidden','true');f.title='กำลังโหลด';f.allowTransparency=true;
+f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:99999;background:transparent;color-scheme:normal';
+f.addEventListener('load',function(){try{if(!f.contentWindow.gsap)rm()}catch(e){}});document.body.appendChild(f);function rm(){if(f.parentNode)f.remove();window.removeEventListener('message',on)}
+function on(e){if(e.data==='sbl-done')rm()}window.addEventListener('message',on);setTimeout(rm,25000);})();
+</script></body></html>
