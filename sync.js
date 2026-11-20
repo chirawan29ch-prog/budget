@@ -194,7 +194,15 @@
       ME = d.me; ingest(d); if (!USERS[ME.id]) setUsers(d.users || []);
       /* ถ้าระหว่างโหลดผู้ใช้กดไปหน้าอื่นแล้ว (เช่น ติดตามสถานะ) ให้อยู่หน้านั้นต่อ ไม่เด้งกลับหน้าแรก */
       var keep = (S.view && S.view !== 'home') || S.open || S.tab || S.doc || S.draft ? { role: S.u && S.u.role, view: S.view, open: S.open, tab: S.tab, doc: S.doc, draft: S.draft, hmq: S.hmq } : null, aft = S.after;
-      LOADING = false; window.SYNC_LOADING = false; startPoll(); signIn(USERS[ME.id], true); prefetchId(); verCheck();
+      LOADING = false; window.SYNC_LOADING = false; startPoll();
+      var nu = USERS[ME.id], same = S.u && nu && S.u.id === nu.id && !!S.u.admin === !!nu.admin && (S.u.roles || []).length === (nu.roles || []).length;
+      if (same && !keep && !aft && S.view === 'home' && !S.hmpage && !S.hmq && window.refreshHomeData) {
+        /* ไม่สร้างหน้าแรกใหม่ทั้งหน้า (กันเด้งแวบ) — เก็บบทบาทที่เลือกไว้ แล้วเปลี่ยนเฉพาะตัวเลข */
+        if (nu.roles && S.u.role && nu.roles.indexOf(S.u.role) >= 0) nu.role = S.u.role;
+        nu.lastLogin = Date.now(); S.u = nu;
+        if (!window.refreshHomeData()) signIn(nu, true);
+      } else signIn(USERS[ME.id], true);
+      prefetchId(); verCheck();
       if (keep && !aft) {
         if (keep.role && S.u && S.u.roles && S.u.roles.indexOf(keep.role) >= 0) S.u.role = keep.role;
         ['view', 'open', 'tab', 'doc', 'draft', 'hmq'].forEach(function (k) { S[k] = keep[k]; }); render();

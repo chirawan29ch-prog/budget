@@ -289,6 +289,13 @@ function canPrint(r) { return r.step >= idx(r, 'print'); }
 function actorFor(role, r) { if (role === 'source') return Object.keys(r.consents || {})[0]; return role === 'teacher' ? r.owner : ROLE_USER[role]; }
 function canAct(r, u) { if (r.status !== 'active' || pending(r)) return false; var s = cur(r); if (!s) return false; if (s.role === 'source') return !!r.consents && r.consents[u.id] === null; return s.role === 'teacher' ? (r.owner === u.id || (isHelper(r, u) && helperMay(r)) || (r.paper && u.role === paperRole(r))) : s.role === u.role; }
 function isHelper(r, u) { return (r.helpers || []).indexOf(u.id) >= 0; }
+/* ครูที่ไม่ใช่เจ้าของ/ผู้ร่วมดำเนินการ/เจ้าของงบต้นทางที่ถูกขอใช้ → เห็นแค่สถานะ (ไม่เห็นเอกสาร ยอด ผู้ขาย รายการ) */
+function restricted(r, u) {
+  if (!r || !u || u.role !== 'teacher') return false;
+  if (r.owner === u.id || isHelper(r, u) || (r.enteredBy && r.enteredBy === u.id)) return false;
+  if (r.consents && Object.prototype.hasOwnProperty.call(r.consents, u.id)) return false;
+  return true;
+}
 function isTeam(r, u) { return r.owner === u.id || isHelper(r, u); }
 /* helpers may do the legwork steps, never the ones that change the request, need the owner's own signature, or touch loan money */
 function helperMay(r) { var k = cur(r).k; return ['print', 'buy', 'inspect_sign'].indexOf(k) >= 0 && !(k === 'buy' && r.track === 'loan'); }
@@ -607,6 +614,12 @@ function vHome() {
     '<footer class="hmfoot" id="hmFoot"><div class="wrap"><div><b>' + T('school_name') + '</b><div>' + esc(SITE.address) + '</div>' + (SITE.email || SITE.phone ? '<div>' + esc([SITE.email, SITE.phone].filter(Boolean).join(' · ')) + '</div>' : '') + '</div><div>' + T('hm_foot') + '</div></div></footer></div>';
   bindHome();
 }
+function hmLoadBox() { return '<div class="card c8load" role="status" aria-live="polite"><span class="c8dot"></span><span class="c8dot"></span><span class="c8dot"></span> กำลังโหลดตัวเลขงบประมาณ…</div>'; }
+/* ข้อมูลมาถึงแล้วและยังอยู่หน้าแรก → เปลี่ยนเฉพาะกล่องตัวเลข/กราฟ/งานของฉัน ไม่สร้างทั้งหน้าใหม่ */
+function refreshHomeData() {
+  var a = document.querySelector('#lg .hmsumw'), b = document.querySelector('#lg .hmtodo'); if (!a || !b || !S.u) return false;
+  var y = window.scrollY; a.innerHTML = homeSum2(); b.innerHTML = todoCard(); window.scrollTo(0, y); return true;
+}
 function homeBody(n, hasSample, q, res, tile, stepC) {
   return '<section class="hmhero' + (S.u ? ' compact' : '') + '" aria-roledescription="carousel">' + SITE.slides.map(function (src, i) { return '<div class="hmslide' + (i === S.slide ? ' on' : '') + '" aria-hidden="' + (i !== S.slide) + '">' + slideHtml(src) + '</div>'; }).join('') + '<div class="hmveil"></div>' +
     '<div class="wrap hmcopy"><div class="in"><span class="hmchip">' + (S.u ? T('hm_hello', { name: S.u.name }) : T('app_title') + ' ' + T('app_year')) + '</span><h1>' + T('school_name') + '</h1><p>' + T('hm_line1') + '</p><p class="l2">' + T('hm_line2') + '</p>' +
@@ -623,8 +636,8 @@ function homeBody(n, hasSample, q, res, tile, stepC) {
     tile('new', 'hm_t1a', 'hm_t1b', 'hm_t1c', 'docplus', 'linear-gradient(135deg,#1A55B8 0%,#4D9BEA 100%)', '#1A55B8') +
     tile('track', 'hm_t2a', 'hm_t2b', 'hm_t2c', 'route', 'linear-gradient(135deg,#0B6FA8 0%,#3AAEE6 100%)', '#0B6FA8') +
     tile('dash', 'hm_t3a', 'hm_t3b', 'hm_t3c', 'chart', 'linear-gradient(135deg,#5241B5 0%,#8E7BE4 100%)', '#5241B5') + '</section>' +
-    '<section class="wrap hmsumw">' + homeSum2() + '</section>' +
-    '<section class="wrap hmtodo">' + todoCard() + '</section>' +
+    '<section class="wrap hmsumw">' + (window.SYNC_LOADING ? hmLoadBox() : homeSum2()) + '</section>' +
+    '<section class="wrap hmtodo">' + (window.SYNC_LOADING ? '' : todoCard()) + '</section>' +
     '';
 }
 function fileKind(f) { if (f.gen) return 'GEN'; return f.link && !f.file && !f.src ? 'LINK' : (f.kind || (f.src || f.name || '').split('.').pop() || 'FILE').toUpperCase(); }
@@ -1093,6 +1106,7 @@ function render() {
     var b = (k === 'queue' || k === 'board') && mine ? '<span class="badge">' + mine + '</span>' : '';
     return '<button type="button" data-tab="' + k + '" class="' + (S.tab === k && !S.open && !S.doc ? 'on' : '') + '">' + T(TABKEY[k]) + b + '</button>';
   }).join('') + '</span>';
+  if (S.doc && S.doc.type !== 'project' && S.u && restricted(req(S.doc.id), S.u)) { S.open = S.doc.id; S.doc = null; }
   if (S.doc) vDoc(); else if (S.open) vDetail(req(S.open)); else ({ mine: vMine, budget: vBudget, new: vNew, queue: vQueue, all: vAll, overview: vOverview, loans: vLoans, tax: vTax, carryin: function () { return window.vCarryin && window.vCarryin(); }, register: vRegister, paper: vPaper, recur: vRecur, site: vSite, board: vBoard, dash: vDash, users: vUsers })[S.tab]();
   $('chgCount').textContent = Object.keys(DEF).filter(function (k) { return L[k] !== DEF[k]; }).length;
 }
@@ -1178,7 +1192,7 @@ function reqItem(r, showOwner) {
     '<div class="muted small">' + T('no_label') + ' ' + reqNo(r) + (showOwner ? ' · ' + esc(USERS[r.owner].name) : '') + ' · ' + esc(a.name) + '</div>' +
     '<div style="margin-top:4px">' + statusLine(r) + '</div>' + miniHtml(r) +
     (tk ? '<div class="small" style="margin-top:6px;color:var(--wait);font-weight:600">' + T('todo_prefix') + ' ' + T(tk) + '</div>' : '') +
-    '</div><div style="text-align:right"><b class="num">' + baht(r.actual || r.amount) + '</b><div class="muted small">' + T('baht') + '</div><div style="margin-top:4px">' + ageChip(r) + '</div></div></div></button>';
+    '</div><div style="text-align:right">' + (restricted(r, S.u) ? '' : '<b class="num">' + baht(r.actual || r.amount) + '</b><div class="muted small">' + T('baht') + '</div>') + '<div style="margin-top:4px">' + ageChip(r) + '</div></div></div></button>';
 }
 
 /* ===================== teacher views ===================== */
@@ -2001,7 +2015,7 @@ function vDetail(r) {
       '<div class="holder" style="margin-top:6px">' + holderT(hr, r) + '</div>' + (lastC ? '<div class="muted small">' + T('custody_recv', { by: USERS[lastC.by].name, at: dt(lastC.byAt) }) + '</div>' + (lastC.missing && lastC.missing.length ? '<div class="small">' + missNote(lastC) + '</div>' + (!lastC.fixedAt && canFixMiss(lastC, r) ? '<button type="button" class="sm" style="margin-top:6px" data-a="missing-done">' + T('btn_miss_done') + '</button>' : '') : '') : '')) +
     '<details style="margin-top:10px"><summary class="small">' + T('custody_hist', { n: r.custody.length }) + '</summary><ul class="log" style="margin-top:6px">' +
     r.custody.slice().reverse().map(function (c) { return '<li><span class="num muted">' + dt(c.at) + '</span> ' + esc(USERS[c.from].name) + ' → ' + holderT(c.to, r) + '<br>' + (c.by ? '<span style="color:var(--ok)">' + T('custody_recv', { by: USERS[c.by].name, at: dt(c.byAt) }) + ' · ' + recvHow(c) + '</span>' + (c.missing && c.missing.length ? '<br>' + missNote(c) : '') : '<span style="color:var(--wait)">' + T('custody_wait') + '</span>') + '</li>'; }).join('') + '</ul></details></section>';
-  var locked = !canPrint(r) && r.owner === u.id;
+  var locked = !canPrint(r) && r.owner === u.id, RS = restricted(r, u);
   var docs = docsCard(r, u, p, own);
   var trList = (r.transfers || []).length ? '<dt>' + T(r.type === 'change' ? 'f_tr_src' : 'i_transfers') + '</dt><dd>' + r.transfers.map(function (x) { var o = srcOwner(x), ok = o === r.owner ? 'tr_self' : (r.consents && r.consents[o]) || r.adjApplied ? 'tr_ok' : 'tr_wait';
       return '<div style="margin-bottom:4px">' + esc(act(x.from).name) + ' · <span class="num">' + baht(x.amount) + '</span> ' + T('baht') + '<div class="small" style="color:' + (ok === 'tr_wait' ? 'var(--wait)' : 'var(--ok)') + '">' + T(ok) + (ok === 'tr_self' ? '' : ' · ' + esc(USERS[o].name)) + '</div></div>'; }).join('') + '</dd>' : '';
@@ -2014,9 +2028,10 @@ function vDetail(r) {
   var photos = r.photos.length ? '<section class="card"><h3>' + T('photos_title') + '</h3><div class="photos" style="margin-top:8px">' + r.photos.map(function (s, i) { return s ? '<img src="' + s + '" alt="' + esc(t('photos_title')) + ' ' + (i + 1) + '">' : ''; }).join('') + '</div></section>' : '';
   $('view').innerHTML = '<button type="button" class="back sm" data-back>' + T('btn_back') + '</button>' +
     '<div class="row between" style="align-items:flex-start;margin-bottom:16px"><div style="min-width:0;flex:1"><div class="muted small">' + T('d_head', { no: reqNo(r), date: dt(r.created) }) + '</div><h2>' + esc(r.title) + '</h2><div style="margin-top:6px">' + trackChip(r) + ' ' + statusLine(r) + ' ' + ageChip(r) + '</div></div>' +
-    '<div style="text-align:right"><div class="muted small">' + T('d_amount') + '</div><div class="num" style="font-family:var(--display);font-size:26px;font-weight:600">' + baht(r.actual || r.amount) + '</div></div></div>' +
+    (RS ? '</div>' : '<div style="text-align:right"><div class="muted small">' + T('d_amount') + '</div><div class="num" style="font-family:var(--display);font-size:26px;font-weight:600">' + baht(r.actual || r.amount) + '</div></div></div>') +
     '<section class="card" style="margin-bottom:18px"><div class="row between"><h3>' + T('tl_title') + '</h3><span class="muted small">' + T('tl_hint') + '</span></div><div id="tlbox"></div></section>' +
-    '<div class="detail"><div class="stack">' + overNote(r) + actionPanel(r, u) + custody + info + '</div><div class="stack">' + team + photos + docs + '</div></div>';
+    (RS ? '<section class="card" style="margin-bottom:14px"><div class="note">คำขอนี้เป็นของ ' + esc(USERS[r.owner].name) + ' · ท่านดูได้เฉพาะสถานะ ไม่เห็นเอกสารและรายละเอียดเงิน</div></section><div class="detail"><div class="stack">' + custody + '</div><div class="stack">' + team + '</div></div>' :
+      '<div class="detail"><div class="stack">' + overNote(r) + actionPanel(r, u) + custody + info + '</div><div class="stack">' + team + photos + docs + '</div></div>');
   drawTl.last = null; drawTl(r);
   bindActions(r);
   if ($('hAddBtn')) $('hAddBtn').onclick = function () { var k = $('hAdd').value; if (!k) return $('hAdd').focus(); r.helpers = (r.helpers || []).concat([k]); r.log.push({ step: r.step, at: Date.now(), by: u.id, k: 'lg_helper_add', v: { name: USERS[k].name } }); render(); toast('t_helper_add'); };
