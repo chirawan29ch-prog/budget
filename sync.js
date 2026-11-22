@@ -68,12 +68,15 @@
     barUi(); var tb = document.getElementById('c7bar'); if (tb) tb.hidden = PENDING <= 0 && !BUSY;
     var el = document.getElementById('savepill');
     if (!el) { el = document.createElement('div'); el.id = 'savepill'; el.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:9998;background:#1b2b4b;color:#fff;border-radius:999px;padding:6px 14px;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.25);opacity:.92'; el.textContent = 'กำลังบันทึก…'; document.body.appendChild(el); }
-    el.hidden = PENDING <= 0;
+    el.hidden = PENDING <= 0 || WATER > 0;
   }
   function call(method, args) {
     if (method !== 'loginList' && method !== 'ping' && method !== 'login' && method !== 'loaderGet') { PENDING++; pill(); }
     var done = function () { if (method !== 'loginList' && method !== 'ping' && method !== 'login' && method !== 'loaderGet') { PENDING--; pill(); } };
     return call0(method, args).then(function (x) { done(); return x; }, function (e) { done(); throw e; });
+  }
+  function callB(method, args) {              // ปุ่มที่ต้องรอเซิร์ฟเวอร์: ให้ปุ่มที่เพิ่งกดมีน้ำเติม
+    var p = call(method, args); if (GATE && !GATE.def) GATE.p.push(p); try { if (window.SB && window.SB.track) window.SB.track(p); } catch (e) {} return p;
   }
   function call0(method, args) {
     return fetch(CFG.API_URL, { method: 'POST', body: body(method, args), redirect: 'follow' })
@@ -172,11 +175,11 @@
     var id = $('lu').value, pw = $('lp').value, err = function (text) { $('lErr').textContent = text; badPin('lp'); };
     if (!id) { $('lErr').innerHTML = T('e_pick'); $('lu').focus(); return; }
     if (pw.length < 4) return err('กรอก PIN 4 หลัก');
-    var btn = document.querySelector('#lf .lgbtn'), btn0 = btn ? btn.textContent : ''; if (btn) { btn.disabled = true; btn.innerHTML = '<span class="lgrain" aria-hidden="true"></span><span class="lgtxt">กำลังเข้าสู่ระบบ<span class="lgdots"><i>.</i><i>.</i><i>.</i></span></span>'; startRain(btn.querySelector('.lgrain')); }
+    var btn = document.querySelector('#lf .lgbtn'), btn0 = btn ? btn.textContent : '', wat = !!(btn && window.SB && btn.classList.contains('sb-btn')); if (wat) { btn.disabled = true; window.SB.loading(btn, 'กำลังเข้าสู่ระบบ…'); } else if (btn) { btn.disabled = true; btn.innerHTML = '<span class="lgrain" aria-hidden="true"></span><span class="lgtxt">กำลังเข้าสู่ระบบ<span class="lgdots"><i>.</i><i>.</i><i>.</i></span></span>'; startRain(btn.querySelector('.lgrain')); }
     call('login', { id: id, pin: pw, light: 1 }).then(function (d) {
       TOKEN = d.token; ME = d.user; LASTPIN = pw; try { sessionStorage.setItem(SESS, TOKEN); } catch (e2) {}
       afterLogin(false, d.data, true);
-    }, function (e2) { if (btn) { btn.disabled = false; btn.textContent = btn0; } err(failMsg(e2)); });
+    }, function (e2) { if (wat) { btn.disabled = false; window.SB.reset(btn); } else if (btn) { btn.disabled = false; btn.textContent = btn0; } err(failMsg(e2)); });
   }
 
   (function () {
@@ -200,7 +203,7 @@
       e.preventDefault(); var a = $('p1').value, b = $('p2').value, ek = '';
       if (!/^\d{4}$/.test(a)) ek = 'e_sp_len'; else if (a === '2570' || a === '1234' || a === LASTPIN) ek = 'e_sp_same'; else if (weakPin(a)) ek = 'e_sp_weak'; else if (a !== b) ek = 'e_sp_match';
       if (ek) { $('sErr').innerHTML = T(ek); badPin(ek === 'e_sp_match' ? 'p2' : 'p1'); if (ek !== 'e_sp_match') { badPin('p2'); $('p1').focus(); } return; }
-      call('changePin', { oldPin: LASTPIN, newPin: a }).then(function () { LASTPIN = ''; S.setPin = null; ME.must = false; afterLogin(true); say('ตั้ง PIN ใหม่เรียบร้อย'); },
+      callB('changePin', { oldPin: LASTPIN, newPin: a }).then(function () { LASTPIN = ''; S.setPin = null; ME.must = false; afterLogin(true); say('ตั้ง PIN ใหม่เรียบร้อย'); },
         function (e2) { $('sErr').textContent = failMsg(e2); badPin('p1'); badPin('p2'); });
     };
     var c = $('spCancel'); if (c) c.onclick = function () { doLogout(true); };
@@ -348,7 +351,40 @@
 
   /* ---------------------------------------------------------- บันทึกคำขอ (ส่งเฉพาะที่เปลี่ยน) */
   var _render = render;
-  render = function () { _render.apply(this, arguments); if (LOADING && S.u) paintLoading(); schedSave(); schedWords(); };
+  var GATE = null, WATER = 0, FAILS = 0, RENDERS = 0, NOWATER = ['เพิ่มรายการ', 'ยินยอม', 'ไม่ยินยอม'];
+  render = function () {
+    if (GATE && !GATE.def && TOKEN && !LOADING && GATE.b.isConnected && window.SB && (GATE.p.length || GATE.site || dirtyList().length)) { GATE.def = true; return; }   // ปุ่มที่ต้องรอบันทึก: ยังไม่เปลี่ยนหน้า
+    if (GATE && GATE.def) return;
+    RENDERS++; _render.apply(this, arguments); if (LOADING && S.u) paintLoading(); schedSave(); schedWords();
+  };
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.sb-btn');
+    if (!b || b.tagName === 'INPUT' || b.closest('.sb-modal') || !TOKEN) { GATE = null; return; }
+    var lb = (b.textContent || '').replace(/^\s*\+\s*/, '').trim();
+    if (NOWATER.indexOf(lb) >= 0) { GATE = null; return; }                 // ปุ่มที่ผู้ใช้เลือกว่าไม่ต้องมีน้ำ
+    var g = GATE = { b: b, def: false, p: [], site: !!(b.closest('#saf') && ME && USERS[ME.id] && USERS[ME.id].admin) };
+    setTimeout(function () { if (GATE === g) GATE = null; if (g.def) holdForSave(g); }, 0);
+  }, true);
+  function saveWait(site) {
+    var f0 = FAILS;
+    return new Promise(function (ok) {
+      var t = setInterval(function () {
+        var sd = site && siteSig() !== SITESIG;
+        if (FAILS !== f0) { clearInterval(t); ok(false); }
+        else if (!SAVING && !dirtyList().length && !sd && !SITEBUSY) { clearInterval(t); ok(true); }
+        else { if (!SAVING && dirtyList().length) saveAll(); if (sd && !SITEBUSY) { clearTimeout(SITE_T); pushSite(); } }
+      }, 150);
+      setTimeout(function () { clearInterval(t); ok(false); }, 25000);
+    });
+  }
+  function holdForSave(g) {                     // น้ำเติมที่ปุ่มระหว่างบันทึก เสร็จแล้วค่อยเปลี่ยนหน้า
+    var b = g.b, n0 = RENDERS; WATER++; pill(); window.SB.loading(b, 'กำลังบันทึก…');
+    var calls = Promise.all(g.p.map(function (q) { return q.then(function () { return true; }, function () { return false; }); }));
+    calls.then(function (rs) { return saveWait(g.site).then(function (good) { return good && rs.every(Boolean); }); }).then(function (good) {
+      var fin = function () { WATER--; pill(); if (RENDERS === n0) render(); };
+      if (good && b.isConnected) { window.SB.done(b, 'สำเร็จ'); setTimeout(fin, 420); } else { if (b.isConnected) window.SB.reset(b); fin(); }
+    });
+  }
   function schedSave() { if (!TOKEN) return; clearTimeout(SAVE_T); SAVE_T = setTimeout(saveAll, 350); }
   function dirtyList() { return REQS.filter(function (r) { return SNAP[r.id] !== ser(r); }); }
   function saveAll() {
@@ -358,7 +394,7 @@
     var next = function (i) {
       if (i >= list.length) { SAVING = false; if (WANT) { WANT = false; schedSave(); } return Promise.resolve(); }
       return saveOne(list[i]).then(function () { return next(i + 1); }, function (e) {
-        SAVING = false; say('บันทึกไม่สำเร็จ: ' + failMsg(e) + ' (ระบบจะลองใหม่)', 8000); clearTimeout(SAVE_T); SAVE_T = setTimeout(saveAll, 10000);
+        SAVING = false; FAILS++; say('บันทึกไม่สำเร็จ: ' + failMsg(e) + ' (ระบบจะลองใหม่)', 8000); clearTimeout(SAVE_T); SAVE_T = setTimeout(saveAll, 10000);
       });
     };
     next(0);
@@ -554,7 +590,7 @@
   };
 
   /* ---------------------------------------------------------- เจ้าหน้าที่พัสดุที่เพิ่มเอง */
-  saveSup = function () { call('settingSave', { key: 'เจ้าหน้าที่พัสดุเพิ่มเติม', value: JSON.stringify(SUPPLY_X) }).catch(function (e) { say('บันทึกรายชื่อเจ้าหน้าที่พัสดุไม่สำเร็จ: ' + failMsg(e), 8000); }); };
+  saveSup = function () { callB('settingSave', { key: 'เจ้าหน้าที่พัสดุเพิ่มเติม', value: JSON.stringify(SUPPLY_X) }).catch(function (e) { say('บันทึกรายชื่อเจ้าหน้าที่พัสดุไม่สำเร็จ: ' + failMsg(e), 8000); }); };
 
   /* ---------------------------------------------------------- ข้อความที่แอดมินแก้ (บันทึกลงชีท) */
   var WORDSIG = '';
@@ -564,21 +600,23 @@
   function schedWords() { if (!TOKEN || !ME || !USERS[ME.id] || !USERS[ME.id].admin) return; clearTimeout(WORDS_T); WORDS_T = setTimeout(function () { var s = wordsSig(); if (s === WORDSIG) return; call('siteSave', { words: wordsObj() }).then(function () { WORDSIG = s; }, function (e) { say('บันทึกข้อความไม่สำเร็จ: ' + failMsg(e), 6000); }); }, 1500); }
   var LTP = null;
   window.loaderGet = function () {                            // ถามธีมหน้าโหลดจากเซิร์ฟเวอร์ (ใช้ร่วมกับสคริปต์หน้าโหลดใน index.html) คืนชื่อธีม หรือ null ถ้าถามไม่ได้
+    if (!LTP && window.SBLP) LTP = window.SBLP;
     if (!LTP) LTP = (ready() ? call('loaderGet') : Promise.reject()).then(function (r) { if (r && r.theme) { window.LOADER_THEME = r.theme; try { localStorage.setItem('sbTheme', r.theme); } catch (e) {} return r.theme; } return null; }, function () { return null; });
-    return LTP;
+    return LTP.then(function (t) { if (t) { window.LOADER_THEME = t; try { localStorage.setItem('sbTheme', t); } catch (e) {} } return t; });
   };
-  window.loaderSave = function (t) { return call('loaderSet', { theme: t }).then(function (r) { window.LOADER_THEME = r.theme; try { localStorage.setItem('sbTheme', r.theme); } catch (e) {} return r; }); };
-  var SITESIG = '', SITE_T = 0;
+  window.loaderSave = function (t) { return callB('loaderSet', { theme: t }).then(function (r) { window.LOADER_THEME = r.theme; try { localStorage.setItem('sbTheme', r.theme); } catch (e) {} return r; }); };
+  var SITESIG = '', SITE_T = 0, SITEBUSY = 0;
   function siteSig() { return JSON.stringify(SITE, function (k, v) { return typeof v === 'string' && v.length > 3000 && v.slice(0, 5) === 'data:' ? (ATT.get(v) || '@@P') : v; }); }
   saveSite = function () { clearTimeout(SITE_T); SITE_T = setTimeout(pushSite, 1200); return true; };
   function pushSite() {
-    if (!TOKEN || !ME || !USERS[ME.id] || !USERS[ME.id].admin) return;
+    if (!TOKEN || !ME || !USERS[ME.id] || !USERS[ME.id].admin || SITEBUSY) return;
+    SITEBUSY = 1;
     var ps = pending(SITE), up = Promise.resolve(); ps.forEach(function (u) { up = up.then(function () { return putAtt(u, 'site'); }); });
     up.then(function () {
       var sg = siteSig(); if (sg === SITESIG) return;
       var o = JSON.parse(sg); delete o.hero;
       return call('siteSave', { words: wordsObj(), site: o }).then(function () { SITESIG = sg; WORDSIG = wordsSig(); say('บันทึกการตั้งค่าหน้าเว็บแล้ว', 2500); });
-    }).catch(function (e) { say('บันทึกการตั้งค่าหน้าเว็บไม่สำเร็จ: ' + failMsg(e), 8000); });
+    }).catch(function (e) { FAILS++; say('บันทึกการตั้งค่าหน้าเว็บไม่สำเร็จ: ' + failMsg(e), 8000); }).then(function () { SITEBUSY = 0; });
   }
 
 
@@ -600,7 +638,7 @@
       if (!/^\d{4}$/.test(o)) { $('cErr').textContent = 'กรอก PIN ปัจจุบัน 4 หลัก'; badPin('c0'); return; }
       if (!/^\d{4}$/.test(a)) { $('cErr').textContent = 'PIN ใหม่ต้องเป็นตัวเลข 4 หลัก'; badPin('c1'); return; }
       if (a !== b) { $('cErr').textContent = 'PIN ใหม่ทั้งสองช่องไม่ตรงกัน'; badPin('c2'); return; }
-      call('changePin', { oldPin: o, newPin: a }).then(function () { LASTPIN = a; done('เปลี่ยน PIN เรียบร้อย'); },
+      callB('changePin', { oldPin: o, newPin: a }).then(function () { LASTPIN = a; done('เปลี่ยน PIN เรียบร้อย'); },
         function (e2) { $('cErr').textContent = failMsg(e2); badPin('c0'); });
     };
   };
@@ -616,14 +654,14 @@
     var q2 = function (sel, fn) { [].forEach.call(document.querySelectorAll(sel), fn); };
     var pinNote = function (name, pin) { var n = document.createElement('div'); n.className = 'note'; n.style.cssText = 'margin:10px 0;font-size:18px'; n.innerHTML = 'PIN เริ่มต้นของ <b>' + esc(name) + '</b> คือ <b class="num" style="font-size:24px">' + esc(pin) + '</b> แจ้งเจ้าตัวเท่านั้น (แสดงครั้งเดียว) ผู้ใช้เปลี่ยนเองได้ภายหลังจากปุ่ม เปลี่ยน PIN'; $('view').insertBefore(n, $('view').children[1] || null); };
     var rolesOf = function (role, admin) { var r = role === 'teacher' || role === 'director' ? [role] : [role, 'teacher']; if (admin) r.push('admin'); return r; };
-    q2('[data-ureset]', function (b) { b.onclick = function () { var u = USERS[b.dataset.ureset]; call('usersResetPin', { id: u.id }).then(function (d) { u.pin = null; u.tempPin = d.pin; vUsers(); pinNote(u.name, d.pin); }, function (e) { say(failMsg(e), 6000); }); }; });
-    q2('[data-uoff]', function (b) { b.onclick = function () { var u = USERS[b.dataset.uoff]; if (u.id === S.u.id) return toast('us_self'); call('usersUpsert', { user: { id: u.id, name: u.name, pos: u.pos, dept: u.dept, roles: rolesOf(u.role, u.admin), status: u.disabled ? 'ใช้งาน' : 'ปิดใช้งาน' } }).then(function () { u.disabled = !u.disabled; vUsers(); toast(u.disabled ? 't_us_off' : 't_us_on'); }, function (e) { say(failMsg(e), 6000); }); }; });
-    q2('[data-udel]', function (b) { var old = b.onclick; b.onclick = function () { var k = b.dataset.udel; if (k === S.u.id) return toast('us_self'); if (userInUse(k)) return toast('us_cant_del'); if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = t('us_del_confirm'); setTimeout(function () { if (b.isConnected) { delete b.dataset.armed; b.innerHTML = T('us_del'); } }, 4000); return; } var u = USERS[k]; call('usersUpsert', { user: { id: u.id, name: u.name, pos: u.pos, dept: u.dept, roles: rolesOf(u.role, u.admin), status: 'ลบแล้ว' } }).then(function () { delete USERS[k]; vUsers(); toast('t_us_del'); }, function (e) { say(failMsg(e), 6000); }); }; });
+    q2('[data-ureset]', function (b) { b.onclick = function () { var u = USERS[b.dataset.ureset]; callB('usersResetPin', { id: u.id }).then(function (d) { u.pin = null; u.tempPin = d.pin; vUsers(); pinNote(u.name, d.pin); }, function (e) { say(failMsg(e), 6000); }); }; });
+    q2('[data-uoff]', function (b) { b.onclick = function () { var u = USERS[b.dataset.uoff]; if (u.id === S.u.id) return toast('us_self'); callB('usersUpsert', { user: { id: u.id, name: u.name, pos: u.pos, dept: u.dept, roles: rolesOf(u.role, u.admin), status: u.disabled ? 'ใช้งาน' : 'ปิดใช้งาน' } }).then(function () { u.disabled = !u.disabled; vUsers(); toast(u.disabled ? 't_us_off' : 't_us_on'); }, function (e) { say(failMsg(e), 6000); }); }; });
+    q2('[data-udel]', function (b) { var old = b.onclick; b.onclick = function () { var k = b.dataset.udel; if (k === S.u.id) return toast('us_self'); if (userInUse(k)) return toast('us_cant_del'); if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = t('us_del_confirm'); setTimeout(function () { if (b.isConnected) { delete b.dataset.armed; b.innerHTML = T('us_del'); } }, 4000); return; } var u = USERS[k]; callB('usersUpsert', { user: { id: u.id, name: u.name, pos: u.pos, dept: u.dept, roles: rolesOf(u.role, u.admin), status: 'ลบแล้ว' } }).then(function () { delete USERS[k]; vUsers(); toast('t_us_del'); }, function (e) { say(failMsg(e), 6000); }); }; });
     var f = $('uf'); if (f) f.onsubmit = function (e) {
       e.preventDefault(); var name = $('uName').value.trim(); if (!name) { $('uErr').innerHTML = T('us_e_name'); $('uName').focus(); return; }
       var role = $('uRole').value, admin = $('uAdmin').checked, isNew = S.uedit === 'new', id = isNew ? 'u' + Date.now().toString(36) : S.uedit;
       if (!isNew && id === S.u.id) admin = USERS[id].admin;
-      call('usersUpsert', { user: { id: id, name: name, pos: $('uPos').value.trim(), dept: $('uDept').value.trim(), roles: rolesOf(role, admin), status: 'ใช้งาน' } }).then(function (d) {
+      callB('usersUpsert', { user: { id: id, name: name, pos: $('uPos').value.trim(), dept: $('uDept').value.trim(), roles: rolesOf(role, admin), status: 'ใช้งาน' } }).then(function (d) {
         return call('loadAll').then(function (all) { setUsers(all.users); S.uedit = null; vUsers(); if (d && d.pin) pinNote(name, d.pin); else toast('t_us_saved'); });
       }, function (e) { $('uErr').textContent = failMsg(e); });
     };
@@ -679,11 +717,11 @@
       (un.length ? '<div class="note" style="margin-top:12px"><b>จับคู่กับกิจกรรมในระบบไม่ได้ ' + un.length + ' รายการ</b> (ยอดยังอยู่ใน DATABASE แต่ยังไม่นับในงบคงเหลือของหน้านี้): ' + un.map(function (x) { return esc(x.no); }).join(', ') + '</div>' : '');
     [].forEach.call(document.querySelectorAll('[data-cok]'), function (b) {
       b.onclick = function () { var no = b.dataset.cok, v = Number(document.querySelector('[data-cin="' + no + '"]').value); if (!(v >= 0)) return say('ใส่จำนวนเงินให้ถูกต้อง');
-        b.disabled = true; call('dbSetUsed', { dbNo: no, used: v }).then(function () { rows.forEach(function (x) { if (x.no === no) x.used = v; }); buildLegacy(rows); vCarryin(); say('ตัดยอดแล้ว'); }, function (e) { b.disabled = false; say(failMsg(e), 7000); }); };
+        b.disabled = true; callB('dbSetUsed', { dbNo: no, used: v }).then(function () { rows.forEach(function (x) { if (x.no === no) x.used = v; }); buildLegacy(rows); vCarryin(); say('ตัดยอดแล้ว'); }, function (e) { b.disabled = false; say(failMsg(e), 7000); }); };
     });
     [].forEach.call(document.querySelectorAll('[data-cdel]'), function (b) { b.onclick = function () {
       if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = 'แน่ใจลบ?'; b.className = 'sm danger'; return; }
-      b.disabled = true; call('dbLegacyDelete', { no: b.dataset.cdel }).then(function () { window.LEGACY_ROWS = (window.LEGACY_ROWS || []).filter(function (x) { return x.no !== b.dataset.cdel; }); buildLegacy(window.LEGACY_ROWS); vCarryin(); say('ลบรายการแล้ว'); }, function (e) { b.disabled = false; say(failMsg(e), 7000); }); }; });
+      b.disabled = true; callB('dbLegacyDelete', { no: b.dataset.cdel }).then(function () { window.LEGACY_ROWS = (window.LEGACY_ROWS || []).filter(function (x) { return x.no !== b.dataset.cdel; }); buildLegacy(window.LEGACY_ROWS); vCarryin(); say('ลบรายการแล้ว'); }, function (e) { b.disabled = false; say(failMsg(e), 7000); }); }; });
     carryWire();
   };
 

@@ -1,5 +1,11 @@
 <!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>กำลังโหลด</title>
-<style>html,body{background:transparent!important}</style></head><body><div id="app"></div>
+<style>html,body{background:transparent!important}</style>
+<script>
+/* ตัวห่อ: ไม่แก้ไฟล์ธีมเดิม · พักไทม์ไลน์ของ gsap ไว้จนกว่าไฟล์/ฟอนต์/รูปจะโหลดครบ (window load) แล้วค่อยเล่น เพื่อให้แอนิเมชันเริ่มพร้อมตอนเปิดให้เห็น ไม่เล่นไปก่อนตอนโหลดช้า */
+(function(){var g;try{Object.defineProperty(window,'gsap',{configurable:true,get:function(){return g},set:function(v){g=v;try{v.globalTimeline.pause()}catch(e){}}})}catch(e){}
+function go(){setTimeout(function(){try{g.globalTimeline.resume()}catch(e){}},60)}
+if(document.readyState==='complete')go();else addEventListener('load',go)})();
+</script></head><body><div id="app"></div>
 <!-- หน้าโหลด กลุ่มบริหารงบประมาณ · ธีมปราสาท (ธีมเริ่มต้น) (ไฟล์นี้ไม่ต้องแก้) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -599,5 +605,9 @@
 
 <script>
 /* ตัวห่อ (ไม่แตะเนื้อหาธีมเดิม): แจ้งหน้าหลักเมื่อหน้าโหลดจบ */
-(function(){var t=setInterval(function(){if(!document.getElementById('loader')){clearInterval(t);try{parent.postMessage('sbl-done','*')}catch(e){}}},120);})();
+(function(){var fixed=0;
+/* ฉากจบของธีม: ธีมสั่ง #loader เป็นโปร่งใสให้เห็นหน้าเว็บ แต่ไฟล์ธีมมีกฎพื้นน้ำตาลเข้ม !important ทับไว้ ทำให้จอมืดค้าง ~1 วินาทีก่อนเข้าหน้า · ตัวห่อแก้เฉพาะช่วงจบนี้: ปล่อยพื้นโปร่งใสและซ่อนของตกแต่งที่เหลือ (เหลือแค่แสงเปิดหน้ากับเหรียญที่กำลังจาง) ช่วงเล่นปกติไม่แตะ */
+function endFix(){var l=document.getElementById('loader');if(!l||fixed)return;var b=(l.style.backgroundColor||l.style.background||'').replace(/\s/g,'');
+if(b==='transparent'||b==='rgba(0,0,0,0)'){fixed=1;var st=document.createElement('style');st.textContent='#loader#loader#loader{background:transparent!important}#loader#loader>*:not(.hl-bloom):not(#fx){visibility:hidden!important}#fx{opacity:0!important;transition:opacity .3s!important}body{opacity:0!important;transition:opacity .45s ease .12s!important}';document.head.appendChild(st)}}
+var t=setInterval(function(){endFix();if(!document.getElementById('loader')){clearInterval(t);try{parent.postMessage('sbl-done','*')}catch(e){}}},50);})();
 </script></body></html>
